@@ -51,10 +51,11 @@ export default class Utils {
 
         let that = this;
 
-        if (url.indexOf('setUserExtInfo') < 0) {
-            this.showLoading();
-        }
+        // if (url.indexOf('setUserExtInfo') < 0) {
+        //     this.showLoading();
+        // }
 
+        this.showLoading();
 
         return new Promise((resolve, reject) => {
             window.console.info('req url, ', url, '\nreq param, ', data);
@@ -123,9 +124,9 @@ export default class Utils {
     //     });
     // }
 
-    static setUserInfo(userInfo) {
+    static setUserInfo(openUserInfo) {
         if (localStorage) {
-            localStorage.setItem("openUserInfo", JSON.stringify(userInfo));
+            localStorage.setItem("openUserInfo", JSON.stringify(openUserInfo));
         }
     }
 
@@ -154,10 +155,7 @@ export default class Utils {
             // console.log('get userinfo from localStorage is exist');
             return JSON.parse(localStorage.getItem("openUserInfo"));
         }
-        return {
-            userCode: '-1',
-            userName: '访客'
-        };
+        return;
     }
 
     static removeUserInfo() {
@@ -415,4 +413,41 @@ export default class Utils {
         return 'https://www.myindex.top/api';
         // return 'http://127.0.0.1:5555/api';
     }
+
+    static isPhone() {
+        let clientWidth = document.body.clientWidth; // 网页可见区域宽
+        if (clientWidth > 700) {
+            return false;
+        }
+        return true;
+    }
+
+    static getSearchEngine(callback) {
+        let url = this.basicUrl() + '/common/v1/getOpenStaticData';
+        let param = {
+            "codeType": 'SEARCH_ENGINES'
+        };
+        param = this.getCommonReq(param);
+        param.pageFlag = false;
+
+        this.postJson(url, param).then(response => {
+            if (!response || response.code !== '0') {
+                this.errorTips(response.message);
+                return;
+            }
+
+            let list = [];
+            for (let i = 0; i < response.data.list.length; i++) {
+                let item = response.data.list[i];
+                list.push({
+                    url: item.codeValue,
+                    name: item.codeName,
+                    icon: item.bigData
+                });
+            }
+            callback(list);
+        });
+    }
+
+
 }

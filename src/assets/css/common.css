@@ -20,7 +20,7 @@ body {
     background-repeat: no-repeat;
 }
 
-a, img {
+a, img, i {
     cursor: pointer;
 }
 

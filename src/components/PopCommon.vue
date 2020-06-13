@@ -8,8 +8,9 @@
             </header>
             <section>
                 <Style v-if="popConfig.componentName === 'Style'"></Style>
-                <EditGuide v-if="popConfig.componentName === 'EditGuide'"></EditGuide>
+                <!--                <EditGuide v-show="popConfig.componentName === 'EditGuide'"></EditGuide>-->
                 <User v-if="popConfig.componentName === 'User'"></User>
+                <Set v-if="popConfig.componentName === 'Set'"></Set>
             </section>
 
             <footer>
@@ -37,12 +38,14 @@
 
     import Style from "./Style";
     import User from "./User";
+    import Set from "./Set";
 
     export default {
         name: "PopCommon",
         components: {
             Style,
-            User
+            User,
+            Set
         },
         props: {
             // popConfig: Object

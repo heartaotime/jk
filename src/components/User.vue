@@ -38,8 +38,10 @@
             </div>
 
             <div class="row">
-                <span>提示：登陆账号后，可以同步你的自定义数据哦</span>
-                <span>邮箱也可以用来登陆</span>
+                <span>提示：</span>
+                <span>1.没有账号可以先点击注册</span>
+                <span>2.登陆账号后，可以同步你的自定义数据哦</span>
+                <span>3.邮箱也可以用来登陆</span>
             </div>
 
         </div>
@@ -53,12 +55,12 @@
             <div>
                 施工中...
             </div>
-<!--            <textarea v-model="showUserInfo" spellcheck="false"></textarea>-->
-<!--            <div class="operation">-->
-<!--                <button @click="save(1)">保存到本地</button>-->
-<!--                <button @click="save(2)">保存到本地,并同步到服务器</button>-->
-<!--                <button @click="save(3)">清空本地和服务器个性化设置</button>-->
-<!--            </div>-->
+            <!--            <textarea v-model="showUserInfo" spellcheck="false"></textarea>-->
+            <!--            <div class="operation">-->
+            <!--                <button @click="save(1)">保存到本地</button>-->
+            <!--                <button @click="save(2)">保存到本地,并同步到服务器</button>-->
+            <!--                <button @click="save(3)">清空本地和服务器个性化设置</button>-->
+            <!--            </div>-->
         </div>
     </div>
 </template>
@@ -103,12 +105,12 @@
             registUser() {
                 if (this.showRegist) {
                     if (this.user.userName == '' || this.user.passWord == '' || this.user.email == '' || this.user.verifyCode == '') {
-                        this.Utils.errorTips('请先填写信息后在提交');
+                        this.Utils.warnTips('请先填写信息后在提交');
                         return;
                     }
 
                     if (this.user.passWord !== this.user.passWord2) {
-                        this.Utils.errorTips('两次填写的密码不一致');
+                        this.Utils.warnTips('两次填写的密码不一致');
                         return;
                     }
 
@@ -200,33 +202,30 @@
 
                     this.loginShow = false;
 
-                    let userInfo = response.data;
+                    let user = response.data;
 
-                    // 将用户信息存入本地
-                    this.Utils.setUserInfo(userInfo);
 
                     // 获取 服务器端配置
                     url = this.Utils.basicUrl() + '/user/v1/getUserExtInfo';
                     let param = {
-                        userCode: userInfo.userCode
+                        userCode: user.userCode
                     };
                     this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
 
-                        let defaultExt = this.openUserInfo.ext;
+                        let ext = this.openUserInfo.ext;
                         if (response.data != null && response.data.userSet != null && response.data.userSet != '' && response.data.userSet != {}
                             && JSON.parse(response.data.userSet).searchEngineList && JSON.parse(response.data.userSet).searchEngineList.length > 0) {
-                            defaultExt = JSON.parse(response.data.userSet);
+                            ext = JSON.parse(response.data.userSet);
                         }
-                        this.$store.commit('uOpenUserInfo', {
-                            user: userInfo,
-                            ext: defaultExt
-                        });
+
+                        this.openUserInfo.user = user;
+                        this.openUserInfo.ext = ext;
+                        this.$store.commit('uOpenUserInfo', this.openUserInfo);
 
                         if (!response || response.code !== '0') {
                             this.Utils.successTips('获取用户设置失败');
                             return;
                         }
-                        // TODO.. 根据用户设置配置信息等
 
 
                     });
@@ -475,8 +474,8 @@
         grid-column: 1/3;
         padding: 0 10px;
         background-color: cornsilk;
-        /*line-height: 40px;*/
         text-align: start;
+        line-height: 25px;
     }
 
     /*.regist {*/

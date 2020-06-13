@@ -79,6 +79,11 @@ let mutations = {
         // 清空  this.openUserInfo 并重新设置值 触发 watch
         // state.openUserInfo = {};
         state.openUserInfo = openUserInfo;
+
+        if (localStorage) {
+            // 将用户信息存入本地
+            localStorage.setItem("openUserInfo", JSON.stringify(openUserInfo));
+        }
     },
     // uCardTransparency(state, cardTransparency) {
     //

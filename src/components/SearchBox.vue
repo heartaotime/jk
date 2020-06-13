@@ -35,9 +35,13 @@
             <!--                <i class="fa fa-search" style="font-size: 20px;"></i>-->
             <input v-model="searchKey" @keyup.enter="search()" @focus="inputFocus()" spellcheck="false"
                    autofocus/>
-            <button @click="search()">{{searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].name :
-                ''}}
+            <button @click="search()" v-if="!this.Utils.isPhone()">{{searchEngineList.length > 0 ?
+                searchEngineList[searchEngineIndex].name : ''}}
             </button>
+
+            <div v-if="this.Utils.isPhone()" class="search-fa">
+                <i class="fa fa-search" aria-hidden="true" @click="search()"></i>
+            </div>
         </div>
 
         <!--        <div class="engines">-->
@@ -88,7 +92,8 @@
                 searchEngineList: [],
                 searchEngineShow: false,
                 searchEngineIndex: 0,
-                showHover: false
+                showHover: false,
+                phone: true
             }
         },
         computed: {
@@ -237,7 +242,9 @@
 <style scoped>
     .module-searchBox {
 
-        width: 1200px;
+        max-width: 1200px;
+
+        width: 95%;
 
 
         margin: 10% auto 0;
@@ -255,11 +262,16 @@
         height: 100%;
 
         display: grid;
-        grid-template-columns: 5% 80% 15%;
+        /*grid-template-columns: 50px 80% auto;*/
+
+        grid-template-columns: 50px auto 100px;
+
         grid-template-rows: 50px;
-        place-content: center;
-        align-items: stretch;
+        /*place-content: center;*/
+        /*align-items: stretch;*/
         /*place-items: center;*/
+        /*align-content: center;*/
+        /*align-items: center;*/
     }
 
     .row1 {
@@ -484,6 +496,15 @@
         /*animation-name: pulse;*/
     }
 
+    .search-fa {
+        display: grid;
+        place-content: center;
+    }
+
+    .search-fa > i {
+        font-size: 20px;
+    }
+
 
     /*.hotWordDiv a:last-child {*/
     /*    margin-right: 0;*/
@@ -492,14 +513,14 @@
     @media screen and (max-width: 700px) {
 
         .module-searchBox {
-            width: 95%;
             margin: 45% auto 0;
             grid-template-columns: 1fr;
         }
 
         .row {
-            /*grid-template-columns: 3fr 8fr 3fr;*/
-            grid-template-columns: 50px repeat(2, 1fr);
+            grid-template-columns: 50px auto 50px;
+
+            /*grid-template-rows: 40px;*/
         }
 
         button {

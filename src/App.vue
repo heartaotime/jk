@@ -104,38 +104,46 @@
         },
         methods: {
             uOpenUserInfo() {
-                let user = this.Utils.getUserInfo();
-                if (!user || user === '') {
-                    user = this.openUserInfo.user;
+                let openUserInfoLocal = this.Utils.getUserInfo();
+                if (openUserInfoLocal) {
+                    if (openUserInfoLocal.user) {
+                        this.openUserInfo.user = openUserInfoLocal.user;
+                    }
+                    if (openUserInfoLocal.ext && openUserInfoLocal.ext.searchEngineList && openUserInfoLocal.ext.searchEngineList.length > 0) {
+                        this.openUserInfo.ext = openUserInfoLocal.ext;
+                    }
                 }
-                if (user.userCode && user.userCode !== '-1') {
-                    let url = this.Utils.basicUrl() + '/user/v1/getUserExtInfo';
-                    let param = {
-                        "userCode": user.userCode
-                    };
-                    this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                this.openUserInfo.change = !this.openUserInfo.change;
+                this.$store.commit('uOpenUserInfo', this.openUserInfo);
 
-                        let defaultExt = this.openUserInfo.ext;
-                        if (response.data != null && response.data.userSet != null && response.data.userSet != '' && response.data.userSet != {}
-                            && JSON.parse(response.data.userSet).searchEngineList && JSON.parse(response.data.userSet).searchEngineList.length > 0) {
-                            defaultExt = JSON.parse(response.data.userSet);
-                        }
-                        this.openUserInfo.user = user;
-                        this.openUserInfo.ext = defaultExt;
-                        this.$store.commit('uOpenUserInfo', this.openUserInfo);
-
-                        if (!response || response.code !== '0') {
-                            console.error(response.message)
-                            return;
-                        }
-                    });
-                } else {
-                    // 强制触发更新
-                    // this.openUserInfo.user.userCode = '-2';
-                    // this.$store.commit('uOpenUserInfo', {});
-                    this.openUserInfo.change = !this.openUserInfo.change;
-                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                }
+                // if (user.userCode && user.userCode !== '-1') {
+                //     let url = this.Utils.basicUrl() + '/user/v1/getUserExtInfo';
+                //     let param = {
+                //         "userCode": user.userCode
+                //     };
+                //     this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                //
+                //         let ext = this.openUserInfo.ext;
+                //         if (response.data != null && response.data.userSet != null && response.data.userSet != '' && response.data.userSet != {}
+                //             && JSON.parse(response.data.userSet).searchEngineList && JSON.parse(response.data.userSet).searchEngineList.length > 0) {
+                //             ext = JSON.parse(response.data.userSet);
+                //         }
+                //         this.openUserInfo.user = user;
+                //         this.openUserInfo.ext = ext;
+                //         this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                //
+                //         if (!response || response.code !== '0') {
+                //             console.error(response.message)
+                //             return;
+                //         }
+                //     });
+                // } else {
+                //     // 强制触发更新
+                //     // this.openUserInfo.user.userCode = '-2';
+                //     // this.$store.commit('uOpenUserInfo', {});
+                //     this.openUserInfo.change = !this.openUserInfo.change;
+                //     this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                // }
             },
             getByImg(bgImgShowType) {
                 // let that = this;
@@ -181,11 +189,10 @@
                     backgroundImage = 'https://www.myindex.top/api/common/v1/getPicture/random/';
                 }
 
-                let clientWidth = document.body.clientWidth; // 网页可见区域宽
-                if (clientWidth > 700) {
-                    backgroundImage += 'pc';
-                } else {
+                if (this.Utils.isPhone()) {
                     backgroundImage += 'phone';
+                } else {
+                    backgroundImage += 'pc';
                 }
                 document.body.style.backgroundImage = 'url(' + backgroundImage + ')';
             }

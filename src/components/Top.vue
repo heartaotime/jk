@@ -6,9 +6,11 @@
             <div class="center">
             </div>
             <div class="right">
-                <i class="far fa-image" @click="uPopConfig(1)"></i>
-                <i class="far fa-user" @click="uPopConfig(2)"></i>
-<!--                <img src="../assets/img/skin.svg" @click="uPopConfig(1)" alt="">-->
+                <i class="fa fa-cog" aria-hidden="true" @click="uPopConfig('Set', '常用设置')"></i>
+                <i class="far fa-image" @click="uPopConfig('Style', '主题设置')"></i>
+                <i class="far fa-user" @click="uPopConfig('User','用户设置')"></i>
+
+                <!--                <img src="../assets/img/skin.svg" @click="uPopConfig(1)" alt="">-->
                 <!--                <img src="../assets/img/user.svg" @click="uPopConfig(2)" alt="">-->
             </div>
         </div>
@@ -38,22 +40,12 @@
             window.addEventListener("scroll", this.scroll);
         },
         methods: {
-            uPopConfig(type) {
-                let config = {};
-                if (type === 1) {
-                    config = {
-                        show: !this.popConfig.show,
-                        title: '主题设置',
-                        componentName: 'Style'
-                    };
-                } else if (type === 2) {
-                    config = {
-                        show: !this.popConfig.show,
-                        title: '用户设置',
-                        componentName: 'User'
-                    };
-                }
-                this.Utils.pop(config);
+            uPopConfig(type, title) {
+                this.Utils.pop({
+                    show: !this.popConfig.show,
+                    title: title,
+                    componentName: type
+                });
             },
             scroll() {
                 let scrollTop = document.documentElement.scrollTop;
@@ -81,7 +73,8 @@
     }
 
     .container-top {
-        width: 1200px;
+        max-width: 1200px;
+        width: 95%;
         justify-self: center;
         align-self: center;
 
@@ -110,7 +103,7 @@
         /*cursor: pointer;*/
 
         display: grid;
-        grid-template-columns: repeat(2, auto);
+        grid-template-columns: repeat(3, auto);
         grid-column-gap: 15px;
         place-content: center;
         place-items: center;
@@ -132,13 +125,5 @@
     /*}*/
 
     @media screen and (max-width: 700px) {
-        .top {
-            /*width: 98%;*/
-        }
-
-        .container-top {
-            width: 100%;
-            padding-right: 40px;
-        }
     }
 </style>
