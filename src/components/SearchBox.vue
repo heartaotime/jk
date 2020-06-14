@@ -1,5 +1,7 @@
 <template>
     <div class="card module-searchBox">
+
+
         <!--            <div class="row">-->
         <!--                <div></div>-->
         <!--                <div class="search-li">-->
@@ -33,8 +35,9 @@
 
             </div>
             <!--                <i class="fa fa-search" style="font-size: 20px;"></i>-->
-            <input v-model="searchKey" @keyup.enter="search()" @focus="inputFocus()" spellcheck="false"
-                   autofocus/>
+            <input v-model="searchKey" @keyup.enter="search()" @focus="inputFocus()" @blur="inputBlur()"
+                   spellcheck="false"
+            />
             <button @click="search()" v-if="!this.Utils.isPhone()">{{searchEngineList.length > 0 ?
                 searchEngineList[searchEngineIndex].name : ''}}
             </button>
@@ -146,41 +149,14 @@
             },
             getSearchEngine() {
                 this.searchEngineList = this.openUserInfo.ext.searchEngineList;
-                console.log('getSearchEngine', this.searchEngineList)
+                // console.log('getSearchEngine', this.searchEngineList);
                 if (this.searchEngineList.length > 0) {
                     return;
                 }
 
-                let url = this.Utils.basicUrl() + '/common/v1/getOpenStaticData';
-                let param = {
-                    "codeType": 'SEARCH_ENGINES'
-                };
-                param = this.Utils.getCommonReq(param);
-                param.pageFlag = false;
-
-                this.Utils.postJson(url, param).then(response => {
-                    if (!response || response.code !== '0') {
-                        this.Utils.errorTips(response.message);
-                        return;
-                    }
-
-                    let list = [];
-                    for (let i = 0; i < response.data.list.length; i++) {
-                        let item = response.data.list[i];
-                        list.push({
-                            url: item.codeValue,
-                            name: item.codeName,
-                            icon: item.bigData
-                            // isDefault: i === 0
-                        });
-                    }
+                this.Utils.getSearchEngine(list => {
                     this.searchEngineList = list;
-
-                    this.openUserInfo.ext.searchEngineList = this.searchEngineList;
-                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
-
-                    // this.setSearchEngine(0);
-                });
+                })
 
             },
             setSearchEngine(index) {
@@ -200,6 +176,18 @@
             },
             inputFocus() {
                 this.searchEngineShow = false;
+                // let div = '<div name="tmp" style="width: 100%; height: 100%; z-index: 999; position:fixed; background-color: rgba(255, 255, 255, 0.6);"></div>';
+                // document.body.append(div);
+
+                // var div = document.createElement("div");
+                // let style = 'width: 100%; height: 100%; z-index: 999; position:fixed; top: 0; background-color: rgba(255, 255, 255, 0.6);';
+                // div.setAttribute('name', 'tmp');
+                // div.setAttribute('style', style);
+                // document.body.appendChild(div);
+
+            },
+            inputBlur() {
+                // document.querySelector('[name=tmp]').remove();
             },
             getrealTimeNews() {
                 let width = document.body.clientWidth;
@@ -270,7 +258,7 @@
 
         grid-template-columns: 50px auto 100px;
 
-        grid-template-rows: 50px;
+        grid-template-rows: 45px;
         /*place-content: center;*/
         /*align-items: stretch;*/
         /*place-items: center;*/
@@ -326,7 +314,7 @@
         padding-left: 5px;
         display: grid;
         grid-template-columns: 4fr 1fr;
-        grid-template-rows: 50px;
+        grid-template-rows: 45px;
         /*justify-content: space-between;*/
         align-content: center;
         place-items: center;
@@ -447,7 +435,7 @@
 
     .search-li {
         display: grid;
-        grid-template-columns: repeat(auto-fill, 50px);
+        grid-template-columns: repeat(auto-fill, 45px);
         justify-content: start;
         align-content: center;
         justify-items: start;
@@ -524,6 +512,10 @@
         .row {
             grid-template-columns: 50px auto 50px;
 
+            /*grid-template-rows: 40px;*/
+        }
+
+        .searchEngineShow {
             /*grid-template-rows: 40px;*/
         }
 

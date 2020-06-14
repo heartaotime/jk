@@ -10,13 +10,13 @@ html, body {
 }
 
 body {
-    background-size: auto;
+    /*background-size: auto;*/
     /*background-color: #ece5da;*/
     /*background-image: url(https://img.bidianer.com/skin/002.jpg);*/
 
     /*content: "";*/
-    background-position: top;
-    background-attachment: fixed;
+    /*background-position: top;*/
+    /*background-attachment: fixed;*/
     background-repeat: no-repeat;
 }
 

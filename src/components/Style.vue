@@ -54,13 +54,13 @@
                 <transition-group enter-active-class="animated fadeInUp"
                                   leave-active-class="animated fadeOut" class="purecolor">
                     <div class="purecolor-item" v-for="(item, index) in pureColorList"
-                         :key="'purecolor-item' + index">
+                         :key="item.codeName" :index="index">
                             <span class="purecolor-item-title">
                                 {{item.codeName}}
                             </span>
                         <div class="purecolor-item-colors">
                             <div v-for="(itemc, indexc) in JSON.parse(item.bigData || [])"
-                                 :key="'purecolor-item-colors' + indexc" :style="{
+                                 :key="indexc.guideName" :style="{
                                          backgroundColor: itemc.guideName,
                                         }"
                                  class="enlargeAnimation"
@@ -216,6 +216,15 @@
                         this.showList = [];
                     }
                     // this.showList = response.data.list.reverse();
+
+                    if (this.Utils.isPhone()) {
+                        for (let i = 0; i < response.data.list.length; i++) {
+                            // 1920x1080
+                            let item = response.data.list[i];
+                            item.codeValue = item.codeValue.replace('1920x1080', '1080x1920');
+                        }
+                    }
+
                     this.showList = this.showList.concat(response.data.list);
                     this.pageInfo = response.data;
 
@@ -360,7 +369,7 @@
     }
 
 
-    span, label {
+    label {
         cursor: pointer;
     }
 
@@ -522,6 +531,7 @@
         outline: none;
         height: 10px;
         /*box-shadow:  0 0 6px rgb(28,);*/
+        cursor: pointer;
     }
 
     input[type="range"]::-webkit-slider-thumb {
@@ -595,7 +605,7 @@
         }
 
         .biyings {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .biyings-item {

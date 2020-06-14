@@ -104,46 +104,53 @@
         },
         methods: {
             uOpenUserInfo() {
+                this.openUserInfo.change = !this.openUserInfo.change;
+
                 let openUserInfoLocal = this.Utils.getUserInfo();
                 if (openUserInfoLocal) {
                     if (openUserInfoLocal.user) {
                         this.openUserInfo.user = openUserInfoLocal.user;
                     }
-                    if (openUserInfoLocal.ext && openUserInfoLocal.ext.searchEngineList && openUserInfoLocal.ext.searchEngineList.length > 0) {
-                        this.openUserInfo.ext = openUserInfoLocal.ext;
-                    }
-                }
-                this.openUserInfo.change = !this.openUserInfo.change;
-                this.$store.commit('uOpenUserInfo', this.openUserInfo);
 
-                // if (user.userCode && user.userCode !== '-1') {
-                //     let url = this.Utils.basicUrl() + '/user/v1/getUserExtInfo';
-                //     let param = {
-                //         "userCode": user.userCode
-                //     };
-                //     this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
-                //
-                //         let ext = this.openUserInfo.ext;
-                //         if (response.data != null && response.data.userSet != null && response.data.userSet != '' && response.data.userSet != {}
-                //             && JSON.parse(response.data.userSet).searchEngineList && JSON.parse(response.data.userSet).searchEngineList.length > 0) {
-                //             ext = JSON.parse(response.data.userSet);
-                //         }
-                //         this.openUserInfo.user = user;
-                //         this.openUserInfo.ext = ext;
-                //         this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                //
-                //         if (!response || response.code !== '0') {
-                //             console.error(response.message)
-                //             return;
-                //         }
-                //     });
-                // } else {
-                //     // 强制触发更新
-                //     // this.openUserInfo.user.userCode = '-2';
-                //     // this.$store.commit('uOpenUserInfo', {});
-                //     this.openUserInfo.change = !this.openUserInfo.change;
-                //     this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                // }
+                    // 如果用户已经登陆每次都从服务器获取拓展信息
+                    if (this.openUserInfo.user.userCode && this.openUserInfo.user.userCode !== '-1') {
+                        let url = this.Utils.basicUrl() + '/user/v1/getUserExtInfo';
+                        let param = {
+                            "userCode": this.openUserInfo.user.userCode
+                        };
+                        this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                            if (response.data != null && response.data.userSet != null && response.data.userSet != '' && response.data.userSet != {}
+                                && JSON.parse(response.data.userSet).searchEngineList && JSON.parse(response.data.userSet).searchEngineList.length > 0) {
+                                this.openUserInfo.ext = JSON.parse(response.data.userSet);
+                                this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                            } else {
+                                this.Utils.getSearchEngine(list => {
+                                    this.openUserInfo.ext.searchEngineList = list;
+                                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                                });
+                            }
+                            if (!response || response.code !== '0') {
+                                console.error(response.message)
+                                return;
+                            }
+                        });
+                    } else {
+                        if (!openUserInfoLocal.ext || !openUserInfoLocal.ext.searchEngineList || openUserInfoLocal.ext.searchEngineList.length < 1) {
+                            this.Utils.getSearchEngine(list => {
+                                this.openUserInfo.ext.searchEngineList = list;
+                                this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                            });
+                        } else {
+                            this.openUserInfo.ext = openUserInfoLocal.ext;
+                            this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                        }
+                    }
+                } else {
+                    this.Utils.getSearchEngine(list => {
+                        this.openUserInfo.ext.searchEngineList = list;
+                        this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                    });
+                }
             },
             getByImg(bgImgShowType) {
                 // let that = this;
@@ -158,14 +165,31 @@
                 // document.body.style.backgroundImage = '';
                 // document.body.style.backgroundColor = '';
 
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundSize = '100%';
+
+
+                let bgImg = this.openUserInfo.ext.bg.bgImg;
+                if (bgImg.indexOf('cn.bing.com') > -1) {
+                    if (this.Utils.isPhone()) {
+                        // 1080x1920
+                        bgImg = bgImg.replace('1920x1080', '1080x1920');
+                        document.body.style.backgroundSize = '122%';
+                    } else {
+                        // 1920x1080
+                        bgImg = bgImg.replace('1080x1920', '1920x1080');
+                        // this.openUserInfo.ext.bg.bgImg = this.openUserInfo.ext.bg.bgImg.replace('1920x1080', 'UHD');
+                    }
+                }
+
                 if (bgImgShowType === 'one') {
-                    document.body.style.backgroundImage = 'url(' + this.openUserInfo.ext.bg.bgImg + ')';
+                    document.body.style.backgroundImage = 'url(' + bgImg + ')';
                     document.body.style.backgroundColor = '';
                     return;
                 }
 
                 if (bgImgShowType === 'share') {
-                    document.body.style.backgroundImage = 'url(' + this.openUserInfo.ext.bg.shareBgImg + ')';
+                    document.body.style.backgroundImage = 'url(' + bgImg + ')';
                     document.body.style.backgroundColor = '';
                     return;
                 }

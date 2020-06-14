@@ -439,10 +439,12 @@ export default class Utils {
             let list = [];
             for (let i = 0; i < response.data.list.length; i++) {
                 let item = response.data.list[i];
+                let uuid = this.generateUUID();
                 list.push({
                     url: item.codeValue,
                     name: item.codeName,
-                    icon: item.bigData
+                    icon: item.bigData,
+                    uuid: uuid
                 });
             }
             callback(list);

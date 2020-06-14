@@ -6,7 +6,7 @@
             <div class="center">
             </div>
             <div class="right">
-                <i class="fa fa-cog" aria-hidden="true" @click="uPopConfig('Set', '常用设置')"></i>
+                <i class="far fa-edit" aria-hidden="true" @click="uPopConfig('Set', '常用设置')"></i>
                 <i class="far fa-image" @click="uPopConfig('Style', '主题设置')"></i>
                 <i class="far fa-user" @click="uPopConfig('User','用户设置')"></i>
 
@@ -41,8 +41,15 @@
         },
         methods: {
             uPopConfig(type, title) {
+
+                let show = false;
+                if (this.popConfig.componentName === type) {
+                    show = !this.popConfig.show;
+                } else {
+                    show = true;
+                }
                 this.Utils.pop({
-                    show: !this.popConfig.show,
+                    show: show,
                     title: title,
                     componentName: type
                 });

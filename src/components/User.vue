@@ -29,11 +29,8 @@
                 <button @click="sendEmail()">发送</button>
             </div>
 
-            <div class="row" v-show="!showRegist">
-                <button @click="login()">登 陆</button>
-            </div>
-
-            <div class="row">
+            <div class="btn">
+                <button @click="login()" v-show="!showRegist">登 陆</button>
                 <button style="background-color: orange;" @click="registUser()">注 册</button>
             </div>
 
@@ -459,16 +456,12 @@
         /*border-color: red;*/
     }
 
-    .row > button {
-        grid-column: 1/3;
+
+    .btn {
+        display: grid;
+        grid-row-gap: 10px;
     }
 
-    .row:last-child {
-        /*align-self: center;*/
-        /*height: 150px;*/
-        /*border-radius: 5px;*/
-
-    }
 
     .row:last-child > span {
         grid-column: 1/3;
@@ -477,6 +470,7 @@
         text-align: start;
         line-height: 25px;
     }
+
 
     /*.regist {*/
     /*    background-color: orange;*/
