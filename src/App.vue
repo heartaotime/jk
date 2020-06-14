@@ -17,10 +17,17 @@
 
         <!--        <img alt="Vue logo" src="./assets/logo.png">-->
         <!--        -->
+
+        <!--        <canvas id="myCanvas"></canvas>-->
+        <!--        <img id="imgs" src="https://cn.bing.com/th?id=OHR.SantaElena_ZH-CN8036210800_1080x1920.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"-->
+        <!--             width='422' height="200"/>-->
+        <!--        <img id="imgs" src="https://www.myindex.top/api/common/v1/getPicture/random/pc" width="422px" height="200px"/>-->
+        <!--        <span id="span"></span>-->
     </div>
 </template>
 
 <script>
+    // import ColorThief from "colorthief";
     import PopCommon from "./components/PopCommon";
     import Tips from "./components/Tips";
     import Top from "./components/Top";
@@ -37,6 +44,9 @@
             Tips,
             Top,
             SearchBox
+        },
+        data() {
+            return {}
         },
         computed: {
             tipsConfig() {
@@ -60,7 +70,6 @@
                     // 2.查看背景图的 展示 模式
                     let bgImgShowType = this.openUserInfo.ext.bg.bgImgShowType || 'lasted';
                     this.getByImg(bgImgShowType);
-
 
                     if (this.openUserInfo.user.userCode && this.openUserInfo.user.userCode !== '-1') {
                         // 同步数据
@@ -88,6 +97,7 @@
         created() {
             // 把 this 传入 工具类
             this.Utils.setVue(this);
+
         },
         mounted() {
             // let clientWidth = document.body.clientWidth; // 网页可见区域宽
@@ -101,11 +111,54 @@
             // document.body.style.background = background;
 
             this.uOpenUserInfo();
+
+            // let domImg = document.querySelector('body');
+            // let colorthief = new ColorThief();
+            // domImg.addEventListener('load', () => {
+            //     console.log('加载好了并取色', colorthief.getColor(domImg))
+            //     // this.colors = colorthief.getPalette(domImg);
+            // })
+
+
         },
         methods: {
+            getImageColor(img) {
+                let canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var context = canvas.getContext("2d");
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // 获取像素数据
+                var data = context.getImageData(0, 0, img.width, img.height).data;
+                // console.log(data);
+                var r = 1, g = 1, b = 1;
+                // 取所有像素的平均值
+                for (var row = 0; row < img.height; row++) {
+                    for (var col = 0; col < img.width; col++) {
+                        // console.log(data[((img.width * row)+ col) * 4])
+                        if (row == 0) {
+                            r += data[((img.width * row) + col)];
+                            g += data[((img.width * row) + col) + 1];
+                            b += data[((img.width * row) + col) + 2];
+                        } else {
+                            r += data[((img.width * row) + col) * 4];
+                            g += data[((img.width * row) + col) * 4 + 1];
+                            b += data[((img.width * row) + col) * 4 + 2];
+                        }
+                    }
+                }
+                // console.log(r, g, b);
+                // 求取平均值
+                r /= (img.width * img.height);
+                g /= (img.width * img.height);
+                b /= (img.width * img.height);
+                // 将最终的值取整
+                r = Math.round(r);
+                g = Math.round(g);
+                b = Math.round(b);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            },
             uOpenUserInfo() {
-                this.openUserInfo.change = !this.openUserInfo.change;
-
                 let openUserInfoLocal = this.Utils.getUserInfo();
                 if (openUserInfoLocal) {
                     if (openUserInfoLocal.user) {
@@ -165,11 +218,16 @@
                 // document.body.style.backgroundImage = '';
                 // document.body.style.backgroundColor = '';
 
+
+                // TODO.. 点击 图片也会进来？？
+
+
                 document.body.style.backgroundRepeat = 'no-repeat';
                 document.body.style.backgroundSize = '100%';
 
 
                 let bgImg = this.openUserInfo.ext.bg.bgImg;
+                let bgColor = this.openUserInfo.ext.bg.bgColor;
                 if (bgImg.indexOf('cn.bing.com') > -1) {
                     if (this.Utils.isPhone()) {
                         // 1080x1920
@@ -182,43 +240,49 @@
                     }
                 }
 
+
                 if (bgImgShowType === 'one') {
-                    document.body.style.backgroundImage = 'url(' + bgImg + ')';
-                    document.body.style.backgroundColor = '';
-                    return;
-                }
-
-                if (bgImgShowType === 'share') {
-                    document.body.style.backgroundImage = 'url(' + bgImg + ')';
-                    document.body.style.backgroundColor = '';
-                    return;
-                }
-
-                if (bgImgShowType === 'none') {
-                    document.body.style.backgroundImage = '';
-                    document.body.style.backgroundColor = '';
-                    return;
-                }
-
-                if (bgImgShowType === 'color') {
-                    document.body.style.backgroundImage = '';
-                    document.body.style.backgroundColor = this.openUserInfo.ext.bg.bgColor;
-                    return;
-                }
-
-                let backgroundImage = '';
-                if (bgImgShowType === 'lasted') {
-                    backgroundImage = 'https://www.myindex.top/api/common/v1/getPicture/lastest/';
+                    bgColor = '';
+                } else if (bgImgShowType === 'share') {
+                    bgColor = '';
+                } else if (bgImgShowType === 'none') {
+                    bgImg = '';
+                    bgColor = '';
+                } else if (bgImgShowType === 'color') {
+                    bgImg = '';
+                } else if (bgImgShowType === 'lasted') {
+                    bgImg = 'https://www.myindex.top/api/common/v1/getPicture/lastest/';
+                    if (this.Utils.isPhone()) {
+                        bgImg += 'phone';
+                    } else {
+                        bgImg += 'pc';
+                    }
+                    bgColor = '';
                 } else if (bgImgShowType === 'random') {
-                    backgroundImage = 'https://www.myindex.top/api/common/v1/getPicture/random/';
+                    bgImg = 'https://www.myindex.top/api/common/v1/getPicture/random/';
+                    if (this.Utils.isPhone()) {
+                        bgImg += 'phone';
+                    } else {
+                        bgImg += 'pc';
+                    }
+                    bgColor = '';
                 }
 
-                if (this.Utils.isPhone()) {
-                    backgroundImage += 'phone';
-                } else {
-                    backgroundImage += 'pc';
+                document.body.style.backgroundImage = 'url(' + bgImg + ')';
+                document.body.style.backgroundColor = bgColor;
+
+                alert(bgColor);
+                if (bgImg !== '') {
+                    let img = document.createElement('img');
+                    img.src = bgImg;
+                    img.crossOrigin = "Anonymous"
+                    img.addEventListener('load', () => {
+                        console.log(this.getImageColor(img));
+                        document.querySelector('meta[name=theme-color]').content = this.getImageColor(img);
+                    });
+                } else if (bgColor !== '') {
+                    document.querySelector('meta[name=theme-color]').content = bgColor;
                 }
-                document.body.style.backgroundImage = 'url(' + backgroundImage + ')';
             }
         }
     }

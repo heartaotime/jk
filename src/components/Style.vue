@@ -269,8 +269,10 @@
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
             },
             setBgImgShowType() {
-                this.openUserInfo.ext.bg.bgImgShowType = this.bgImgShowType;
-                this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                if (this.openUserInfo.ext.bg.bgImgShowType !== this.bgImgShowType) {
+                    this.openUserInfo.ext.bg.bgImgShowType = this.bgImgShowType;
+                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                }
             },
             setBgImg(index) {
                 this.openUserInfo.ext.bg.bgImgShowType = 'one'; // 选择其一
