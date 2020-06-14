@@ -175,6 +175,10 @@
                         });
                     }
                     this.searchEngineList = list;
+
+                    this.openUserInfo.ext.searchEngineList = this.searchEngineList;
+                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
+
                     // this.setSearchEngine(0);
                 });
 

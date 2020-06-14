@@ -27,19 +27,22 @@
                         <label :for="'radio' + index" :title="item.desc">{{item.name}}</label></a>
                     <span>tips:以下图片来自必应，每日更新一张</span>
                 </div>
-                <div class="biyings">
-                    <a v-for="(item, index) in showList" :key="index"
-                       :style="{
+                <div>
+                    <transition-group enter-active-class="animated fadeInUp"
+                                      leave-active-class="animated fadeOut" class="biyings">
+                        <a v-for="(item, index) in showList" :key="item.codeValue"
+                           :style="{
                                    backgroundSize: '100% 100%',
                                    backgroundRepeat: 'no-repeat',
                                    backgroundImage: 'url('+item.codeValue+')'
                                 }"
-                       class="biyings-item enlargeAnimation"
-                       @click="setBgImg(index)"
-                       :target="item.codeValue || '_blank'"
-                    >
-                        <div class="hide set-bg"><span>设置皮肤</span></div>
-                    </a>
+                           class="biyings-item enlargeAnimation"
+                           @click="setBgImg(index)"
+                           :target="item.codeValue || '_blank'"
+                        >
+                            <div class="hide set-bg"><span>设置皮肤</span></div>
+                        </a>
+                    </transition-group>
                 </div>
                 <a class="more" @click="more()" v-show="pageInfo.hasNextPage">
                     <!--                    <span>{{navigatepageNums}}</span>-->
@@ -47,24 +50,27 @@
                 </a>
             </div>
 
-            <div class="purecolor" v-show="activeTabIndex === 1">
-                <div class="purecolor-item" v-for="(item, index) in pureColorList"
-                     :key="'purecolor-item' + index">
+            <div v-show="activeTabIndex === 1">
+                <transition-group enter-active-class="animated fadeInUp"
+                                  leave-active-class="animated fadeOut" class="purecolor">
+                    <div class="purecolor-item" v-for="(item, index) in pureColorList"
+                         :key="'purecolor-item' + index">
                             <span class="purecolor-item-title">
                                 {{item.codeName}}
                             </span>
-                    <div class="purecolor-item-colors">
-                        <div v-for="(itemc, indexc) in JSON.parse(item.bigData || [])"
-                             :key="'purecolor-item-colors' + indexc" :style="{
+                        <div class="purecolor-item-colors">
+                            <div v-for="(itemc, indexc) in JSON.parse(item.bigData || [])"
+                                 :key="'purecolor-item-colors' + indexc" :style="{
                                          backgroundColor: itemc.guideName,
                                         }"
-                             class="enlargeAnimation"
-                             @click="setBgColor(itemc.guideName)"
-                        >
-                            {{itemc.guideName}}
+                                 class="enlargeAnimation"
+                                 @click="setBgColor(itemc.guideName)"
+                            >
+                                {{itemc.guideName}}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </transition-group>
             </div>
 
             <div class="user-cust-bg" v-show="activeTabIndex === 2">

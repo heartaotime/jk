@@ -5,9 +5,9 @@
         <h4>搜索引擎设置</h4>
 
         <div class="search-engine">
-            <transition-group enter-active-class="animated fadeInUp faster"
-                              leave-active-class="animated fadeOut faster">
-                <div class="row" v-for="(item, index) in searchEngineList" :key="index">
+            <transition-group enter-active-class="animated fadeInUp"
+                              leave-active-class="animated fadeOut">
+                <div class="row" v-for="(item, index) in searchEngineList" :key="item.url">
                     <img @click="selectIcon(index)" :src="item.icon"/>
                     <div>
                         <input spellcheck="false" placeholder="名称" v-model="item.name"/>
@@ -15,33 +15,12 @@
                     <div>
                         <input spellcheck="false" placeholder="地址(搜索的关键字用%s代替)" v-model="item.url" class="url"/>
                     </div>
-
-                    <!--                <i class="fa fa-plus" aria-hidden="true"></i>-->
                     <div>
                         <i @click="delSearchEngine(index)" class="fa fa-minus" aria-hidden="true"></i>
                     </div>
 
                 </div>
             </transition-group>
-
-            <!--            <div class="row" v-for="(item, index) in searchEngineList" :key="index"-->
-            <!--                 enter-active-class="animated fadeInUp faster"-->
-            <!--                 leave-active-class="animated fadeOut faster">-->
-            <!--                <img @click="selectIcon(index)" :src="item.icon"/>-->
-            <!--                <div>-->
-            <!--                    <input spellcheck="false" placeholder="名称" v-model="item.name"/>-->
-            <!--                </div>-->
-            <!--                <div>-->
-            <!--                    <input spellcheck="false" placeholder="地址(搜索的关键字用%s代替)" v-model="item.url" class="url"/>-->
-            <!--                </div>-->
-
-            <!--                &lt;!&ndash;                <i class="fa fa-plus" aria-hidden="true"></i>&ndash;&gt;-->
-            <!--                <div>-->
-            <!--                    <i @click="delSearchEngine(index)" class="fa fa-minus" aria-hidden="true"></i>-->
-            <!--                </div>-->
-
-            <!--            </div>-->
-
 
         </div>
 
@@ -224,12 +203,12 @@
 
 
     .row {
-        height: 30px;
+        height: 35px;
         border: 1px solid lightgrey;
         border-radius: 3px;
 
         display: grid;
-        grid-template-columns: 30px 50px 1fr 20px;
+        grid-template-columns: 30px 50px 1fr 30px;
 
         margin-top: 5px;
 
@@ -267,9 +246,12 @@
 
         /*border-left: 1px solid lightgray;*/
 
-        width: 97%;
+        /*width: 50px;*/
 
-        padding: 0 5px;
+        width: 100%;
+
+        /*padding-left: 5px;*/
+
 
     }
 

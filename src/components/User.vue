@@ -13,17 +13,17 @@
                 <input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/>
             </div>
 
-            <div class="row" v-show="showRegist">
+            <div class="row animated fadeInRight" v-show="showRegist">
                 <span>确认密码</span>
                 <input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/>
             </div>
 
-            <div class="row" v-show="showRegist">
+            <div class="row animated fadeInRight" v-show="showRegist">
                 <span>邮箱</span>
                 <input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" @change="checkUserExist(2)"/>
             </div>
 
-            <div class="row verifyCode" v-show="showRegist">
+            <div class="row verifyCode animated fadeInRight" v-show="showRegist">
                 <span>验证码</span>
                 <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
                 <button @click="sendEmail()">发送</button>
@@ -37,7 +37,7 @@
                 <button style="background-color: orange;" @click="registUser()">注 册</button>
             </div>
 
-            <div class="row">
+            <div class="row animated fadeInRight">
                 <span>提示：</span>
                 <span>1.没有账号可以先点击注册</span>
                 <span>2.登陆账号后，可以同步你的自定义数据哦</span>

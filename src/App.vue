@@ -90,15 +90,15 @@
             this.Utils.setVue(this);
         },
         mounted() {
-            let clientWidth = document.body.clientWidth; // 网页可见区域宽
-            let background = '';
-            if (clientWidth > 700) {
-                background = "url('https://www.myindex.top/api/common/v1/getPicture/lastest/pc') center no-repeat fixed"
-            } else {
-                background = "url('https://www.myindex.top/api/common/v1/getPicture/lastest/phone') center no-repeat fixed";
-            }
-
-            document.body.style.background = background;
+            // let clientWidth = document.body.clientWidth; // 网页可见区域宽
+            // let background = '';
+            // if (clientWidth > 700) {
+            //     background = "url('https://www.myindex.top/api/common/v1/getPicture/lastest/pc') center no-repeat fixed"
+            // } else {
+            //     background = "url('https://www.myindex.top/api/common/v1/getPicture/lastest/phone') center no-repeat fixed";
+            // }
+            //
+            // document.body.style.background = background;
 
             this.uOpenUserInfo();
         },
