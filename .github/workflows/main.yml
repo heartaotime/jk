@@ -1,0 +1,63 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Runs a single command using the runners she
+      
+      
+
+    - run: npm ci # 相当于npm install
+
+    - run: npm run docs:build
+
+    #发布到mybells.github.io/master
+
+    - name: Deploy heartaotime.github.io/master
+
+      uses: peaceiris/actions-gh-pages@v2
+
+      env:
+
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+
+        EXTERNAL_REPOSITORY: heartaotime/heartaotime.github.io #可以新建一个mybells.github.io仓库发布到master
+
+        PUBLISH_BRANCH: master
+
+        PUBLISH_DIR: docs/.vuepress/dist
+
+      with:
+
+          emptyCommits: false
+
+    # #发布到MyBlog/gh-pages 查看https://mybells.github.io/MyBlog/，需要修改base配置为MyBlog，修改图片路径
+
+    # - name: Deploy MyBlog/gh-pages
+
+    #   uses: peaceiris/actions-gh-pages@v2
+
+    #   env:
+
+    #     ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+
+    #     PUBLISH_BRANCH: gh-pages #也可以在本项目MyBlog新建gh-pages分支，名字一定要是gh-pages这样github page设置才能识别到这个分支，其他名字识别不到。
