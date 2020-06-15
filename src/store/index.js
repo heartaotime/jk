@@ -78,7 +78,7 @@ let mutations = {
         console.log('uOpenUserInfo:', openUserInfo);
         // 清空  this.openUserInfo 并重新设置值 触发 watch
         // state.openUserInfo = {};
-        openUserInfo.change = !state.openUserInfo.change;
+        // openUserInfo.change = !state.openUserInfo.change;
         state.openUserInfo = openUserInfo;
 
         if (localStorage) {

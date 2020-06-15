@@ -22,7 +22,11 @@
         <!--        <img id="imgs" src="https://cn.bing.com/th?id=OHR.SantaElena_ZH-CN8036210800_1080x1920.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"-->
         <!--             width='422' height="200"/>-->
         <!--        <img id="imgs" src="https://www.myindex.top/api/common/v1/getPicture/random/pc" width="422px" height="200px"/>-->
-        <!--        <span id="span"></span>-->
+<!--                <span id="span" style="width: 50px;height: 50px;"></span>-->
+
+        <!--        <canvas id="myCanvas" style="display: none;">-->
+        <!--            您的浏览器不支持 HTML5 canvas 标签。-->
+        <!--        </canvas>-->
     </div>
 </template>
 
@@ -63,8 +67,34 @@
             }
         },
         watch: {
+            // openUserInfo(){
+            //     alert(1);
+            //     // 1.更新卡片 透明度
+            //     this.Utils.uCardStyle(this.openUserInfo.ext.cardTransparency || '2');
+            //     // 2.查看背景图的 展示 模式
+            //     let bgImgShowType = this.openUserInfo.ext.bg.bgImgShowType || 'lasted';
+            //     this.getByImg(bgImgShowType);
+            //
+            //     if (this.openUserInfo.user.userCode && this.openUserInfo.user.userCode !== '-1') {
+            //         // 同步数据
+            //         let url = this.Utils.basicUrl() + '/user/v1/setUserExtInfo';
+            //         let param = {
+            //             "userCode": this.openUserInfo.user.userCode,
+            //             "userSet": JSON.stringify(this.openUserInfo.ext),
+            //             "userSet1": "",
+            //             "userSet2": ""
+            //         };
+            //         this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+            //             if (!response || response.code !== '0') {
+            //                 console.error('同步用户配置数据失败')
+            //                 return;
+            //             }
+            //         });
+            //     }
+            // },
             openUserInfo: {
                 handler() {
+                    console.log('openUserInfo changed:', this.openUserInfo);
                     // 1.更新卡片 透明度
                     this.Utils.uCardStyle(this.openUserInfo.ext.cardTransparency || '2');
                     // 2.查看背景图的 展示 模式
@@ -97,7 +127,6 @@
         created() {
             // 把 this 传入 工具类
             this.Utils.setVue(this);
-
         },
         mounted() {
             // let clientWidth = document.body.clientWidth; // 网页可见区域宽
@@ -123,42 +152,58 @@
         },
         methods: {
             getImageColor(img) {
+
+                let width = img.width;
+                // let height = img.height;
+                let height = 50;
+
                 let canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
+                // let canvas = document.querySelector('#myCanvas');
+                canvas.width = width;
+                canvas.height = height;
                 var context = canvas.getContext("2d");
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, width, height);
                 // 获取像素数据
-                var data = context.getImageData(0, 0, img.width, img.height).data;
+                // var data = context.getImageData(0, 0, img.width, img.height).data;
+                var data = context.getImageData(0, 0, width, height).data;
                 // console.log(data);
                 var r = 1, g = 1, b = 1;
                 // 取所有像素的平均值
-                for (var row = 0; row < img.height; row++) {
-                    for (var col = 0; col < img.width; col++) {
+                for (var row = 0; row < height; row++) {
+                    for (var col = 0; col < width; col++) {
                         // console.log(data[((img.width * row)+ col) * 4])
                         if (row == 0) {
-                            r += data[((img.width * row) + col)];
-                            g += data[((img.width * row) + col) + 1];
-                            b += data[((img.width * row) + col) + 2];
+                            r += data[((width * row) + col)];
+                            g += data[((width * row) + col) + 1];
+                            b += data[((width * row) + col) + 2];
                         } else {
-                            r += data[((img.width * row) + col) * 4];
-                            g += data[((img.width * row) + col) * 4 + 1];
-                            b += data[((img.width * row) + col) * 4 + 2];
+                            r += data[((width * row) + col) * 4];
+                            g += data[((width * row) + col) * 4 + 1];
+                            b += data[((width * row) + col) * 4 + 2];
                         }
                     }
                 }
                 // console.log(r, g, b);
                 // 求取平均值
-                r /= (img.width * img.height);
-                g /= (img.width * img.height);
-                b /= (img.width * img.height);
+                r /= (width * height);
+                g /= (width * height);
+                b /= (width * height);
                 // 将最终的值取整
                 r = Math.round(r);
                 g = Math.round(g);
-                b = Math.round(b);
+                b = Math.round(b)
+
+                canvas.remove();
+
+                console.log("rgb(" + r + "," + g + "," + b + ")");
                 return "rgb(" + r + "," + g + "," + b + ")";
             },
             uOpenUserInfo() {
+
+                // 强制改变,触发用户信息更新
+                // this.openUserInfo.change = !this.openUserInfo.change;
+
                 let openUserInfoLocal = this.Utils.getUserInfo();
                 if (openUserInfoLocal) {
                     if (openUserInfoLocal.user) {
@@ -206,21 +251,6 @@
                 }
             },
             getByImg(bgImgShowType) {
-                // let that = this;
-                // const url = '/bingBgImg?format=js&idx=0&n=1&nc=' + new Date().getTime() + '&pid=hp&video=0';
-                // this.Utils.getJson(url, {}, function (response) {
-                //     if (response && response.images && response.images.length > 0) {
-                //         that.appStyle.backgroundImage = "url('https://cn.bing.com/" + response.images[0].url +
-                //             "')";
-                //     }
-                // });
-
-                // document.body.style.backgroundImage = '';
-                // document.body.style.backgroundColor = '';
-
-
-                // TODO.. 点击 图片也会进来？？
-
 
                 document.body.style.backgroundRepeat = 'no-repeat';
                 document.body.style.backgroundSize = '100%';
@@ -271,18 +301,29 @@
                 document.body.style.backgroundImage = 'url(' + bgImg + ')';
                 document.body.style.backgroundColor = bgColor;
 
-                alert(bgColor);
-                if (bgImg !== '') {
-                    let img = document.createElement('img');
-                    img.src = bgImg;
-                    img.crossOrigin = "Anonymous"
-                    img.addEventListener('load', () => {
-                        console.log(this.getImageColor(img));
-                        document.querySelector('meta[name=theme-color]').content = this.getImageColor(img);
-                    });
-                } else if (bgColor !== '') {
-                    document.querySelector('meta[name=theme-color]').content = bgColor;
-                }
+
+                // let that = this;
+                // if (bgImg !== '') {
+                //     let img = document.createElement('img');
+                //     img.src = bgImg;
+                //     img.crossOrigin = "Anonymous";
+                //     img.addEventListener('load', () => {
+                //         // console.log(that.getImageColor(img));
+                //         let imageColor = that.getImageColor(img);
+                //         document.querySelector('meta[name=theme-color]').content = imageColor;
+                //         document.querySelector('#span').style.backgroundColor = imageColor;
+                //         img.remove();
+                //     });
+                // } else if (bgColor !== '') {
+                //     let str = "rgb("
+                //     let r = parseInt(bgColor.slice(1, 3), 16).toString();   //ff  slice不包括end
+                //     let g = parseInt(bgColor.slice(3, 5), 16).toString();   //00
+                //     let b = parseInt(bgColor.slice(5, 7), 16).toString();   //ff
+                //     str += r + "," + g + "," + b + ")";
+                //     console.log(str);  //rgb(171,0,0)
+                //     document.querySelector('meta[name=theme-color]').content = str;
+                //     document.querySelector('#span').style.backgroundColor = str;
+                // }
             }
         }
     }
