@@ -372,7 +372,7 @@ export default class Utils {
     }
 
     static saveUserInfoExt() {
-        // window.console.log(this.Vue.$store.state.openUserInfo);
+        // window.console.log(this.Vue.$store.getters.openUserInfo);
 
         // 保存数据到数据库
         let url = '/common-server/user/api/v1/saveUserInfoExt';
@@ -380,8 +380,8 @@ export default class Utils {
 
         let data = {
             param: {
-                userId: this.Vue.$store.state.openUserInfo.user.id,
-                saveData: this.Vue.$store.state.openUserInfo
+                userId: this.Vue.$store.getters.openUserInfo.user.id,
+                saveData: this.Vue.$store.getters.openUserInfo
             }
         };
         this.Vue.axios.post(url, data).then(res => {

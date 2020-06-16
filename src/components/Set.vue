@@ -1,7 +1,7 @@
 <template>
     <div class="module">
 
-        <div class="animated fadeInRight" style="padding: 0 5px;">
+        <div class="animated fadeInRight faster" style="padding: 0 5px;">
             <div class="tips">
                 <span>搜索引擎设置：</span>
                 <span>1.点击图标可以更换</span>
@@ -67,7 +67,7 @@
         },
         computed: {
             openUserInfo() {
-                return this.$store.state.openUserInfo;
+                return this.$store.getters.openUserInfo;
             }
         },
         watch: {

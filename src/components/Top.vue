@@ -32,7 +32,7 @@
         },
         computed: {
             popConfig() {
-                return this.$store.state.popConfig;
+                return this.$store.getters.popConfig;
             },
         },
         watch: {},

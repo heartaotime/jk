@@ -22,7 +22,7 @@
         <!--        <img id="imgs" src="https://cn.bing.com/th?id=OHR.SantaElena_ZH-CN8036210800_1080x1920.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"-->
         <!--             width='422' height="200"/>-->
         <!--        <img id="imgs" src="https://www.myindex.top/api/common/v1/getPicture/random/pc" width="422px" height="200px"/>-->
-<!--                <span id="span" style="width: 50px;height: 50px;"></span>-->
+        <!--                <span id="span" style="width: 50px;height: 50px;"></span>-->
 
         <!--        <canvas id="myCanvas" style="display: none;">-->
         <!--            您的浏览器不支持 HTML5 canvas 标签。-->
@@ -54,16 +54,16 @@
         },
         computed: {
             tipsConfig() {
-                return this.$store.state.tipsConfig;
+                return this.$store.getters.tipsConfig;
             },
             popConfig() {
-                return this.$store.state.popConfig;
+                return this.$store.getters.popConfig;
             },
             loadingConfig() {
-                return this.$store.state.loadingConfig;
+                return this.$store.getters.loadingConfig;
             },
             openUserInfo() {
-                return this.$store.state.openUserInfo;
+                return this.$store.getters.openUserInfo;
             }
         },
         watch: {
@@ -93,20 +93,35 @@
             //     }
             // },
             openUserInfo: {
-                handler() {
-                    console.log('openUserInfo changed:', this.openUserInfo);
+                handler(newVal, oldVal) {
+                    // watch 从 无 到 有 会触发一次
+                    console.log('oldVal, ', oldVal);
+                    console.log('newVal, ', newVal);
+                    let openUserInfo = newVal;
+                    let user = openUserInfo.user;
+                    let ext = openUserInfo.ext;
+                    // console.log('openUserInfo changed-1-o, ', this.openUserInfo);
+                    // console.log('openUserInfo changed-1, ', openUserInfo);
+                    // console.log('openUserInfo changed-1-user, ', user);
+                    // console.log('openUserInfo changed-1-ext, ', ext);
+                    // console.log('openUserInfo changed-1-1, ', this.openUserInfo.ext);
+                    // console.log('openUserInfo changed-1-2, ', this.openUserInfo.ext.searchEngineList);
+                    // console.log('openUserInfo changed-1-3, ', openUserInfo);
+
                     // 1.更新卡片 透明度
-                    this.Utils.uCardStyle(this.openUserInfo.ext.cardTransparency || '2');
+                    this.Utils.uCardStyle(ext.cardTransparency || '2');
                     // 2.查看背景图的 展示 模式
-                    let bgImgShowType = this.openUserInfo.ext.bg.bgImgShowType || 'lasted';
+                    let bgImgShowType = ext.bg.bgImgShowType || 'lasted';
                     this.getByImg(bgImgShowType);
 
-                    if (this.openUserInfo.user.userCode && this.openUserInfo.user.userCode !== '-1') {
+                    if (user.userCode && user.userCode !== '-1') {
                         // 同步数据
+                        // console.log('openUserInfo ext changed-2, ', openUserInfo);
+                        // console.log('openUserInfo ext changed-3, ', ext);
                         let url = this.Utils.basicUrl() + '/user/v1/setUserExtInfo';
                         let param = {
-                            "userCode": this.openUserInfo.user.userCode,
-                            "userSet": JSON.stringify(this.openUserInfo.ext),
+                            "userCode": user.userCode,
+                            "userSet": JSON.stringify(ext),
                             "userSet1": "",
                             "userSet2": ""
                         };
@@ -119,7 +134,8 @@
                     }
 
                 },
-                deep: true
+                deep: true,
+                // immediate: true
             },
         },
         beforeCreate() {

@@ -21,7 +21,7 @@
         },
         computed: {
             loadingConfig() {
-                return this.$store.state.loadingConfig;
+                return this.$store.getters.loadingConfig;
             },
         },
         watch: {

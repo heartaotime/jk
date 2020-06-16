@@ -101,14 +101,16 @@
         },
         computed: {
             openUserInfo() {
-                return this.$store.state.openUserInfo;
+                return this.$store.getters.openUserInfo;
             },
         },
         watch: {
             openUserInfo: {
                 handler() {
                     // alert(1);
-                    this.getSearchEngine();
+                    // this.getSearchEngine();
+                    this.searchEngineList = this.openUserInfo.ext.searchEngineList;
+                    console.log('SearchBox getSearchEngine from openUserInfo, ', this.searchEngineList);
                     for (let i = 0; i < this.searchEngineList.length; i++) {
                         let isDefault = this.searchEngineList[i].isDefault;
                         if (isDefault) {
@@ -119,15 +121,10 @@
                 },
                 deep: true
             },
-            searchEngineList() {
-                // this.openUserInfo.ext.searchEngineList = this.searchEngineList;
-                // this.$store.commit('uOpenUserInfo', this.openUserInfo);
-            }
         },
         created() {
         },
         mounted() {
-            // this.getSearchEngine();
         },
         methods: {
             changeSearchType: function (searchType) {
@@ -149,11 +146,11 @@
             },
             getSearchEngine() {
                 this.searchEngineList = this.openUserInfo.ext.searchEngineList;
-                // console.log('getSearchEngine', this.searchEngineList);
+                console.log('enter SearchBox getSearchEngine, ', this.searchEngineList);
                 if (this.searchEngineList.length > 0) {
                     return;
                 }
-
+                console.log('getSearchEngine from openUserInfo is null, next step getSearchEngine from server!');
                 this.Utils.getSearchEngine(list => {
                     this.searchEngineList = list;
                 })

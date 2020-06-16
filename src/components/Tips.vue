@@ -30,7 +30,7 @@
         },
         computed: {
             tipsConfig() {
-                return this.$store.state.tipsConfig;
+                return this.$store.getters.tipsConfig;
             },
         },
         watch: {

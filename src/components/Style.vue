@@ -143,7 +143,7 @@
         },
         computed: {
             openUserInfo() {
-                return this.$store.state.openUserInfo;
+                return this.$store.getters.openUserInfo;
             },
         },
         watch: {
