@@ -109,7 +109,7 @@
                 handler() {
                     // alert(1);
                     // this.getSearchEngine();
-                    this.searchEngineList = this.openUserInfo.ext.searchEngineList;
+                    this.searchEngineList = this.openUserInfo.ext.searchEngineList.concat();
                     console.log('SearchBox getSearchEngine from openUserInfo, ', this.searchEngineList);
                     for (let i = 0; i < this.searchEngineList.length; i++) {
                         let isDefault = this.searchEngineList[i].isDefault;
@@ -127,16 +127,6 @@
         mounted() {
         },
         methods: {
-            changeSearchType: function (searchType) {
-                for (let i = 0; i < this.searchList.length; i++) {
-                    this.searchList[i].active = false;
-                    if (this.searchList[i].type === searchType) {
-                        this.searchList[i].active = true;
-                        this.searchImg = './img/' + searchType + '.gif';
-                        this.searchBtn = this.searchList[i].name;
-                    }
-                }
-            },
             search() {
                 const that = this;
                 window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
@@ -144,18 +134,18 @@
                     that.searchKey = '';
                 }, 500);
             },
-            getSearchEngine() {
-                this.searchEngineList = this.openUserInfo.ext.searchEngineList;
-                console.log('enter SearchBox getSearchEngine, ', this.searchEngineList);
-                if (this.searchEngineList.length > 0) {
-                    return;
-                }
-                console.log('getSearchEngine from openUserInfo is null, next step getSearchEngine from server!');
-                this.Utils.getSearchEngine(list => {
-                    this.searchEngineList = list;
-                })
-
-            },
+            // getSearchEngine() {
+            //     this.searchEngineList = this.openUserInfo.ext.searchEngineList.concat();
+            //     console.log('enter SearchBox getSearchEngine, ', this.searchEngineList);
+            //     if (this.searchEngineList.length > 0) {
+            //         return;
+            //     }
+            //     console.log('getSearchEngine from openUserInfo is null, next step getSearchEngine from server!');
+            //     this.Utils.getSearchEngine(list => {
+            //         this.searchEngineList = list;
+            //     })
+            //
+            // },
             setSearchEngine(index) {
                 this.searchEngineIndex = index;
                 this.searchEngineShow = false;
