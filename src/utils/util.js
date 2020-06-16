@@ -305,6 +305,7 @@ export default class Utils {
         return '';
     }
 
+
     static uCardStyle(cardTransparency) {
         let elements = document.querySelectorAll('.card');
         for (let i = 0; i < elements.length; i++) {
