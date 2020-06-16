@@ -32,21 +32,21 @@
         Please enable it to continue.</strong>
 </noscript>
 <script>
-    function plusReady() {
-        // 设置系统状态栏背景为红色
-        var type = plus.os.name;
-        if (type == "iOS") {
-            plus.navigator.setStatusBarBackground("#368CBD");
-        } else {
-            plus.navigator.setStatusBarBackground("#black");
-        }
-    }
-
-    if (window.plus) {
-        plusReady();
-    } else {
-        document.addEventListener("plusready", plusReady, false);
-    }
+    // function plusReady() {
+    //     // 设置系统状态栏背景为红色
+    //     var type = plus.os.name;
+    //     if (type == "iOS") {
+    //         plus.navigator.setStatusBarBackground("#368CBD");
+    //     } else {
+    //         plus.navigator.setStatusBarBackground("#black");
+    //     }
+    // }
+    //
+    // if (window.plus) {
+    //     plusReady();
+    // } else {
+    //     document.addEventListener("plusready", plusReady, false);
+    // }
 </script>
 <div id="app"></div>
 <!-- built files will be auto injected -->
