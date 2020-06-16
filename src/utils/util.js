@@ -49,22 +49,21 @@ export default class Utils {
             defaultConfig = config;
         }
 
-        let that = this;
-
         // if (url.indexOf('setUserExtInfo') < 0) {
         //     this.showLoading();
         // }
 
-        this.showLoading();
+
+        let loadingDom = this.Vue.$loading();
 
         return new Promise((resolve, reject) => {
             window.console.info('req url, ', url, '\nreq param, ', data);
             this.Vue.axios.post(url, data, defaultConfig).then(res => {
-                that.hideLoading();
+                loadingDom.remove();
                 window.console.info('get resopnse sucess, ', res.data);
                 resolve(res.data);
             }).catch(error => {
-                that.hideLoading();
+                loadingDom.remove();
                 window.console.error('axios post error, ', error);
                 reject(error);
             });

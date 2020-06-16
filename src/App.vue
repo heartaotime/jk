@@ -1,16 +1,17 @@
 <template>
-    <div id="app">
+    <div id="app" :style="appStyle">
+
         <transition enter-active-class="animated fadeInUp faster"
                     leave-active-class="animated fadeOut faster">
             <PopCommon v-show="popConfig.show"></PopCommon>
         </transition>
-        <transition enter-active-class="animated fadeInUp faster">
-            <Tips v-show="tipsConfig.show"></Tips>
-        </transition>
-        <transition enter-active-class="animated fadeIn faster"
-                    leave-active-class="animated fadeOut faster">
-            <Loading v-show="loadingConfig.show"></Loading>
-        </transition>
+        <!--        <transition enter-active-class="animated fadeInUp faster">-->
+        <!--            <Tips v-show="tipsConfig.show"></Tips>-->
+        <!--        </transition>-->
+        <!--        <transition enter-active-class="animated fadeIn faster"-->
+        <!--                    leave-active-class="animated fadeOut faster">-->
+        <!--            <Loading v-show="loadingConfig.show"></Loading>-->
+        <!--        </transition>-->
 
         <Top></Top>
         <SearchBox></SearchBox>
@@ -32,66 +33,45 @@
 
 <script>
     // import ColorThief from "colorthief";
-    import PopCommon from "./components/PopCommon";
-    import Tips from "./components/Tips";
-    import Top from "./components/Top";
-    import Loading from "./components/Loading";
+    // import Tips from "./components/Tips";
+    // import Loading from "./components/Loading";
 
+    import PopCommon from "./components/PopCommon";
+
+    import Top from "./components/Top";
     import SearchBox from "./components/SearchBox";
 
 
     export default {
         name: 'App',
         components: {
-            Loading,
+            // Loading,
+            // Tips,
+
             PopCommon,
-            Tips,
             Top,
             SearchBox
         },
         data() {
-            return {}
+            return {
+                appStyle: {}
+            }
         },
         computed: {
-            tipsConfig() {
-                return this.$store.getters.tipsConfig;
-            },
+            // tipsConfig() {
+            //     return this.$store.getters.tipsConfig;
+            // },
+            // loadingConfig() {
+            //     return this.$store.getters.loadingConfig;
+            // },
             popConfig() {
                 return this.$store.getters.popConfig;
-            },
-            loadingConfig() {
-                return this.$store.getters.loadingConfig;
             },
             openUserInfo() {
                 return this.$store.getters.openUserInfo;
             }
         },
         watch: {
-            // openUserInfo(){
-            //     alert(1);
-            //     // 1.更新卡片 透明度
-            //     this.Utils.uCardStyle(this.openUserInfo.ext.cardTransparency || '2');
-            //     // 2.查看背景图的 展示 模式
-            //     let bgImgShowType = this.openUserInfo.ext.bg.bgImgShowType || 'lasted';
-            //     this.getByImg(bgImgShowType);
-            //
-            //     if (this.openUserInfo.user.userCode && this.openUserInfo.user.userCode !== '-1') {
-            //         // 同步数据
-            //         let url = this.Utils.basicUrl() + '/user/v1/setUserExtInfo';
-            //         let param = {
-            //             "userCode": this.openUserInfo.user.userCode,
-            //             "userSet": JSON.stringify(this.openUserInfo.ext),
-            //             "userSet1": "",
-            //             "userSet2": ""
-            //         };
-            //         this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
-            //             if (!response || response.code !== '0') {
-            //                 console.error('同步用户配置数据失败')
-            //                 return;
-            //             }
-            //         });
-            //     }
-            // },
             openUserInfo: {
                 handler(newVal, oldVal) {
                     // watch 从 无 到 有 会触发一次
@@ -145,26 +125,7 @@
             this.Utils.setVue(this);
         },
         mounted() {
-            // let clientWidth = document.body.clientWidth; // 网页可见区域宽
-            // let background = '';
-            // if (clientWidth > 700) {
-            //     background = "url('https://www.myindex.top/api/common/v1/getPicture/lastest/pc') center no-repeat fixed"
-            // } else {
-            //     background = "url('https://www.myindex.top/api/common/v1/getPicture/lastest/phone') center no-repeat fixed";
-            // }
-            //
-            // document.body.style.background = background;
-
             this.uOpenUserInfo();
-
-            // let domImg = document.querySelector('body');
-            // let colorthief = new ColorThief();
-            // domImg.addEventListener('load', () => {
-            //     console.log('加载好了并取色', colorthief.getColor(domImg))
-            //     // this.colors = colorthief.getPalette(domImg);
-            // })
-
-
         },
         methods: {
             getImageColor(img) {
@@ -268,21 +229,15 @@
             },
             getByImg(bgImgShowType) {
 
-                document.body.style.backgroundRepeat = 'no-repeat';
-                document.body.style.backgroundSize = '100%';
-
-
                 let bgImg = this.openUserInfo.ext.bg.bgImg;
                 let bgColor = this.openUserInfo.ext.bg.bgColor;
                 if (bgImg.indexOf('cn.bing.com') > -1) {
                     if (this.Utils.isPhone()) {
                         // 1080x1920
                         bgImg = bgImg.replace('1920x1080', '1080x1920');
-                        document.body.style.backgroundSize = '122%';
                     } else {
                         // 1920x1080
                         bgImg = bgImg.replace('1080x1920', '1920x1080');
-                        // this.openUserInfo.ext.bg.bgImg = this.openUserInfo.ext.bg.bgImg.replace('1920x1080', 'UHD');
                     }
                 }
 
@@ -314,8 +269,10 @@
                     bgColor = '';
                 }
 
-                document.body.style.backgroundImage = 'url(' + bgImg + ')';
-                document.body.style.backgroundColor = bgColor;
+                this.appStyle = {
+                    backgroundImage: 'url(' + bgImg + ')',
+                    backgroundColor: bgColor
+                }
 
 
                 // let that = this;
@@ -352,7 +309,17 @@
 <style scoped>
 
     #app {
-        margin: 0 auto;
-        display: grid;
+        /*margin: 0 auto;*/
+        /*display: grid;*/
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background-size: cover;
     }
+
+
 </style>

@@ -92,25 +92,25 @@
                 for (let i = 0; i < this.searchEngineList.length; i++) {
                     let item = this.searchEngineList[i];
                     if (!item.icon || item.icon === '') {
-                        this.Utils.warnTips('请上传icon');
+                        this.$toast('请上传icon');
                         return;
                     }
                     if (!item.name || item.name === '') {
-                        this.Utils.warnTips('请填写名称');
+                        this.$toast('请填写名称');
                         return;
                     }
                     if (!item.url || item.url === '') {
-                        this.Utils.warnTips('请填写地址');
+                        this.$toast('请填写地址');
                         return;
                     }
                     if (item.url.indexOf('%s') < 0) {
-                        this.Utils.warnTips('搜索地址中必须含有%s');
+                        this.$toast('搜索地址中必须含有%s');
                         return;
                     }
                 }
                 this.openUserInfo.ext.searchEngineList = this.searchEngineList;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.Utils.successTips('保存成功');
+                this.$toast('保存成功');
             },
             selectIcon(index) {
                 this.index = index;
@@ -138,7 +138,7 @@
                 };
                 this.Utils.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
                     if (!response || response.code !== '0') {
-                        this.Utils.errorTips(response.message);
+                        this.$toast(response.message);
                         return;
                     }
                     this.searchEngineList[this.index].icon = response.data;
@@ -159,7 +159,7 @@
             },
             delSearchEngine(index) {
                 if (this.searchEngineList.length == 1) {
-                    this.Utils.warnTips('请至少保留一个');
+                    this.$toast('请至少保留一个');
                     return;
                 }
                 this.searchEngineList.splice(index, 1)

@@ -3,6 +3,12 @@ import App from './App.vue'
 import axios from "axios";
 import Utils from './utils/util.js'
 import store from './store' //引入store
+import registryToast from './toast'
+import registryLoading from "./loading";
+
+// 这里也可以直接执行 registryToast()
+Vue.use(registryToast);
+Vue.use(registryLoading);
 
 
 Vue.config.productionTip = false

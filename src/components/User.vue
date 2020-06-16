@@ -102,12 +102,13 @@
             registUser() {
                 if (this.showRegist) {
                     if (this.user.userName == '' || this.user.passWord == '' || this.user.email == '' || this.user.verifyCode == '') {
-                        this.Utils.warnTips('请先填写信息后在提交');
+                        // this.$toast('请先填写信息后在提交');
+                        this.$toast('请先填写信息后在提交');
                         return;
                     }
 
                     if (this.user.passWord !== this.user.passWord2) {
-                        this.Utils.warnTips('两次填写的密码不一致');
+                        this.$toast('两次填写的密码不一致');
                         return;
                     }
 
@@ -121,10 +122,10 @@
 
                     this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
                         if (!response || response.code !== '0') {
-                            this.Utils.errorTips(response.message);
+                            this.$toast(response.message);
                             return;
                         }
-                        this.Utils.successTips("注册成功，请登陆");
+                        this.$toast("注册成功，请登陆");
                         this.showRegist = false;
                     });
                 } else {
@@ -150,7 +151,7 @@
 
                 this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
                     if (!response || response.code !== '0') {
-                        this.Utils.errorTips(response.message);
+                        this.$toast(response.message);
                         return;
                     }
                 });
@@ -158,7 +159,7 @@
             sendEmail() {
                 let email = this.user.email;
                 if (!email || email === '') {
-                    this.Utils.warnTips('邮箱地址不能为空');
+                    this.$toast('邮箱地址不能为空');
                     return;
                 }
 
@@ -169,18 +170,18 @@
 
                 this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
                     if (!response || response.code !== '0') {
-                        this.Utils.errorTips('邮件发送失败！');
+                        this.$toast('邮件发送失败！');
                         return;
                     }
 
-                    this.Utils.successTips('邮件发送成功，请查收邮件！');
+                    this.$toast('邮件发送成功，请查收邮件！');
                 });
 
             },
             login() {
 
                 if (this.user.userName === '' || this.user.passWord === '') {
-                    this.Utils.warnTips('请输入账号和密码');
+                    this.$toast('请输入账号和密码');
                     return;
                 }
 
@@ -192,10 +193,10 @@
 
                 this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
                     if (!response || response.code !== '0') {
-                        this.Utils.errorTips('登陆失败, 请核对账号密码');
+                        this.$toast('登陆失败, 请核对账号密码');
                         return;
                     }
-                    // this.Utils.successTips('登陆成功');
+                    // this.$toast('登陆成功');
 
                     this.loginShow = false;
 
@@ -220,7 +221,7 @@
                         this.$store.commit('uOpenUserInfo', this.openUserInfo);
 
                         if (!response || response.code !== '0') {
-                            this.Utils.successTips('获取用户设置失败');
+                            this.$toast('获取用户设置失败');
                             return;
                         }
 
@@ -237,13 +238,13 @@
                 this.$store.commit('uOpenUserInfo', tmp);
 
                 if (type === 1) {
-                    this.Utils.successTips('保存到本地成功');
+                    this.$toast('保存到本地成功');
                 } else if (type === 2) {
                     this.Utils.saveUserInfoExt();
                 } else if (type === 3) {
                     let passwd = window.prompt('输入当前登陆用户的密码，清空本地和服务器个性化设置信息');
                     if (!passwd || passwd === '') {
-                        this.Utils.warnTips('密码不能为空');
+                        this.$toast('密码不能为空');
                         return;
                     }
 
@@ -258,10 +259,10 @@
                     this.Utils.postJson(url, data).then(response => {
                         // window.console.log(response);
                         if (!response || response.code !== '0') {
-                            this.Utils.errorTips(response.message);
+                            this.$toast(response.message);
                             return;
                         }
-                        this.Utils.successTips('删除成功，即将刷新页面...');
+                        this.$toast('删除成功，即将刷新页面...');
 
                         let that = this;
                         setTimeout(function () {

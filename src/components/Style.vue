@@ -209,7 +209,7 @@
                 param.orderBy = 'SORT DESC';
                 this.Utils.postJson(url, param).then(response => {
                     if (!response || response.code !== '0') {
-                        this.Utils.errorTips(response.message);
+                        this.$toast(response.message);
                         return;
                     }
                     if (nextPage == 1) {
@@ -258,7 +258,7 @@
                 param.pageFlag = false;
                 this.Utils.postJson(url, param).then(response => {
                     if (!response || response.code !== '0') {
-                        this.Utils.errorTips(response.message);
+                        this.$toast(response.message);
                         return;
                     }
                     this.pureColorList = response.data.list;
