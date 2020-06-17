@@ -1,7 +1,7 @@
 <template>
     <div class="module-search">
         <div class="search">
-            <input autofocus  placeholder="请输入关键字，回车搜索~~~"/>
+            <input autofocus placeholder="请输入关键字，回车搜索~~~"/>
             <button @click="close">取消</button>
         </div>
     </div>
@@ -39,11 +39,13 @@
     .search {
         width: 90%;
         height: 50px;
-        /*position: fixed;*/
-        /*bottom: 20px;*/
+        position: fixed;
+        bottom: 50px;
+        left: 5px;
+        right: 5px;
 
         margin: 0 auto;
-        margin-top: calc(100vh - 80px);
+        /*margin-top: calc(100vh - 120px);*/
 
         border-radius: 5px;
         outline: none;
