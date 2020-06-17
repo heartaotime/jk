@@ -1,4 +1,3 @@
-
 let openUserInfo = {
     change: false, // 该字段用来触发改变
     user: {
@@ -37,10 +36,13 @@ let loadingConfig = {
     show: false
 };
 
+let searchFixShow = false;
+
 
 export default {
     openUserInfo,
     popConfig,
     tipsConfig,
-    loadingConfig
+    loadingConfig,
+    searchFixShow
 }

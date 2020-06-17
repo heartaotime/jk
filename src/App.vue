@@ -5,6 +5,12 @@
                     leave-active-class="animated fadeOut faster">
             <PopCommon v-show="popConfig.show"></PopCommon>
         </transition>
+
+        <transition enter-active-class="animated fadeInUp faster"
+                    leave-active-class="animated fadeOutDown faster">
+            <Search v-show="searchFixShow"></Search>
+        </transition>
+
         <!--        <transition enter-active-class="animated fadeInUp faster">-->
         <!--            <Tips v-show="tipsConfig.show"></Tips>-->
         <!--        </transition>-->
@@ -40,6 +46,7 @@
 
     import Top from "./components/Top";
     import SearchBox from "./components/SearchBox";
+    import Search from "./components/Search";
 
 
     export default {
@@ -50,7 +57,8 @@
 
             PopCommon,
             Top,
-            SearchBox
+            SearchBox,
+            Search
         },
         data() {
             return {
@@ -68,15 +76,24 @@
                 return this.$store.getters.popConfig;
             },
             openUserInfo() {
-                return this.$store.getters.openUserInfo;
-            }
+                return JSON.parse(JSON.stringify(JSON.parse(JSON.stringify(this.$store.getters.openUserInfo))));
+            },
+            searchFixShow() {
+                return this.$store.getters.searchFixShow;
+            },
         },
         watch: {
             openUserInfo: {
-                handler(newVal, oldVal) {
-                    // watch 从 无 到 有 会触发一次
-                    console.log('oldVal, ', oldVal);
-                    console.log('newVal, ', newVal);
+                handler(newVal) {
+                    newVal = JSON.parse(JSON.stringify(newVal));
+                    // oldVal = JSON.parse(JSON.stringify(oldVal));
+                    //
+                    // if (newVal.change == oldVal.change) {
+                    //     // console.log('值相同');
+                    //     // 第一次的时候，即使值相同也是在触发，因为 immediate == false,让实际上的第一次没有触发
+                    // }
+                    // console.log('oldVal, ', oldVal);
+                    // console.log('newVal, ', newVal);
                     let openUserInfo = newVal;
                     let user = openUserInfo.user;
                     let ext = openUserInfo.ext;
@@ -95,6 +112,7 @@
                     this.getByImg(bgImgShowType);
 
                     if (user.userCode && user.userCode !== '-1') {
+                        console.log('同步用户设置数据, ', user.userCode);
                         // 同步数据
                         // console.log('openUserInfo ext changed-2, ', openUserInfo);
                         // console.log('openUserInfo ext changed-3, ', ext);
@@ -115,8 +133,11 @@
 
                 },
                 deep: true,
-                // immediate: true
+                // immediate: true // watch 从 无 到 有 会触发一次
             },
+            searchFixShow() {
+
+            }
         },
         beforeCreate() {
         },
@@ -128,54 +149,6 @@
             this.uOpenUserInfo();
         },
         methods: {
-            getImageColor(img) {
-
-                let width = img.width;
-                // let height = img.height;
-                let height = 50;
-
-                let canvas = document.createElement('canvas');
-                // let canvas = document.querySelector('#myCanvas');
-                canvas.width = width;
-                canvas.height = height;
-                var context = canvas.getContext("2d");
-                // context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0, width, height);
-                // 获取像素数据
-                // var data = context.getImageData(0, 0, img.width, img.height).data;
-                var data = context.getImageData(0, 0, width, height).data;
-                // console.log(data);
-                var r = 1, g = 1, b = 1;
-                // 取所有像素的平均值
-                for (var row = 0; row < height; row++) {
-                    for (var col = 0; col < width; col++) {
-                        // console.log(data[((img.width * row)+ col) * 4])
-                        if (row == 0) {
-                            r += data[((width * row) + col)];
-                            g += data[((width * row) + col) + 1];
-                            b += data[((width * row) + col) + 2];
-                        } else {
-                            r += data[((width * row) + col) * 4];
-                            g += data[((width * row) + col) * 4 + 1];
-                            b += data[((width * row) + col) * 4 + 2];
-                        }
-                    }
-                }
-                // console.log(r, g, b);
-                // 求取平均值
-                r /= (width * height);
-                g /= (width * height);
-                b /= (width * height);
-                // 将最终的值取整
-                r = Math.round(r);
-                g = Math.round(g);
-                b = Math.round(b)
-
-                canvas.remove();
-
-                console.log("rgb(" + r + "," + g + "," + b + ")");
-                return "rgb(" + r + "," + g + "," + b + ")";
-            },
             uOpenUserInfo() {
 
                 // 强制改变,触发用户信息更新
@@ -227,6 +200,106 @@
                     });
                 }
             },
+
+            getImageColor(img) {
+
+                let width = img.width;
+                // let height = img.height;
+                let height = 50;
+
+                let canvas = document.createElement('canvas');
+                // let canvas = document.querySelector('#myCanvas');
+                canvas.width = width;
+                canvas.height = height;
+                var context = canvas.getContext("2d");
+                // context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, width, height);
+                // 获取像素数据
+                // var data = context.getImageData(0, 0, img.width, img.height).data;
+                var data = context.getImageData(0, 0, width, height).data;
+                // console.log(data);
+                var r = 1, g = 1, b = 1;
+                // 取所有像素的平均值
+                for (var row = 0; row < height; row++) {
+                    for (var col = 0; col < width; col++) {
+                        // console.log(data[((img.width * row)+ col) * 4])
+                        if (row == 0) {
+                            r += data[((width * row) + col)];
+                            g += data[((width * row) + col) + 1];
+                            b += data[((width * row) + col) + 2];
+                        } else {
+                            r += data[((width * row) + col) * 4];
+                            g += data[((width * row) + col) * 4 + 1];
+                            b += data[((width * row) + col) * 4 + 2];
+                        }
+                    }
+                }
+                // console.log(r, g, b);
+                // 求取平均值
+                r /= (width * height);
+                g /= (width * height);
+                b /= (width * height);
+                // 将最终的值取整
+                r = Math.round(r);
+                g = Math.round(g);
+                b = Math.round(b)
+
+                canvas.remove();
+
+                console.log("rgb(" + r + "," + g + "," + b + ")");
+                return "rgb(" + r + "," + g + "," + b + ")";
+            },
+
+            // isNeed, ext
+            judgeNeedGetSearchEngine(callback) {
+                // 获取 用户信息 里面是否有
+                let openUserInfoLocal = this.Utils.getUserInfo();
+
+                // 把 用户信息放入 openUserInfo
+                if (openUserInfoLocal && openUserInfoLocal.user) {
+                    this.openUserInfo.user = openUserInfoLocal.user;
+                }
+
+                // 1.用户信息不存在
+                if (!openUserInfoLocal) {
+                    callback(true);
+                    return;
+                }
+
+                // 2.用户信息里面 searchEngineList 没有
+                if (!openUserInfoLocal || !openUserInfoLocal.ext || !openUserInfoLocal.ext.searchEngineList || openUserInfoLocal.ext.searchEngineList.length < 1) {
+                    callback(true);
+                    return;
+                }
+
+                // 3.服务器上用户拓展信息中 searchEngineList 没有
+                if (openUserInfoLocal && openUserInfoLocal.user && openUserInfoLocal.user.userCode && openUserInfoLocal.user.userCode !== '-1') {
+                    let url = this.Utils.basicUrl() + '/user/v1/getUserExtInfo';
+                    let param = {
+                        "userCode": this.openUserInfo.user.userCode
+                    };
+                    this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                        if (!response || response.code !== '0') {
+                            console.error(response.message);
+                            callback(true);
+                            return;
+                        }
+                        if (response.data != null && response.data.userSet != null && response.data.userSet != '' && response.data.userSet != {}
+                            && JSON.parse(response.data.userSet).searchEngineList && JSON.parse(response.data.userSet).searchEngineList.length > 0) {
+                            this.openUserInfo.ext = JSON.parse(response.data.userSet);
+                            this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                            callback(false, JSON.parse(response.data.userSet));
+                            return;
+                        } else {
+                            callback(true);
+                            return;
+                        }
+                    });
+                }
+                callback(true);
+                return;
+            },
+
             getByImg(bgImgShowType) {
 
                 let bgImg = this.openUserInfo.ext.bg.bgImg;

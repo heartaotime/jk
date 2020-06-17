@@ -84,7 +84,7 @@
         },
         computed: {
             openUserInfo() {
-                return this.$store.getters.openUserInfo;
+                return JSON.parse(JSON.stringify(this.$store.getters.openUserInfo));
             }
         },
         watch: {
@@ -103,7 +103,7 @@
                 if (this.showRegist) {
                     if (this.user.userName == '' || this.user.passWord == '' || this.user.email == '' || this.user.verifyCode == '') {
                         // this.$toast('请先填写信息后在提交');
-                        this.$toast('请先填写信息后在提交');
+                        this.$toast('请先填写信息后再提交');
                         return;
                     }
 

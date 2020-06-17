@@ -101,15 +101,15 @@
         },
         computed: {
             openUserInfo() {
-                return this.$store.getters.openUserInfo;
+                return JSON.parse(JSON.stringify(this.$store.getters.openUserInfo));
             },
         },
         watch: {
             openUserInfo: {
                 handler() {
-                    // alert(1);
                     // this.getSearchEngine();
                     this.searchEngineList = this.openUserInfo.ext.searchEngineList.concat();
+                    // alert('SearchBox getSearchEngine from openUserInfo, ' + this.searchEngineList.length);
                     console.log('SearchBox getSearchEngine from openUserInfo, ', this.searchEngineList);
                     for (let i = 0; i < this.searchEngineList.length; i++) {
                         let isDefault = this.searchEngineList[i].isDefault;
@@ -171,6 +171,8 @@
                 // div.setAttribute('name', 'tmp');
                 // div.setAttribute('style', style);
                 // document.body.appendChild(div);
+
+                this.$store.commit('uSearchFixShow', true);
 
             },
             inputBlur() {
@@ -245,7 +247,7 @@
 
         grid-template-columns: 50px auto 100px;
 
-        grid-template-rows: 45px;
+        grid-template-rows: 50px;
         /*place-content: center;*/
         /*align-items: stretch;*/
         /*place-items: center;*/
@@ -301,7 +303,7 @@
         padding-left: 5px;
         display: grid;
         grid-template-columns: 4fr 1fr;
-        grid-template-rows: 45px;
+        grid-template-rows: 50px;
         /*justify-content: space-between;*/
         align-content: center;
         place-items: center;
@@ -422,7 +424,7 @@
 
     .search-li {
         display: grid;
-        grid-template-columns: repeat(auto-fill, 45px);
+        grid-template-columns: repeat(auto-fill, 50px);
         justify-content: start;
         align-content: center;
         justify-items: start;
@@ -477,11 +479,14 @@
 
     .search-fa {
         display: grid;
-        place-content: center;
     }
 
     .search-fa > i {
         font-size: 20px;
+
+        align-self: center;
+        line-height: 50px;
+        text-align: center;
     }
 
 

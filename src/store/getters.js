@@ -16,5 +16,9 @@ export default {
     },
     loadingConfig: (state) => {
         return state.loadingConfig;
-    }
+    },
+    searchFixShow: (state) => {
+        return state.searchFixShow;
+    },
+
 };

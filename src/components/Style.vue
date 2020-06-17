@@ -143,7 +143,7 @@
         },
         computed: {
             openUserInfo() {
-                return this.$store.getters.openUserInfo;
+                return JSON.parse(JSON.stringify(this.$store.getters.openUserInfo));
             },
         },
         watch: {
