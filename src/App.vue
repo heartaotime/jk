@@ -145,6 +145,20 @@
             // 把 this 传入 工具类
             this.Utils.setVue(this);
             //document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
+
+            // 设置按键监听
+            document.addEventListener('keyup', (e) => {
+                //此处填写你的业务逻辑即可
+                if (e.keyCode == 27) {
+                    if (this.popConfig && this.popConfig.show) {
+                        this.Utils.closePop();
+                    }
+                    if (this.searchFixShow) {
+                        this.$store.commit('uSearchFixShow', false);
+                    }
+                }
+            })
+
         },
         mounted() {
             this.uOpenUserInfo();

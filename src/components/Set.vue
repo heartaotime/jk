@@ -110,7 +110,11 @@
                 }
                 this.openUserInfo.ext.searchEngineList = this.searchEngineList;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.$toast('保存成功');
+                this.$toast('保存成功，即将刷新页面~~~');
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
             },
             selectIcon(index) {
                 this.index = index;
