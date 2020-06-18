@@ -28,6 +28,17 @@ jobs:
           destination-repo: "git@gitee.com:heartaotime/JK.git"
 
 
+      - name: Build Gitee Pages
+        uses: yanglbme/gitee-pages-action@master
+        with:
+          # 注意替换为你的 Gitee 用户名
+          gitee-username: heartaotime
+          # 注意在 Settings->Secrets 配置 GITEE_PASSWORD
+          gitee-password: ${{ secrets.GITEE_PASSWORD }}
+          # 注意替换为你的 Gitee 仓库
+          gitee-repo: heartaotime/JK
+
+
 
 #      - name: 'Mirror to gitee'
 #        uses: pixta-dev/repository-mirroring-action@v1
