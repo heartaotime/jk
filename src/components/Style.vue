@@ -74,21 +74,71 @@
             </div>
 
             <div class="user-cust-bg" v-show="activeTabIndex === 2">
-                <div>
-                    <label for="shareBgImg">背景图链接: </label>
-                    <textarea spellcheck="false" id="shareBgImg" rows="3" v-model="shareBgImg"></textarea>
-                    <button @click="setShareBgImg()">保存</button>
+
+                <div class="animated fadeInRight faster">
+                    <div class="tips">
+                        <span>自定义背景设置：</span>
+                        <span>1.可以多选，每次刷新页面会从选中的链接中获取一条作为背景展示</span>
+                    </div>
                 </div>
 
-                <div :style="{
-                               backgroundSize: '100% 100%',
-                               backgroundRepeat: 'no-repeat',
-                               backgroundImage: 'url('+shareBgImg+')'
-                        }">
 
+                <transition-group enter-active-class="animated fadeInUp"
+                                  leave-active-class="animated fadeOutLeft faster">
+                    <div class="row" v-for="(item, index) in bgImgList" :key="item.uuid">
+                        <div>
+                            <input type="checkbox" :index="index" :id="'cu-item-' + index"
+                                   @click="bgImgClick(item,index)"
+                                   :checked="item.checked" :value="item.checked"/>
+                        </div>
+                        <div>
+                            <input spellcheck="false" placeholder="名称" v-model="item.name"/>
+                        </div>
+                        <div>
+                            <input spellcheck="false" placeholder="链接" v-model="item.url" class="url"/>
+                        </div>
+                        <div>
+                            <i @click="delBgImgUrl(index)" class="fa fa-minus" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </transition-group>
+
+
+                <div class="btn">
+                    <button @click="addBgImgUrl()">新增一个</button>
+                    <button @click="saveBgImgUrl()">保存</button>
+                    <button @click="resetBgImgUrl()">恢复默认</button>
                 </div>
 
-                <!--                        <img :src="bgImg"/>-->
+
+                <!--                <div>-->
+                <!--                    <label for="shareBgImg">背景图链接: </label>-->
+                <!--                    <textarea spellcheck="false" id="shareBgImg" rows="3" v-model="shareBgImg"></textarea>-->
+                <!--                    <button @click="setShareBgImg()">保存</button>-->
+                <!--                </div>-->
+
+                <!--                <div class="animated fadeInRight faster" style="padding: 0 5px;">-->
+                <!--                    <span>可以自己填入链接，也可以选择下面的链接</span>-->
+                <!--                    <span>如果多选，每次刷新页面随机其中的一个链接</span>-->
+                <!--                    <span>自己填入链接和下面的选择可以并存哦</span>-->
+                <!--                    <div class="tips">-->
+                <!--                        <div v-for="(item, index) in bgImgUrl" :key="item.url" :index="index" class="cu-item">-->
+                <!--                            <input type="checkbox" :index="index" :id="'cu-item-' + index" v-model="checkedUUIDList"-->
+                <!--                                   :value="item.url"/><label :for="'cu-item-' + index">{{item.name}}-->
+                <!--                            {{item.url}}</label>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
+                <!--                <div :style="{-->
+                <!--                               backgroundSize: '100% 100%',-->
+                <!--                               backgroundRepeat: 'no-repeat',-->
+                <!--                               backgroundImage: 'url('+shareBgImg+')'-->
+                <!--                        }">-->
+
+                <!--                </div>-->
+
             </div>
 
         </div>
@@ -138,7 +188,47 @@
                 ],
                 pureColorList: [],
                 shareBgImg: '',
-                pageInfo: {}
+                pageInfo: {},
+                bgImgUrlDefault: [
+                    {
+                        name: '自适应大小壁纸',
+                        url: 'http://api.btstu.cn/sjbz/zsy.php'
+                    },
+                    {
+                        name: '手机端随机壁纸 1080/1920',
+                        url: 'https://picsum.photos/1080/1920'
+                    },
+                    {
+                        name: '电脑端随机壁纸 1920/1080',
+                        url: 'https://picsum.photos/1920/1080'
+                    },
+                    {
+                        name: '电脑动漫图片',
+                        url: 'http://api.btstu.cn/sjbz/?lx=dongman'
+                    },
+                    {
+                        name: '电脑美女图片',
+                        url: 'http://api.btstu.cn/sjbz/?lx=meizi'
+                    },
+                    {
+                        name: '电脑随机动漫妹子',
+                        url: 'http://api.btstu.cn/sjbz/?lx=suiji'
+                    },
+                    {
+                        name: '手机动漫图片',
+                        url: 'http://api.btstu.cn/sjbz/?lx=m_dongman'
+                    },
+                    {
+                        name: '手机美女图片',
+                        url: 'http://api.btstu.cn/sjbz/?lx=m_meizi'
+                    },
+                    {
+                        name: '手机随机动漫妹子',
+                        url: 'http://api.btstu.cn/sjbz/?m_lx=suiji'
+                    },
+                ],
+                bgImgList: [],
+                checkedUUIDList: []
             }
         },
         computed: {
@@ -181,10 +271,17 @@
 
         },
         mounted() {
+            for (let i = 0; i < this.bgImgUrlDefault.length; i++) {
+                let uuid = this.Utils.generateUUID();
+                this.bgImgUrlDefault[i].uuid = uuid;
+                this.bgImgUrlDefault[i].checked = false;
+            }
+
             // window.console.log(this.openUserInfo);
             this.activeTabIndex = 0;
             // this.cardTransparency = this.openUserInfo.cardTransparency;
             this.uStyle();
+
 
         },
         methods: {
@@ -192,7 +289,11 @@
                 // 更新显示 cardTransparency
                 this.bgImgShowType = this.openUserInfo.ext.bg.bgImgShowType;
                 this.cardTransparency = this.openUserInfo.ext.cardTransparency;
-                this.shareBgImg = this.openUserInfo.ext.bg.bgImg;
+                // this.shareBgImg = this.openUserInfo.ext.bg.bgImg;
+
+                this.bgImgList = [].concat(this.openUserInfo.ext.bg.bgImg);
+
+                // this.bgImgList = [].concat(this.bgImgUrlDefault);
             },
             changeTab: function (activeTabIndex) {
                 this.activeTabIndex = activeTabIndex;
@@ -243,7 +344,7 @@
             more() {
                 let hasNextPage = this.pageInfo.hasNextPage;
                 if (!hasNextPage) {
-                    alert('没有更多了');
+                    this.$toast('没有更多了')
                     return;
                 }
                 let nextPage = this.pageInfo.nextPage;
@@ -275,8 +376,9 @@
                 }
             },
             setBgImg(index) {
-                this.openUserInfo.ext.bg.bgImgShowType = 'one'; // 选择其一
-                this.openUserInfo.ext.bg.bgImg = this.showList[index].codeValue;
+                this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 选择其一
+                let list = [this.showList[index].codeValue];
+                this.openUserInfo.ext.bg.bgImg = list;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
                 // alert(this.openUserInfo.bgImgShowType);
             },
@@ -285,11 +387,60 @@
                 this.openUserInfo.ext.bg.bgColor = color;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
             },
-            setShareBgImg() {
-                this.openUserInfo.ext.bg.bgImgShowType = 'one'; // 自定义背景图
-                // this.openUserInfo.shareBgImg = this.shareBgImg;
-                this.openUserInfo.ext.bg.bgImg = this.shareBgImg;
+            // setShareBgImg() {
+            //     this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 自定义背景图
+            //     // this.openUserInfo.shareBgImg = this.shareBgImg;
+            //     // this.openUserInfo.ext.bg.bgImg = this.shareBgImg;
+            //
+            //     let list = [];
+            //     if (this.shareBgImg && this.shareBgImg !== '') {
+            //         list.push(this.shareBgImg);
+            //     }
+            //     list = list.concat(this.checkedUUIDList);
+            //
+            //     this.openUserInfo.ext.bg.bgImg = list;
+            //
+            //     this.$store.commit('uOpenUserInfo', this.openUserInfo);
+            // },
+            addBgImgUrl() {
+                // console.log('addSearchEngine1', this.searchEngineList);
+                let uuid = this.Utils.generateUUID();
+                this.bgImgList.push(
+                    {
+                        url: '',
+                        name: '',
+                        uuid: uuid
+                    }
+                );
+            },
+            saveBgImgUrl() {
+                this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 自定义背景图
+
+                for (let i = 0; i < this.bgImgList.length; i++) {
+                    let item = this.bgImgList[i];
+                    if (item.name == '' || item.url == '') {
+                        this.$toast('名称和链接不能为空');
+                        return;
+                    }
+                }
+
+                this.openUserInfo.ext.bg.bgImg = [].concat(this.bgImgList);
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                this.$toast('保存成功');
+            },
+            bgImgClick(item, index) {
+                item.checked = !item.checked;
+                // 强制更新下list
+                this.$set(this.bgImgList, index, item);
+            },
+            delBgImgUrl(index) {
+                this.bgImgList.splice(index, 1);
+            },
+            resetBgImgUrl() {
+                this.bgImgList = [].concat(this.bgImgUrlDefault);
+                this.openUserInfo.ext.bg.bgImg = [].concat(this.bgImgList);
+                this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                this.$toast('保存成功');
             }
         }
     }
@@ -479,13 +630,14 @@
         grid-row-gap: 10px;
     }
 
-    .user-cust-bg > div:first-child {
-        display: grid;
-        grid-template-columns: auto 4fr 1fr;
-        justify-content: start;
-        /*align-items: center;*/
-        grid-column-gap: 10px;
-    }
+    /*.user-cust-bg > div:first-child {*/
+    /*    height: 50px;*/
+    /*    display: grid;*/
+    /*    grid-template-columns: auto 4fr 1fr;*/
+    /*    justify-content: start;*/
+    /*    !*align-items: center;*!*/
+    /*    grid-column-gap: 10px;*/
+    /*}*/
 
     label {
         align-self: center;
@@ -499,7 +651,7 @@
     }
 
     .user-cust-bg > div:last-child {
-        height: 240px;
+        /*height: 240px;*/
     }
 
     .user-cust-bg > img {
@@ -583,6 +735,134 @@
         text-align: center;
     }
 
+
+    .row {
+        height: 35px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+
+        display: grid;
+        grid-template-columns: 30px 200px 1fr 30px;
+
+        margin-top: 5px;
+    }
+
+    .row > div:first-child {
+        display: grid;
+        place-content: center;
+
+    }
+
+
+    .row > div:first-child > input {
+        height: 25px;
+        cursor: pointer;
+    }
+
+
+    input {
+        outline: none;
+        border: none;
+        /*padding: 0 10px;*/
+        font-size: 15px;
+
+        /*border-left: 1px solid lightgray;*/
+
+        /*width: 50px;*/
+
+        width: 100%;
+
+        /*padding-left: 5px;*/
+
+
+    }
+
+    .row > input:first-child {
+        /*text-align: center;*/
+    }
+
+
+    .icon-select {
+
+    }
+
+    .row > div {
+        border-left: 1px solid lightgray;
+        height: 100%;
+        width: 100%;
+
+
+        place-self: center;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        /*place-content: center;*/
+        /*place-items: center;*/
+    }
+
+    .row > div > i {
+        /*height: 100%;*/
+        /*line-height: 30px;*/
+        place-self: center;
+        /*border-left: 1px solid lightgray;*/
+        color: red;
+        /*margin-left: 5px;*/
+    }
+
+
+    .btn {
+        width: 100%;
+        margin-top: 10px;
+
+        display: grid;
+        grid-row-gap: 10px;
+    }
+
+    button {
+        height: 40px;
+        outline: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: white;
+        background-color: #409EFF;
+        /*text-shadow: 0 1px 0 #fff;*/
+
+        /*word-spacing: 2px;*/
+
+        letter-spacing: 5px;
+
+        border-radius: 5px;
+    }
+
+    button:last-child {
+        background-color: orange;
+    }
+
+
+    .tips {
+        padding: 5px;
+        background-color: cornsilk;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+
+        display: grid;
+        grid-row-gap: 3px;
+
+        margin-top: 5px;
+    }
+
+    .tips > .cu-item {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        justify-content: left;
+        justify-items: left;
+        align-content: center;
+        align-items: center;
+        grid-column-gap: 10px;
+        line-height: 30px;
+    }
+
     @media screen and (max-width: 700px) {
         .item {
             grid-template-columns: auto 1fr 20px;
@@ -619,12 +899,13 @@
         }
 
         .user-cust-bg > div:last-child {
-            height: 200px;
+            /*height: 200px;*/
         }
 
         span, a, label {
             font-size: 13px;
         }
+
 
         .user-cust-bg > div:first-child {
             grid-template-columns: auto 1fr;
@@ -634,6 +915,11 @@
         .user-cust-bg button {
             grid-column: 1/3;
             line-height: 40px;
+        }
+
+
+        .row {
+            grid-template-columns: 30px 50px 1fr 30px;;
         }
     }
 

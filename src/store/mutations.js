@@ -27,7 +27,7 @@ export default {
     },
 
     uSearchFixShow(state, searchFixShow) {
-        console.log('uSearchFixShow:', searchFixShow);
+        // console.log('uSearchFixShow:', searchFixShow);
         state.searchFixShow = searchFixShow;
     },
 

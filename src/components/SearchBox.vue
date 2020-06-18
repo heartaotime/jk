@@ -1,7 +1,7 @@
 <template>
     <div class="card module-searchBox">
 
-        <div class="row row1">
+        <div class="row row1" id="searchBox">
             <input spellcheck="false" @focus="inputFocus" :placeholder="yiyanStr"/>
         </div>
     </div>
@@ -78,7 +78,7 @@
 
         max-width: 1200px;
 
-        width: 80%;
+        width: 95%;
 
 
         margin: 15% auto 0;

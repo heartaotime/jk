@@ -43,7 +43,7 @@
         box-shadow: 0 0 18px rgba(70, 70, 40, .255);
         border-radius: 5px;
         /*background-color: rgba(255, 255, 255, 0.9);*/
-        background-color: rgba(0, 0, 0, .35);
+        background-color: rgba(0, 0, 0, .55);
         color: #fff;
 
         display: inline;

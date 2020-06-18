@@ -7,9 +7,8 @@ let openUserInfo = {
     ext: {
         bg: {
             bgImgShowType: 'lasted',
-            bgImg: '',
-            bgColor: 'white',
-            shareBgImg: ''
+            bgImg: [],
+            bgColor: 'white'
         },
         cardTransparency: '2',
         searchEngineList: [],

@@ -1,6 +1,6 @@
 <template>
     <div class="module-search">
-        <div class="search">
+        <div class="search" id="searchModule">
             <div class="searchEngineDiv">
                 <div class="searchEngineShow" @click="searchEngineShow = !searchEngineShow">
                     <!--                        <span :value="searchEngineList[searchEngineIndex].codeValue">{{searchEngineList[searchEngineIndex].codeName}}</span>-->
@@ -20,7 +20,8 @@
                 </transition>
 
             </div>
-            <input id="search" placeholder="请输入关键字，回车搜索~~~" @keyup.enter="search()" @focus="inputFocus()" v-model="searchKey"
+            <input id="search" placeholder="请输入关键字，回车搜索~~~" @keyup.enter="search()" @focus="inputFocus()"
+                   v-model="searchKey"
                    spellcheck="false"/>
             <div class="search-fa" @click="close()">
                 <i class="fas fa-times" aria-hidden="true"></i>
@@ -79,8 +80,26 @@
             }
         },
         created() {
+
         },
         mounted() {
+            // document.addEventListener('mouseup', (e) => {
+            //     console.log(e.target);
+            //     if (!(e.target).closest('#searchModule', '#searchBox')) {
+            //         this.$store.commit('uSearchFixShow', false);
+            //     }
+            // });
+
+
+            document.addEventListener('mouseup', (e) => {
+                // console.log(e.target);
+                // console.log((e.target).closest('#searchBox'));
+                // console.log((e.target).closest('#searchModule'));
+                let target = e.target;
+                if (target.closest('#searchModule') == null && target.closest('#searchBox') == null) {
+                    this.$store.commit('uSearchFixShow', false);
+                }
+            });
 
         },
         methods: {
@@ -143,15 +162,16 @@
         bottom: 0;
 
 
+        width: 100%;
     }
 
     .search {
-        width: 90%;
+        width: 95%;
         position: fixed;
         top: 20px;
         bottom: unset;
-        left: 5px;
-        right: 5px;
+        left: 0px;
+        right: 0px;
 
         margin: 0 auto;
         /*margin-top: calc(100vh - 120px);*/
@@ -324,8 +344,8 @@
 
     @media screen and (max-width: 700px) {
         .search {
-            top: unset;
-            bottom: 20px;
+            /*top: unset;*/
+            /*bottom: 20px;*/
         }
 
     }

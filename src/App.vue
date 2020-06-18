@@ -319,46 +319,62 @@
 
                 let bgImg = this.openUserInfo.ext.bg.bgImg;
                 let bgColor = this.openUserInfo.ext.bg.bgColor;
-                if (bgImg.indexOf('cn.bing.com') > -1) {
-                    if (this.Utils.isPhone()) {
-                        // 1080x1920
-                        bgImg = bgImg.replace('1920x1080', '1080x1920');
-                    } else {
-                        // 1920x1080
-                        bgImg = bgImg.replace('1080x1920', '1920x1080');
+
+
+                let bgImgUrl = '';
+
+
+                let bgImgChecked = [];
+                for (let i = 0; i < bgImg.length; i++) {
+                    if (bgImg[i].checked) {
+                        bgImgChecked.push(bgImg[i]);
+                    }
+                }
+
+                if (bgImgChecked && bgImgChecked.length > 0) {
+                    let size = bgImgChecked.length;
+                    let index = parseInt(Math.random() * size); // 生成 [0,size-1] 的随机整数
+                    bgImgUrl = bgImgChecked[index].url;
+
+                    if (bgImgUrl.indexOf('cn.bing.com') > -1) {
+                        if (this.Utils.isPhone()) {
+                            // 1080x1920
+                            bgImgUrl = bgImgUrl.replace('1920x1080', '1080x1920');
+                        } else {
+                            // 1920x1080
+                            bgImgUrl = bgImgUrl.replace('1080x1920', '1920x1080');
+                        }
                     }
                 }
 
 
-                if (bgImgShowType === 'one') {
-                    bgColor = '';
-                } else if (bgImgShowType === 'share') {
+                if (bgImgShowType === 'url') {
                     bgColor = '';
                 } else if (bgImgShowType === 'none') {
-                    bgImg = '';
+                    bgImgUrl = '';
                     bgColor = '';
                 } else if (bgImgShowType === 'color') {
-                    bgImg = '';
+                    bgImgUrl = '';
                 } else if (bgImgShowType === 'lasted') {
-                    bgImg = 'https://www.myindex.top/api/common/v1/getPicture/lastest/';
+                    bgImgUrl = 'https://www.myindex.top/api/common/v1/getPicture/lastest/';
                     if (this.Utils.isPhone()) {
-                        bgImg += 'phone';
+                        bgImgUrl += 'phone';
                     } else {
-                        bgImg += 'pc';
+                        bgImgUrl += 'pc';
                     }
                     bgColor = '';
                 } else if (bgImgShowType === 'random') {
-                    bgImg = 'https://www.myindex.top/api/common/v1/getPicture/random/';
+                    bgImgUrl = 'https://www.myindex.top/api/common/v1/getPicture/random/';
                     if (this.Utils.isPhone()) {
-                        bgImg += 'phone';
+                        bgImgUrl += 'phone';
                     } else {
-                        bgImg += 'pc';
+                        bgImgUrl += 'pc';
                     }
                     bgColor = '';
                 }
 
                 this.appStyle = {
-                    backgroundImage: 'url(' + bgImg + ')',
+                    backgroundImage: 'url(' + bgImgUrl + ')',
                     backgroundColor: bgColor
                 }
 
