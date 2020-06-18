@@ -919,7 +919,7 @@
 
 
         .row {
-            grid-template-columns: 30px 50px 1fr 30px;;
+            grid-template-columns: 30px 110px 1fr 30px;;
         }
     }
 
