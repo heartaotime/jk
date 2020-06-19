@@ -13,7 +13,7 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           TARGET_REPO: heartaotime/JK
-          TARGET_BRANCH: gh-pages
+          TARGET_BRANCH: pages
           BUILD_SCRIPT: yarn && yarn build
           BUILD_DIR: dist/
 
@@ -37,4 +37,4 @@ jobs:
           gitee-password: ${{ secrets.GITEE_PASSWORD }}
           # 注意替换为你的 Gitee 仓库
           gitee-repo: heartaotime/JK
-          branch: gh-pages
+          branch: pages
