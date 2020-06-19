@@ -192,7 +192,7 @@
                 bgImgUrlDefault: [
                     {
                         name: '自适应大小壁纸',
-                        url: 'http://api.btstu.cn/sjbz/zsy.php'
+                        url: 'https://api.btstu.cn/sjbz/zsy.php'
                     },
                     {
                         name: '手机端随机壁纸 1080/1920',
@@ -204,27 +204,27 @@
                     },
                     {
                         name: '电脑动漫图片',
-                        url: 'http://api.btstu.cn/sjbz/?lx=dongman'
+                        url: 'https://api.btstu.cn/sjbz/?lx=dongman'
                     },
                     {
                         name: '电脑美女图片',
-                        url: 'http://api.btstu.cn/sjbz/?lx=meizi'
+                        url: 'https://api.btstu.cn/sjbz/?lx=meizi'
                     },
                     {
                         name: '电脑随机动漫妹子',
-                        url: 'http://api.btstu.cn/sjbz/?lx=suiji'
+                        url: 'https://api.btstu.cn/sjbz/?lx=suiji'
                     },
                     {
                         name: '手机动漫图片',
-                        url: 'http://api.btstu.cn/sjbz/?lx=m_dongman'
+                        url: 'https://api.btstu.cn/sjbz/?lx=m_dongman'
                     },
                     {
                         name: '手机美女图片',
-                        url: 'http://api.btstu.cn/sjbz/?lx=m_meizi'
+                        url: 'https://api.btstu.cn/sjbz/?lx=m_meizi'
                     },
                     {
                         name: '手机随机动漫妹子',
-                        url: 'http://api.btstu.cn/sjbz/?m_lx=suiji'
+                        url: 'https://api.btstu.cn/sjbz/?m_lx=suiji'
                     },
                 ],
                 bgImgList: [],
