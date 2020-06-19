@@ -37,7 +37,7 @@
             <div class="row animated fadeInRight">
                 <span>提示：</span>
                 <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
-                                      @click="logout()">强制清理缓存</a></span>
+                                      @click="clearLocalStorage()">强制清理缓存</a></span>
                 <span>2.没有账号可以先点击注册</span>
                 <span>3.登陆账号后，可以同步你的自定义数据哦</span>
                 <span>4.邮箱也可以用来登陆</span>
@@ -49,7 +49,7 @@
         <div v-show="!loginShow" class="info">
             <div class="user-info">
                 <span>{{openUserInfo.user.userName}} 你好</span>
-                <img src="../assets/img/logout.svg" title="退出登陆" @click="logout()"/>
+                <img src="../assets/img/logout.svg" title="退出登陆" @click="clearLocalStorage()"/>
                 <span>tips: 如遇部分问题，尝试点击左侧登出按钮，并重新登陆</span>
             </div>
             <div>
@@ -232,8 +232,8 @@
                     });
                 });
             },
-            logout() {
-                this.Utils.removeUserInfo();
+            clearLocalStorage() {
+                this.Utils.clearLocalStorage();
             },
             save(type) {
                 let tmp = JSON.parse(this.showUserInfo);
@@ -269,7 +269,7 @@
 
                         let that = this;
                         setTimeout(function () {
-                            that.logout();
+                            that.clearLocalStorage();
                         }, 1000);
 
                     });

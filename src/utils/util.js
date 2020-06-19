@@ -160,6 +160,14 @@ export default class Utils {
     static removeUserInfo() {
         if (localStorage) {
             localStorage.removeItem("openUserInfo");
+
+        }
+        window.location.reload();
+    }
+
+    static clearLocalStorage() {
+        if (localStorage) {
+            localStorage.clear();
         }
         window.location.reload();
     }
