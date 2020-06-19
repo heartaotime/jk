@@ -1,6 +1,5 @@
 <template>
     <div class="card module-searchBox">
-
         <div class="row row1" id="searchBox">
             <input spellcheck="false" @focus="inputFocus" :placeholder="yiyanStr"/>
         </div>
@@ -122,8 +121,9 @@
 
     }
 
-    input:focus {
-        /*border: none;*/
+
+    .box {
+        background-color: unset;
     }
 
 

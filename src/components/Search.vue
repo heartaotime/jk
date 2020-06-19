@@ -20,7 +20,7 @@
                 </transition>
 
             </div>
-            <div>
+            <div style="padding: 0 10px;">
                 <input id="search" placeholder="请输入关键字，回车搜索~~~" @keyup.enter="search()" @focus="inputFocus()"
                        v-model="searchKey"
                        spellcheck="false"/>
@@ -312,7 +312,7 @@
 
     .search-fa > span {
 
-        font-size: 18px;
+        font-size: 16px;
 
         align-self: center;
         line-height: 50px;
@@ -375,7 +375,7 @@
         box-shadow: 0 0 18px rgba(70, 70, 40, .255);
         border-top: none;
         background-color: transparent;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.9);
         /*width: 100%;*/
         width: 120px;
     }
@@ -511,9 +511,11 @@
         border-radius: 5px;
         outline: none;
         background-color: white;
-        font-size: 20px;
+        font-size: 16px;
         display: inline-block;
         margin: 5px;
+
+        line-height: 20px;
 
 
         text-overflow: ellipsis;

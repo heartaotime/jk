@@ -21,6 +21,8 @@
 
         <Top></Top>
         <SearchBox></SearchBox>
+        <Index></Index>
+
 
         <!--        <img alt="Vue logo" src="./assets/logo.png">-->
         <!--        -->
@@ -47,6 +49,7 @@
     import Top from "./components/Top";
     import SearchBox from "./components/SearchBox";
     import Search from "./components/Search";
+    import Index from "./components/Index";
 
 
     export default {
@@ -58,7 +61,8 @@
             PopCommon,
             Top,
             SearchBox,
-            Search
+            Search,
+            Index
         },
         data() {
             return {

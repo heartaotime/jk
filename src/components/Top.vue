@@ -1,13 +1,14 @@
 <template>
     <div class="card top">
         <div class="container-top">
-            <div class="left">
-            </div>
-            <div class="center">
-            </div>
+            <!--            <div class="left">-->
+            <!--            </div>-->
+            <!--            <div class="center">-->
+            <!--            </div>-->
             <div class="right">
-                <i class="far fa-edit" aria-hidden="true" @click="uPopConfig('Set', '常用设置')"></i>
-                <i class="far fa-image" @click="uPopConfig('Style', '主题设置')"></i>
+                <i class="far fa-bookmark" aria-hidden="true" @click="uPopConfig('IndexSet', '快捷导航设置')"></i>
+                <i class="far fa-edit" aria-hidden="true" @click="uPopConfig('SearchEngineSet', '搜索引擎设置')"></i>
+                <i class="far fa-images" @click="uPopConfig('Style', '主题设置')"></i>
                 <i class="far fa-user" @click="uPopConfig('User','用户设置')"></i>
 
                 <!--                <img src="../assets/img/skin.svg" @click="uPopConfig(1)" alt="">-->
@@ -88,16 +89,17 @@
         padding: 10px;
 
         display: grid;
-        grid-template-columns: 1fr 5fr 1fr;
+        grid-template-columns: 1fr;
         align-content: center;
         align-items: center;
         grid-column-gap: 20px;
+        justify-content: right;
 
     }
 
-    .center >>> .row2 {
-        display: none;
-    }
+    /*.center >>> .row2 {*/
+    /*    display: none;*/
+    /*}*/
 
 
     .right {
@@ -110,7 +112,7 @@
         /*cursor: pointer;*/
 
         display: grid;
-        grid-template-columns: repeat(3, auto);
+        grid-template-columns: repeat(4, auto);
         grid-column-gap: 15px;
         place-content: center;
         place-items: center;

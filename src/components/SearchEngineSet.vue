@@ -150,13 +150,12 @@
             },
             addSearchEngine() {
                 // console.log('addSearchEngine1', this.searchEngineList);
-                let uuid = this.Utils.generateUUID();
                 this.searchEngineList.push(
                     {
                         url: '',
                         name: '',
-                        icon: '',
-                        uuid: uuid
+                        icon: require('@/assets/img/smile.png'),
+                        uuid: this.Utils.generateUUID()
                     }
                 );
                 // console.log('addSearchEngine2', this.searchEngineList);

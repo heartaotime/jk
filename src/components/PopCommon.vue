@@ -8,9 +8,9 @@
             </header>
             <section>
                 <Style v-if="popConfig.componentName === 'Style'"></Style>
-                <!--                <EditGuide v-show="popConfig.componentName === 'EditGuide'"></EditGuide>-->
                 <User v-if="popConfig.componentName === 'User'"></User>
-                <Set v-if="popConfig.componentName === 'Set'"></Set>
+                <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
+                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
             </section>
 
             <footer>
@@ -38,14 +38,16 @@
 
     import Style from "./Style";
     import User from "./User";
-    import Set from "./Set";
+    import SearchEngineSet from "./SearchEngineSet";
+    import IndexSet from './IndexSet'
 
     export default {
         name: "PopCommon",
         components: {
             Style,
             User,
-            Set
+            SearchEngineSet,
+            IndexSet
         },
         props: {
             // popConfig: Object
