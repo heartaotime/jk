@@ -36,9 +36,12 @@
 
             <div class="row animated fadeInRight">
                 <span>提示：</span>
-                <span>1.没有账号可以先点击注册</span>
-                <span>2.登陆账号后，可以同步你的自定义数据哦</span>
-                <span>3.邮箱也可以用来登陆</span>
+                <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
+                                      @click="logout()">强制清理缓存</a></span>
+                <span>2.没有账号可以先点击注册</span>
+                <span>3.登陆账号后，可以同步你的自定义数据哦</span>
+                <span>4.邮箱也可以用来登陆</span>
+
             </div>
 
         </div>

@@ -20,12 +20,33 @@
                 </transition>
 
             </div>
-            <input id="search" placeholder="请输入关键字，回车搜索~~~" @keyup.enter="search()" @focus="inputFocus()"
-                   v-model="searchKey"
-                   spellcheck="false"/>
-            <div class="search-fa" @click="close()">
-                <i class="fas fa-times" aria-hidden="true"></i>
+            <div>
+                <input id="search" placeholder="请输入关键字，回车搜索~~~" @keyup.enter="search()" @focus="inputFocus()"
+                       v-model="searchKey"
+                       spellcheck="false"/>
             </div>
+
+            <div class="search-clear">
+                <i class="fas fa-times" aria-hidden="true" v-show="clearIShow" @click="clearSearchKey()"></i>
+            </div>
+
+            <div class="search-fa">
+                <span @click="close()">{{showName}}</span>
+            </div>
+        </div>
+
+        <div class="search-history">
+            <div class="trash">
+                <i class="fas fa-trash-alt" aria-hidden="true" @click="clearSearchHis()"></i>
+            </div>
+
+            <div style="margin-top: 20px;">
+
+            </div>
+            <span v-for="(item) in searchHistory" :key="item.uuid" @click="putSearchHis(item.word)"
+                  class="search-history-item animated fadeIn">
+                    {{item.word}}
+            </span>
         </div>
 
     </div>
@@ -45,7 +66,10 @@
                 searchEngineShow: false,
                 searchEngineIndex: 0,
                 showHover: false,
-                phone: true
+                phone: true,
+                searchHistory: [],
+                showName: '取消',
+                clearIShow: false
             }
         },
         computed: {
@@ -77,6 +101,17 @@
                 if (this.searchFixShow) {
                     document.querySelector('#search').focus();
                 }
+            },
+            searchKey() {
+                if (this.searchKey !== '') {
+                    this.showName = '搜索';
+                    // 展示清空按钮
+                    this.clearIShow = true;
+
+                } else {
+                    this.showName = '取消';
+                    this.clearIShow = false;
+                }
             }
         },
         created() {
@@ -96,18 +131,49 @@
                 // console.log((e.target).closest('#searchBox'));
                 // console.log((e.target).closest('#searchModule'));
                 let target = e.target;
-                if (target.closest('#searchModule') == null && target.closest('#searchBox') == null) {
+                if (target.closest('#searchModule') == null && target.closest('#searchBox') == null
+                    && target.closest('.search-history') == null) {
                     this.$store.commit('uSearchFixShow', false);
                 }
             });
 
+            if (localStorage.getItem('searchHistory')) {
+                this.searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+            }
+
+
+            // window.addEventListener("popstate", function () {
+            //     // window.location = 'http://www.baidu.com';
+            //     alert(1111);
+            //     // this.$store.commit('uSearchFixShow', false);
+            // }, false);
+
         },
         methods: {
+            clearSearchKey() {
+                this.searchKey = '';
+            },
             inputFocus() {
                 this.searchEngineShow = false;
             },
             search() {
                 window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
+
+                if (this.searchKey !== '') {
+
+                    // 最多存储 6 个
+                    if (this.searchHistory.length > 5) {
+                        this.searchHistory = this.searchHistory.splice(0, 1);
+                    }
+                    this.searchHistory.push({
+                        uuid: this.Utils.generateUUID(),
+                        word: this.searchKey
+                    });
+                    // this.searchHistory.reverse();
+                    localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+                }
+
+
                 setTimeout(() => {
                     this.searchKey = '';
                 }, 500);
@@ -140,7 +206,18 @@
                 // this.$set(this.searchEngineList, index, this.searchEngineList[index]);
             },
             close() {
-                this.$store.commit('uSearchFixShow', false);
+                if (this.clearIShow) {
+                    this.search();
+                } else {
+                    this.$store.commit('uSearchFixShow', false);
+                }
+            },
+            clearSearchHis() {
+                this.searchHistory = [];
+                localStorage.removeItem('searchHistory');
+            },
+            putSearchHis(word) {
+                this.searchKey = word;
             }
         }
     }
@@ -150,9 +227,10 @@
 
     .module-search {
 
+
         z-index: 2;
         /*background-color: rgba(255, 255, 255, 1);*/
-        background-color: white;
+        background-color: whitesmoke;
 
 
         position: fixed;
@@ -166,6 +244,8 @@
     }
 
     .search {
+
+        max-width: 1200px;
         width: 95%;
         position: fixed;
         top: 20px;
@@ -183,25 +263,53 @@
 
 
         display: grid;
-        /*grid-template-columns: 1fr 50px;*/
-
         grid-template-rows: 50px;
+        grid-template-columns: 50px 1fr 30px 50px;
 
-        grid-template-columns: 50px auto 50px;
+    }
 
+    .search-clear {
+        cursor: pointer;
+        line-height: 50px;
+        text-align: center;
     }
 
     .search-fa {
-        display: grid;
         cursor: pointer;
+        line-height: 50px;
+        text-align: center;
     }
 
-    .search-fa > i {
-        font-size: 20px;
+    /*.search-fa i, span {*/
+    /*    font-size: 20px;*/
+
+    /*    align-self: center;*/
+    /*    line-height: 50px;*/
+    /*    text-align: center;*/
+    /*}*/
+
+    .search-fa > div {
+        text-align: center;
+    }
+
+    .search-fa > div > i {
+        font-size: 18px;
 
         align-self: center;
         line-height: 50px;
         text-align: center;
+    }
+
+
+    .search-fa > span {
+
+        font-size: 18px;
+
+        align-self: center;
+        line-height: 50px;
+        text-align: center;
+        padding: 0 5px
+
     }
 
     .search-left img {
@@ -301,6 +409,10 @@
         outline: none;
         border: none;
 
+
+        width: 100%;
+        height: 100%;
+
         padding: 0 10px;
 
         background-color: transparent;
@@ -342,10 +454,67 @@
 
     }
 
+    .search-history {
+        max-width: 1200px;
+        width: 95%;
+        position: fixed;
+        z-index: -1;
+        top: 90px;
+        bottom: unset;
+        left: 0px;
+        right: 0px;
+
+        margin: 0 auto;
+        /*margin-top: calc(100vh - 120px);*/
+
+        /*border-radius: 5px;*/
+        /*outline: none;*/
+        /*-webkit-box-shadow: inset 0 1px 2px rgba(27, 31, 35, .075), 0 0 0 0.2em rgba(3, 102, 214, .3);*/
+        /*box-shadow: inset 0 1px 2px rgba(27, 31, 35, .075), 0 0 0 0.2em rgba(3, 102, 214, .3);*/
+
+        /*display: grid;*/
+
+        /*grid-template-columns: repeat(auto-fill, auto);*/
+    }
+
+    .search-history > .trash {
+        /*border: 1px solid red;*/
+
+        /*width: 20px;*/
+        /*height: 20px;*/
+        position: fixed;
+        display: inline-block;
+
+        text-align: right;
+
+        font-size: 20px;
+
+        max-width: 1200px;
+        width: 95%;
+
+    }
+
+    .search-history > span {
+
+        max-width: 300px;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 5px;
+        outline: none;
+        background-color: white;
+        font-size: 20px;
+        display: inline-block;
+        margin: 5px;
+
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+    }
+
     @media screen and (max-width: 700px) {
         .search {
-            /*top: unset;*/
-            /*bottom: 20px;*/
+            /*grid-template-columns: 50px 1fr 150px;*/
         }
 
     }

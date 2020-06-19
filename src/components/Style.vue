@@ -289,11 +289,12 @@
                 // 更新显示 cardTransparency
                 this.bgImgShowType = this.openUserInfo.ext.bg.bgImgShowType;
                 this.cardTransparency = this.openUserInfo.ext.cardTransparency;
-                // this.shareBgImg = this.openUserInfo.ext.bg.bgImg;
 
-                this.bgImgList = [].concat(this.openUserInfo.ext.bg.bgImg);
-
-                // this.bgImgList = [].concat(this.bgImgUrlDefault);
+                if (this.openUserInfo.ext.bg.bgImg.length < 1) {
+                    this.bgImgList = [].concat(this.bgImgUrlDefault);
+                } else {
+                    this.bgImgList = [].concat(this.openUserInfo.ext.bg.bgImg);
+                }
             },
             changeTab: function (activeTabIndex) {
                 this.activeTabIndex = activeTabIndex;
