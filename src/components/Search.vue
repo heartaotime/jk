@@ -43,7 +43,8 @@
             <div style="margin-top: 20px;">
 
             </div>
-            <span v-for="(item) in searchHistory" :key="item.uuid" @click="putSearchHis(item.word)"
+            <span v-for="(item) in searchHistory" :key="item.uuid"
+                  @click="putSearchHis(item.word)"
                   class="search-history-item animated fadeIn">
                     {{item.word}}
             </span>
@@ -68,6 +69,7 @@
                 showHover: false,
                 phone: true,
                 searchHistory: [],
+                searchHistoryOrg: [],
                 showName: '取消',
                 clearIShow: false
             }
@@ -138,7 +140,10 @@
             });
 
             if (localStorage.getItem('searchHistory')) {
-                this.searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+                this.searchHistoryOrg = JSON.parse(localStorage.getItem('searchHistory'));
+                if (this.searchHistoryOrg.length > 0) {
+                    this.searchHistory = [].concat(this.searchHistoryOrg.reverse());
+                }
             }
 
 
@@ -162,15 +167,18 @@
                 if (this.searchKey !== '') {
 
                     // 最多存储 6 个
-                    if (this.searchHistory.length > 5) {
-                        this.searchHistory = this.searchHistory.splice(0, 1);
+                    if (this.searchHistoryOrg.length > 5) {
+                        this.searchHistoryOrg.splice(0, 1);
                     }
-                    this.searchHistory.push({
+                    this.searchHistoryOrg.push({
                         uuid: this.Utils.generateUUID(),
                         word: this.searchKey
                     });
-                    // this.searchHistory.reverse();
-                    localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+                    localStorage.setItem('searchHistory', JSON.stringify(this.searchHistoryOrg));
+                    this.searchHistory = [];
+                    for (let i = this.searchHistoryOrg.length - 1; i >= 0; i--) {
+                        this.searchHistory.push(this.searchHistoryOrg[i]);
+                    }
                 }
 
 
@@ -214,6 +222,7 @@
             },
             clearSearchHis() {
                 this.searchHistory = [];
+                this.searchHistoryOrg = [];
                 localStorage.removeItem('searchHistory');
             },
             putSearchHis(word) {
