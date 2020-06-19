@@ -29,7 +29,7 @@ jobs:
           destination-repo: "git@gitee.com:heartaotime/JK.git"
 
       - name: Build Gitee Pages
-        uses: yanglbme/gitee-gh-pages-action@master
+        uses: yanglbme/gitee-pages-action@master
         with:
           # 注意替换为你的 Gitee 用户名
           gitee-username: heartaotime
