@@ -215,7 +215,7 @@
         display: grid;
         grid-template-columns: 30px 50px 1fr 30px;
 
-        margin-top: 5px;
+        margin-top: 10px;
 
 
 
