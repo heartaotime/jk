@@ -52,6 +52,8 @@
         methods: {
             inputFocus() {
                 this.$store.commit('uSearchFixShow', true);
+                // history.pushState({page: 1}, "搜索", "?page=search");
+                history.pushState(null, '搜索', null);
             },
             inputBlur() {
                 // document.querySelector('[name=tmp]').remove();

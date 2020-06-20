@@ -1,15 +1,22 @@
 <template>
-    <div class="module-search">
-        <div class="search" id="searchModule">
+    <div class="module-search" @click="clickFunc($event)">
+
+
+        <!--        <transition enter-active-class="animated fadeInUp"-->
+        <!--                          leave-active-class="animated fadeOutDown faster" class="">-->
+
+        <div class="search animated fadeInUp" id="searchModule">
             <div class="searchEngineDiv">
                 <div class="searchEngineShow" @click="searchEngineShow = !searchEngineShow">
                     <!--                        <span :value="searchEngineList[searchEngineIndex].codeValue">{{searchEngineList[searchEngineIndex].codeName}}</span>-->
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
                          class="searchIcon" alt=""/>
-                    <i :class="searchEngineShow ? 'fa fa-angle-up' : 'fa fa-angle-down'"></i>
+                    <i v-show="!isPhone" :class="searchEngineShow ? 'fa fa-angle-up' : 'fa fa-angle-down'"></i>
+                    <i v-show="isPhone" :class="!searchEngineShow ? 'fa fa-angle-up' : 'fa fa-angle-down'"></i>
                 </div>
-                <transition enter-active-class="animated fadeInUp faster"
-                            leave-active-class="animated fadeOutDown faster">
+
+                <transition :enter-active-class="enterClass"
+                            :leave-active-class="leaveClass">
                     <ul v-show="searchEngineShow" @focus="inputFocus()">
                         <li v-for="(item, index) in searchEngineList" :key="index" :value="item.url"
                             @click="setSearchEngine(index)">
@@ -34,20 +41,31 @@
                 <span @click="close()">{{showName}}</span>
             </div>
         </div>
+        <!--        </transition>-->
 
-        <div class="search-history">
-            <div class="trash">
+        <div class="search-history animated fadeInUp" v-show="searchKey === ''">
+            <div class="trash" v-show="searchHistory.length > 0">
                 <i class="fas fa-trash-alt" aria-hidden="true" @click="clearSearchHis()"></i>
             </div>
 
-            <div style="margin-top: 20px;">
+            <transition-group enter-active-class="animated fadeInLeft"
+                              leave-active-class="animated fadeOutRight faster" class="search-history-items">
+                <span v-for="(item) in searchHistory" :key="item.uuid"
+                      @click="putSearchHis(item.word)"
+                      class="search-history-item">
+                        {{item.word}}
+                </span>
+            </transition-group>
+        </div>
 
-            </div>
-            <span v-for="(item) in searchHistory" :key="item.uuid"
-                  @click="putSearchHis(item.word)"
-                  class="search-history-item animated fadeIn">
-                    {{item.word}}
-            </span>
+        <div v-show="searchKey !== ''">
+            <transition-group :enter-active-class="enterClass_sug" class="suggestion">
+                <div v-for="(item) in suggestion" :key="item.uuid" class="suggestion-item" @click="sugClick(item.sug)">
+                    <div><i class="fa fa-search" aria-hidden="true"></i></div>
+                    <div><span v-html="item.sug"></span></div>
+                    <div><i class="fa fa-mouse-pointer" aria-hidden="true"></i></div>
+                </div>
+            </transition-group>
         </div>
 
     </div>
@@ -71,7 +89,12 @@
                 searchHistory: [],
                 searchHistoryOrg: [],
                 showName: '取消',
-                clearIShow: false
+                clearIShow: false,
+                enterClass: 'animated fadeInUp faster',
+                leaveClass: 'animated fadeOutDown faster',
+                suggestion: [],
+                enterClass_sug: 'animated fadeInUp',
+                isPhone: false
             }
         },
         computed: {
@@ -110,10 +133,88 @@
                     // 展示清空按钮
                     this.clearIShow = true;
 
+                    // 获取推荐 https://suggestion.baidu.com/su?callback=sug&wd=21&cb=sug&_=1592621056387
+
+                    let url = 'https://suggestion.baidu.com/su?callback=sug&wd=' + this.searchKey + '&cb=sug&_=' + new Date().getTime();
+                    // this.Utils.getJson(url, {}).then(response => {
+                    //     console.log(response);
+                    // })
+
+                    window.sug = (result) => {
+                        // console.log(result);
+                        this.suggestion = [];
+                        if (result && result.s && result.s.length > 0) {
+                            let data = result.s;
+                            for (let i = 0; i < data.length; i++) {
+                                this.suggestion.push({
+                                    uuid: this.Utils.generateUUID(),
+                                    sug: data[i].replace(this.searchKey, '<b>' + this.searchKey + '</b>')
+                                });
+                            }
+                            if (this.Utils.isPhone()) {
+                                this.suggestion = this.suggestion.reverse();
+                            }
+                        }
+                    }
+                    var JSONP = document.createElement("script");
+                    JSONP.type = "text/javascript";
+                    JSONP.src = `${url}&callback=sug`;
+                    document.getElementsByTagName("head")[0].appendChild(JSONP);
+                    setTimeout(() => {
+                        document.getElementsByTagName("head")[0].removeChild(JSONP);
+                    }, 500);
+
+                    // axios.jsonp(url, params)
+                    //     .then(res => console.log(res))
+                    //     .catch(err => console.log(err))
+
+                    // $.ajax({
+                    //     url: "https://suggestion.baidu.com/su",
+                    //     type: "GET",
+                    //     dataType: "jsonp",
+                    //     data: {wd: wd, cb: "sug"},
+                    //     timeout: 5000,
+                    //     jsonpCallback: "sug",
+                    //     success: function (res) {
+                    //         if ($(_).val() !== wd) {
+                    //             return;
+                    //         }
+                    //         var data = res.s;
+                    //         var isStyle = $(".suggestion").html();
+                    //         var html = "";
+                    //         for (var i = data.length; i > 0; i--) {
+                    //             var style = "";
+                    //             if (isStyle === "") {
+                    //                 style = "animation: fadeInDown both .5s " + (i - 1) * 0.05 + 's"';
+                    //             }
+                    //             html += '<li style="' + style + '"><div>' + data[i - 1].replace(wd, '<b>' + wd + '</b>') + "</div><span></span></li>";
+                    //         }
+                    //         $(".suggestion").show().html(html).scrollTop($(".suggestion")[0].scrollHeight);
+                    //     }
+                    // });
+                    // $.ajax({
+                    //     url: "https://quark.sm.cn/api/qs",
+                    //     type: "GET",
+                    //     dataType: "jsonp",
+                    //     data: {query: wd},
+                    //     timeout: 5000,
+                    //     success: function (res) {
+                    //         var data = res.data;
+                    //         var html = '<li>快搜:</li>';
+                    //         for (var i = 0, l = data.length; i < l; i++) {
+                    //             html += '<li>' + data[i] + '</li>';
+                    //         }
+                    //         $('.shortcut3').html(html);
+                    //     }
+                    // });
+
+
                 } else {
                     this.showName = '取消';
                     this.clearIShow = false;
                 }
+
+
             }
         },
         created() {
@@ -128,22 +229,31 @@
             // });
 
 
-            document.addEventListener('mouseup', (e) => {
-                // console.log(e.target);
-                // console.log((e.target).closest('#searchBox'));
-                // console.log((e.target).closest('#searchModule'));
-                let target = e.target;
-                if (target.closest('#searchModule') == null && target.closest('#searchBox') == null
-                    && target.closest('.search-history') == null) {
-                    this.$store.commit('uSearchFixShow', false);
-                }
-            });
+            // document.addEventListener('mouseup', (e) => {
+            //     console.log(e.target);
+            //     // console.log((e.target).closest('#searchBox'));
+            //     // console.log((e.target).closest('#searchModule'));
+            //     let target = e.target;
+            //     if (target.closest('#searchModule') == null
+            //         && target.closest('#searchBox') == null
+            //         && target.closest('.search-history') == null
+            //         && target.closest('.suggestion') == null) {
+            //         this.$store.commit('uSearchFixShow', false);
+            //     }
+            // });
 
             if (localStorage.getItem('searchHistory')) {
                 this.searchHistoryOrg = JSON.parse(localStorage.getItem('searchHistory'));
                 if (this.searchHistoryOrg.length > 0) {
                     this.searchHistory = [].concat(this.searchHistoryOrg.reverse());
                 }
+            }
+
+            if (this.Utils.isPhone()) {
+                this.isPhone = true;
+                this.enterClass = 'animated fadeInDown faster';
+                this.leaveClass = 'animated fadeOutUp faster';
+                this.enterClass_sug = 'animated fadeInDown';
             }
 
 
@@ -155,6 +265,15 @@
 
         },
         methods: {
+            clickFunc(evt) {
+                if (evt.target === evt.currentTarget) {
+                    this.$store.commit('uSearchFixShow', false);
+                }
+            },
+            sugClick(sug) {
+                this.searchKey = sug.replace('<b>', '').replace('</b>', '');
+                this.search();
+            },
             clearSearchKey() {
                 this.searchKey = '';
             },
@@ -468,7 +587,7 @@
         width: 95%;
         position: fixed;
         z-index: -1;
-        top: 90px;
+        top: 80px;
         bottom: unset;
         left: 0px;
         right: 0px;
@@ -487,11 +606,7 @@
     }
 
     .search-history > .trash {
-        /*border: 1px solid red;*/
-
-        /*width: 20px;*/
-        /*height: 20px;*/
-        position: fixed;
+        position: relative;
         display: inline-block;
 
         text-align: right;
@@ -499,19 +614,27 @@
         font-size: 20px;
 
         max-width: 1200px;
-        width: 95%;
+        width: 100%;
+
+        margin-bottom: 10px;
 
     }
 
-    .search-history > span {
+    .search-history-items {
+        max-width: 1200px;
+        width: 100%;
+        margin-bottom: 10px;
+        white-space: unset;
+    }
 
+    .search-history-item {
         max-width: 300px;
         cursor: pointer;
         padding: 5px;
         border-radius: 5px;
         outline: none;
         background-color: white;
-        font-size: 16px;
+        font-size: 15px;
         display: inline-block;
         margin: 5px;
 
@@ -520,13 +643,83 @@
 
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
 
+    .suggestion {
+
+
+        max-width: 1200px;
+        width: 95%;
+        position: fixed;
+        z-index: -1;
+        top: 90px;
+        bottom: unset;
+        left: 0px;
+        right: 0px;
+
+        margin: 0 auto;
+
+        display: grid;
+    }
+
+    .suggestion-item {
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 50px 1fr 30px;
+        align-content: center;
+        align-items: center;
+
+        font-size: 15px;
+
+        border-bottom: 1px dashed #DCDFE6;
+
+        line-height: 50px;
+
+    }
+
+    .suggestion-item:first-child {
+        border-top: 1px dashed #DCDFE6;
+    }
+
+    .suggestion-item > div {
+    }
+
+    .suggestion-item > div:first-child {
+        align-self: center;
+        justify-self: center;
+    }
+
+    .suggestion-item > div:last-child {
+        justify-self: center;
     }
 
     @media screen and (max-width: 700px) {
         .search {
+            top: unset;
+            bottom: 20px;
             /*grid-template-columns: 50px 1fr 150px;*/
         }
+
+        ul {
+            position: fixed;
+            bottom: 80px;
+        }
+
+        .search-history > .trash {
+            /*position: relative;*/
+            /*right: -10px;*/
+        }
+
+        .search-history {
+            top: unset;
+            bottom: 80px;
+        }
+
+        .suggestion {
+            top: unset;
+            bottom: 80px;
+        }
+
 
     }
 </style>

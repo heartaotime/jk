@@ -154,7 +154,7 @@
                     {
                         url: '',
                         name: '',
-                        icon: require('@/assets/img/smile.png'),
+                        icon: require('@/assets/img/default-icon.png'),
                         uuid: this.Utils.generateUUID()
                     }
                 );

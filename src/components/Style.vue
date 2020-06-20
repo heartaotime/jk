@@ -257,18 +257,6 @@
                 this.setBgImgShowType();
             }
 
-            // newCustSet(newVal) {
-            //     window.console.log(newVal);
-            //     this.$store.commit('uOpenUserInfo', newVal);
-            // },
-            // newCustSet: {
-            //     handler(newVal) {
-            //         window.console.log(newVal);//但是这两个值打印出来却都是一样的
-            //         this.$store.commit('uOpenUserInfo', newVal);
-            //     },
-            //     deep: true
-            // }
-
         },
         mounted() {
             for (let i = 0; i < this.bgImgUrlDefault.length; i++) {
@@ -378,39 +366,36 @@
             },
             setBgImg(index) {
                 this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 选择其一
-                let list = [this.showList[index].codeValue];
+
+                let list = [];
+                for (let i = 0; i < this.bgImgList.length; i++) {
+                    if (this.bgImgList[i].name != '必应壁纸') {
+                        this.bgImgList[i].checked = false;
+                        list.push(this.bgImgList[i]);
+                    }
+                }
+                list.push({
+                    url: this.showList[index].codeValue,
+                    name: '必应壁纸',
+                    uuid: this.Utils.generateUUID(),
+                    checked: true
+                })
                 this.openUserInfo.ext.bg.bgImg = list;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                // alert(this.openUserInfo.bgImgShowType);
             },
             setBgColor(color) {
                 this.openUserInfo.ext.bg.bgImgShowType = 'color'; // 纯色背景
                 this.openUserInfo.ext.bg.bgColor = color;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
             },
-            // setShareBgImg() {
-            //     this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 自定义背景图
-            //     // this.openUserInfo.shareBgImg = this.shareBgImg;
-            //     // this.openUserInfo.ext.bg.bgImg = this.shareBgImg;
-            //
-            //     let list = [];
-            //     if (this.shareBgImg && this.shareBgImg !== '') {
-            //         list.push(this.shareBgImg);
-            //     }
-            //     list = list.concat(this.checkedUUIDList);
-            //
-            //     this.openUserInfo.ext.bg.bgImg = list;
-            //
-            //     this.$store.commit('uOpenUserInfo', this.openUserInfo);
-            // },
+
             addBgImgUrl() {
                 // console.log('addSearchEngine1', this.searchEngineList);
-                let uuid = this.Utils.generateUUID();
                 this.bgImgList.push(
                     {
                         url: '',
                         name: '',
-                        uuid: uuid
+                        uuid: this.Utils.generateUUID()
                     }
                 );
             },
@@ -421,6 +406,10 @@
                     let item = this.bgImgList[i];
                     if (item.name == '' || item.url == '') {
                         this.$toast('名称和链接不能为空');
+                        return;
+                    }
+                    if (item.name === '必应壁纸') {
+                        this.$toast('名称不能为 必应壁纸');
                         return;
                     }
                 }

@@ -1,10 +1,12 @@
 <template>
     <div class="card top">
         <div class="container-top">
-            <!--            <div class="left">-->
-            <!--            </div>-->
-            <!--            <div class="center">-->
-            <!--            </div>-->
+
+            <div class="left">
+                <div id="he-plugin-simple"></div>
+            </div>
+            <div class="center">
+            </div>
             <div class="right">
                 <i class="far fa-bookmark" aria-hidden="true" @click="uPopConfig('IndexSet', '快捷导航设置')"></i>
                 <i class="far fa-edit" aria-hidden="true" @click="uPopConfig('SearchEngineSet', '搜索引擎设置')"></i>
@@ -89,12 +91,19 @@
         padding: 10px;
 
         display: grid;
-        grid-template-columns: 1fr;
-        align-content: center;
-        align-items: center;
-        grid-column-gap: 20px;
-        justify-content: right;
+        grid-template-columns: repeat(3, 1fr);
+        /*align-content: center;*/
+        /*align-items: center;*/
+        /*grid-column-gap: 20px;*/
+        /*justify-content: right;*/
+        place-items: center;
+        place-content: center;
 
+    }
+
+
+    .left {
+        justify-self: left;
     }
 
     /*.center >>> .row2 {*/

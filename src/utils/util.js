@@ -321,6 +321,8 @@ export default class Utils {
     }
 
     static pop(config) {
+        // history.pushState({page: 1}, config.title, "?page=" + config.componentName);
+        history.pushState(null, config.title, null);
         this.Vue.$store.commit('uPopConfig', config);
     }
 

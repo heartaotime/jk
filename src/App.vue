@@ -6,10 +6,10 @@
             <PopCommon v-show="popConfig.show"></PopCommon>
         </transition>
 
-        <transition enter-active-class="animated fadeInUp faster"
-                    leave-active-class="animated fadeOutDown faster">
-            <Search v-show="searchFixShow"></Search>
-        </transition>
+        <!--        <transition enter-active-class="animated fadeInUp faster"-->
+        <!--                    leave-active-class="animated fadeOutDown faster">-->
+        <Search v-show="searchFixShow"></Search>
+        <!--        </transition>-->
 
         <!--        <transition enter-active-class="animated fadeInUp faster">-->
         <!--            <Tips v-show="tipsConfig.show"></Tips>-->
@@ -151,7 +151,7 @@
             //document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
 
             // 设置按键监听
-            document.addEventListener('keyup', (e) => {
+            window.document.addEventListener('keyup', (e) => {
                 //此处填写你的业务逻辑即可
                 if (e.keyCode == 27) {
                     if (this.popConfig && this.popConfig.show) {
@@ -161,7 +161,30 @@
                         this.$store.commit('uSearchFixShow', false);
                     }
                 }
-            })
+            });
+
+            // window.onpopstate = function(event) {
+            //     alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+            // };
+            // history.pushState({page: 1}, "title 1", "?page=1");
+            // history.pushState({page: 2}, "title 2", "?page=2");
+            // history.replaceState({page: 3}, "title 3", "?page=3");
+
+            // 返回按键被点击
+            window.addEventListener("popstate", () => {
+                if (this.searchFixShow || (this.popConfig && this.popConfig.show)) {
+                    // $('body').css("pointer-events", "none");
+                    history.replaceState(null, document.title, location.origin + location.pathname);
+                    // window.location.reload();
+                }
+
+                if (this.popConfig && this.popConfig.show) {
+                    this.Utils.closePop();
+                }
+                if (this.searchFixShow) {
+                    this.$store.commit('uSearchFixShow', false);
+                }
+            }, false);
 
         },
         mounted() {
