@@ -3,7 +3,7 @@
 
         <div class="animated fadeInRight faster" style="padding: 0 5px;">
             <div class="tips">
-                <span>快捷导航设置：</span>
+                <span>提示：</span>
                 <span>1.点击图标可以更换</span>
                 <span>2.导航链接必须含有http或者https</span>
             </div>
@@ -208,7 +208,7 @@
 
 
     .row {
-        height: 35px;
+        height: 40px;
         border: 1px solid lightgrey;
         border-radius: 3px;
 
@@ -216,6 +216,8 @@
         grid-template-columns: 30px 50px 1fr 30px;
 
         margin-top: 5px;
+
+
 
         /*justify-content: stretch;*/
         /*align-content: stretch;*/
@@ -345,23 +347,19 @@
         background-color: orange;
     }
 
-    .tips {
-        padding: 0 5px;
-        background-color: cornsilk;
-        border: 1px solid lightgrey;
-        border-radius: 3px;
+    /*.tips {*/
+    /*    padding: 0 5px;*/
+    /*    background-color: cornsilk;*/
+    /*    border: 1px solid lightgrey;*/
+    /*    border-radius: 3px;*/
 
-        display: grid;
-        grid-row-gap: 3px;
-    }
+    /*    display: grid;*/
+    /*    grid-row-gap: 3px;*/
 
-    .tips > span {
-        font-size: 15px;
-    }
+    /*    line-height: 25px;*/
+    /*    font-size: 13px;*/
+    /*}*/
 
-    .tips > span:first-child {
-        font-size: 18px;
-    }
 
 
     @media screen and (max-width: 700px) {

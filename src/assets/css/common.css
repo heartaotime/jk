@@ -101,3 +101,16 @@ a, span {
     color: #409EFF;
     border-bottom: 2px solid #409EFF;
 }
+
+.tips {
+    padding: 2px 5px;
+    background-color: cornsilk;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+
+    display: grid;
+    /*grid-row-gap: 3px;*/
+
+    line-height: 25px;
+    font-size: 13px;
+}

@@ -34,7 +34,7 @@
                 <button style="background-color: orange;" @click="registUser()">注 册</button>
             </div>
 
-            <div class="row animated fadeInRight">
+            <div class="row animated fadeInRight tips">
                 <span>提示：</span>
                 <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
                                       @click="clearLocalStorage()">强制清理缓存</a></span>
@@ -470,7 +470,7 @@
     .row:last-child > span {
         grid-column: 1/3;
         padding: 0 10px;
-        background-color: cornsilk;
+        /*background-color: cornsilk;*/
         text-align: start;
         line-height: 25px;
     }

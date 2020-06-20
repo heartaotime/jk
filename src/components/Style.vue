@@ -77,8 +77,9 @@
 
                 <div class="animated fadeInRight faster">
                     <div class="tips">
-                        <span>自定义背景设置：</span>
-                        <span>1.可以多选，每次刷新页面会从选中的链接中获取一条作为背景展示</span>
+                        <span>提示：</span>
+                        <span>1.可以多选</span>
+                        <span>2.每次刷新页面会从选中的链接中获取一个作为背景</span>
                     </div>
                 </div>
 
@@ -727,7 +728,7 @@
 
 
     .row {
-        height: 35px;
+        height: 40px;
         border: 1px solid lightgrey;
         border-radius: 3px;
 
@@ -830,28 +831,29 @@
     }
 
 
-    .tips {
-        padding: 5px;
-        background-color: cornsilk;
-        border: 1px solid lightgrey;
-        border-radius: 3px;
+    /*.tips {*/
+    /*    padding: 2px 5px;*/
+    /*    background-color: cornsilk;*/
+    /*    border: 1px solid lightgrey;*/
+    /*    border-radius: 3px;*/
 
-        display: grid;
-        grid-row-gap: 3px;
+    /*    display: grid;*/
+    /*    grid-row-gap: 3px;*/
 
-        margin-top: 5px;
-    }
+    /*    line-height: 25px;*/
+    /*    font-size: 13px;*/
+    /*}*/
 
-    .tips > .cu-item {
-        display: grid;
-        grid-template-columns: repeat(2, auto);
-        justify-content: left;
-        justify-items: left;
-        align-content: center;
-        align-items: center;
-        grid-column-gap: 10px;
-        line-height: 30px;
-    }
+    /*.tips > .cu-item {*/
+    /*    display: grid;*/
+    /*    grid-template-columns: repeat(2, auto);*/
+    /*    justify-content: left;*/
+    /*    justify-items: left;*/
+    /*    align-content: center;*/
+    /*    align-items: center;*/
+    /*    grid-column-gap: 10px;*/
+    /*    line-height: 30px;*/
+    /*}*/
 
     @media screen and (max-width: 700px) {
         .item {

@@ -3,7 +3,7 @@
 
         <transition-group enter-active-class="animated fadeInUp faster"
                           leave-active-class="animated fadeOut faster" class="module-items">
-            <div class="item" v-for="(item) in index" :key="item.uuid">
+            <div class="item" v-for="(item) in index" :key="item.uuid" @click="window.open(item.url)">
                 <div><a :href="item.url"><img :src="item.icon"></a></div>
                 <div class="name"><span>{{item.name}}</span></div>
             </div>
@@ -60,7 +60,7 @@
     }
 
     div {
-        cursor: pointer;
+        /*cursor: pointer;*/
     }
 
     .module-items {
@@ -73,9 +73,13 @@
     }
 
     .item {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+
         display: grid;
 
-        place-content: center;
+        justify-content: stretch;
         place-items: center;
         grid-row-gap: 5px;
 

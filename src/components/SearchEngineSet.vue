@@ -3,7 +3,7 @@
 
         <div class="animated fadeInRight faster" style="padding: 0 5px;">
             <div class="tips">
-                <span>搜索引擎设置：</span>
+                <span>提示：</span>
                 <span>1.点击图标可以更换</span>
                 <span>2.搜索的关键字用%s代替</span>
             </div>
@@ -213,7 +213,7 @@
 
 
     .row {
-        height: 35px;
+        height: 40px;
         border: 1px solid lightgrey;
         border-radius: 3px;
 
@@ -350,23 +350,26 @@
         background-color: orange;
     }
 
-    .tips {
-        padding: 0 5px;
-        background-color: cornsilk;
-        border: 1px solid lightgrey;
-        border-radius: 3px;
+    /*.tips {*/
+    /*    padding: 0 5px;*/
+    /*    background-color: cornsilk;*/
+    /*    border: 1px solid lightgrey;*/
+    /*    border-radius: 3px;*/
 
-        display: grid;
-        grid-row-gap: 3px;
-    }
+    /*    display: grid;*/
+    /*    grid-row-gap: 3px;*/
 
-    .tips > span {
-        font-size: 15px;
-    }
+    /*    line-height: 25px;*/
+    /*    font-size: 13px;*/
+    /*}*/
 
-    .tips > span:first-child {
-        font-size: 18px;
-    }
+    /*.tips > span {*/
+    /*    font-size: 15px;*/
+    /*}*/
+
+    /*.tips > span:first-child {*/
+    /*    font-size: 18px;*/
+    /*}*/
 
 
     @media screen and (max-width: 700px) {
