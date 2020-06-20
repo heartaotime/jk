@@ -410,7 +410,8 @@ export default class Utils {
 
     static getCommonReq(param) {
         return {
-            appCode: 'b198c18f49354a51984581cc124d985b',
+            // appCode: 'b198c18f49354a51984581cc124d985b',
+            appCode: 'f0fb4bed6b664cfebbb30a688a4c8e3f',
             param
         }
     }

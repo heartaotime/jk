@@ -34,15 +34,6 @@
                 <button style="background-color: orange;" @click="registUser()">注 册</button>
             </div>
 
-            <div class="tips animated fadeInRight">
-                <span>提示：</span>
-                <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
-                                      @click="clearLocalStorage()">强制清理缓存</a></span>
-                <span>2.没有账号可以先点击注册</span>
-                <span>3.登陆账号后，可以同步你的自定义数据哦</span>
-                <span>4.邮箱也可以用来登陆</span>
-
-            </div>
 
         </div>
 
@@ -50,7 +41,7 @@
             <div class="user-info">
                 <span>{{openUserInfo.user.userName}} 你好</span>
                 <img src="../assets/img/logout.svg" title="退出登陆" @click="clearLocalStorage()"/>
-                <span>tips: 如遇部分问题，尝试点击左侧登出按钮，并重新登陆</span>
+<!--                <span>tips: 如遇部分问题，尝试点击左侧登出按钮，并重新登陆</span>-->
             </div>
             <div>
                 施工中...
@@ -62,6 +53,18 @@
             <!--                <button @click="save(3)">清空本地和服务器个性化设置</button>-->
             <!--            </div>-->
         </div>
+
+        <div class="tips animated fadeInRight">
+            <span>提示：</span>
+            <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
+                                  @click="clearLocalStorage()">强制清理缓存</a></span>
+            <span>2.没有账号可以先点击注册</span>
+            <span>3.登陆账号后，可以同步你的自定义数据哦</span>
+            <span>4.邮箱也可以用来登陆</span>
+            <span>5.<a style="color: #0f88eb;" href="https://support.qq.com/products/170200">关于&反馈</a></span>
+
+        </div>
+
     </div>
 </template>
 
