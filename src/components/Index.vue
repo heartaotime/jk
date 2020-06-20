@@ -1,9 +1,9 @@
 <template>
     <div class="module-box">
 
-        <transition-group enter-active-class="animated fadeInUp faster"
-                          leave-active-class="animated fadeOut faster" class="module-items">
-            <div class="item" v-for="(item) in index" :key="item.uuid" @click="window.open(item.url)">
+        <transition-group enter-active-class="animated fadeInUp"
+                          leave-active-class="animated fadeOut" class="module-items">
+            <div class="item enlargeAnimation" v-for="(item) in index" :key="item.uuid" @click="window.open(item.url)">
                 <div><a :href="item.url"><img :src="item.icon"></a></div>
                 <div class="name"><span>{{item.name}}</span></div>
             </div>

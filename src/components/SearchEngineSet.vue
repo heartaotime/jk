@@ -1,7 +1,7 @@
 <template>
     <div class="module">
 
-        <div class="animated fadeInRight faster" style="padding: 0 5px;">
+        <div class="animated fadeInUp" style="padding: 0 5px;">
             <div class="tips">
                 <span>提示：</span>
                 <span>1.点击图标可以更换</span>
@@ -13,15 +13,16 @@
             <transition-group enter-active-class="animated fadeInUp"
                               leave-active-class="animated fadeOutLeft faster">
                 <div class="row" v-for="(item, index) in searchEngineList" :key="item.uuid">
-                    <img @click="selectIcon(index)" :src="item.icon"/>
+                    <div @click="selectIcon(index)"><img class="enlargeAnimation" :src="item.icon"/></div>
                     <div>
                         <input spellcheck="false" placeholder="名称" v-model="item.name"/>
                     </div>
                     <div>
                         <input spellcheck="false" placeholder="地址(搜索的关键字用%s代替)" v-model="item.url" class="url"/>
                     </div>
-                    <div>
-                        <i @click="delSearchEngine(index)" class="fa fa-minus" aria-hidden="true"></i>
+                    <div @click="delSearchEngine(index)">
+                        <!--                        <i @click="delSearchEngine(index)" class="fa fa-minus" aria-hidden="true"></i>-->
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
                     </div>
 
                 </div>
@@ -232,57 +233,25 @@
         /*justify-content: start;*/
     }
 
-    .row > img {
+
+    .row img {
         width: 20px;
         height: 20px;
         place-self: center;
     }
 
 
-    /*.row span {*/
-    /*    text-align: center;*/
-    /*    line-height: 40px;*/
-    /*    !*align-self: center;*!*/
-
-    /*    border-right: 1px solid lightgrey;*/
-    /*}*/
-
-
     input {
         outline: none;
         border: none;
-        /*padding: 0 10px;*/
         font-size: 15px;
-
-        /*border-left: 1px solid lightgray;*/
-
-        /*width: 50px;*/
-
         width: 100%;
-
-        /*padding-left: 5px;*/
-
-
     }
 
-    .row > input:first-child {
-        /*text-align: center;*/
-    }
-
-
-    /*.row > input:first-child {*/
-    /*    border-right: none;*/
-    /*}*/
-
-    /*.url {*/
-    /*    border-right: 1px solid lightgray;*/
-    /*}*/
-
-    .icon-select {
-
-    }
 
     .row > div {
+        cursor: pointer;
+
         border-left: 1px solid lightgray;
         height: 100%;
         width: 100%;
@@ -292,33 +261,17 @@
 
         display: grid;
         grid-template-columns: 1fr;
-        /*place-content: center;*/
-        /*place-items: center;*/
     }
+
+    .row > div:first-child {
+        border-left: none;
+    }
+
 
     .row > div > i {
-        /*height: 100%;*/
-        /*line-height: 30px;*/
         place-self: center;
-        /*border-left: 1px solid lightgray;*/
         color: red;
-        /*margin-left: 5px;*/
     }
-
-
-    /*.info {*/
-
-    /*    display: grid;*/
-    /*    grid-template-columns: 1fr;*/
-    /*    !*grid-template-rows: repeat(auto-fit, auto);*!*/
-
-    /*    grid-row-gap: 10px;*/
-
-    /*    height: 200px;*/
-
-    /*    align-content: start;*/
-
-    /*}*/
 
 
     .btn {

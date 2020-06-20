@@ -1,5 +1,5 @@
 <template>
-    <div class="card top">
+    <div class="card top animated fadeInDown">
         <div class="container-top">
 
             <div class="left">

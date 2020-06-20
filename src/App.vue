@@ -19,8 +19,12 @@
         <!--            <Loading v-show="loadingConfig.show"></Loading>-->
         <!--        </transition>-->
 
+
         <Top></Top>
+
         <SearchBox></SearchBox>
+
+
         <Index></Index>
 
 

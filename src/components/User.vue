@@ -54,7 +54,7 @@
             <!--            </div>-->
         </div>
 
-        <div class="tips animated fadeInRight">
+        <div class="tips animated fadeInUp">
             <span>提示：</span>
             <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
                                   @click="clearLocalStorage()">强制清理缓存</a></span>

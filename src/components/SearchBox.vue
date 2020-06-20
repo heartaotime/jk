@@ -1,5 +1,5 @@
 <template>
-    <div class="card module-searchBox">
+    <div class="card module-searchBox animated fadeInDown">
         <div class="row row1" id="searchBox">
             <input spellcheck="false" @focus="inputFocus" :placeholder="yiyanStr"/>
         </div>

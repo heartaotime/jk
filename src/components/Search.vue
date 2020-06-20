@@ -7,7 +7,7 @@
 
         <div class="search animated fadeInUp" id="searchModule">
             <div class="searchEngineDiv">
-                <div class="searchEngineShow" @click="searchEngineShow = !searchEngineShow">
+                <div class="searchEngineShow" @click="searchEngineClick()">
                     <!--                        <span :value="searchEngineList[searchEngineIndex].codeValue">{{searchEngineList[searchEngineIndex].codeName}}</span>-->
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
                          class="searchIcon" alt=""/>
@@ -48,11 +48,11 @@
                 <i class="fas fa-trash-alt" aria-hidden="true" @click="clearSearchHis()"></i>
             </div>
 
-            <transition-group enter-active-class="animated fadeInLeft"
-                              leave-active-class="animated fadeOutRight faster" class="search-history-items">
+            <transition-group enter-active-class="animated rollIn"
+                              leave-active-class="animated rollOut" class="search-history-items">
                 <span v-for="(item) in searchHistory" :key="item.uuid"
                       @click="putSearchHis(item.word)"
-                      class="search-history-item">
+                      class="search-history-item enlargeAnimation">
                         {{item.word}}
                 </span>
             </transition-group>
@@ -266,12 +266,17 @@
 
         },
         methods: {
+            searchEngineClick() {
+                // document.querySelector('#search').focus();
+                this.searchEngineShow = !this.searchEngineShow;
+            },
             clickFunc(evt) {
                 if (evt.target === evt.currentTarget) {
                     this.$store.commit('uSearchFixShow', false);
                 }
             },
             sugClick(sug, search) {
+                document.querySelector('#search').focus();
                 this.searchKey = sug.replace('<b>', '').replace('</b>', '');
                 if (search) {
                     this.search();
@@ -279,12 +284,15 @@
 
             },
             clearSearchKey() {
+                document.querySelector('#search').focus();
                 this.searchKey = '';
             },
             inputFocus() {
                 this.searchEngineShow = false;
             },
             search() {
+                document.querySelector('#search').focus();
+
                 window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
 
                 if (this.searchKey !== '') {
@@ -322,6 +330,8 @@
             //
             // },
             setSearchEngine(index) {
+                document.querySelector('#search').focus();
+
                 this.searchEngineIndex = index;
                 this.searchEngineShow = false;
 
@@ -344,11 +354,13 @@
                 }
             },
             clearSearchHis() {
+                document.querySelector('#search').focus();
                 this.searchHistory = [];
                 this.searchHistoryOrg = [];
                 localStorage.removeItem('searchHistory');
             },
             putSearchHis(word) {
+                document.querySelector('#search').focus();
                 this.searchKey = word;
             }
         }
@@ -709,7 +721,7 @@
 
         ul {
             position: fixed;
-            bottom: 80px;
+            bottom: 60px;
         }
 
         .search-history > .trash {
