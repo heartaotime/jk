@@ -6,27 +6,34 @@
                 <span>提示：</span>
                 <span>1.点击图标可以更换</span>
                 <span>2.搜索的关键字用%s代替</span>
+                <span>3.按住 <i class="fas fa-arrows-alt-v" style="color: red;"
+                              aria-hidden="true"></i> 1秒不放，可以拖动排序哦</span>
             </div>
         </div>
 
         <div class="search-engine">
-            <transition-group enter-active-class="animated fadeInUp"
-                              leave-active-class="animated fadeOutLeft faster">
-                <div class="row" v-for="(item, index) in searchEngineList" :key="item.uuid">
-                    <div @click="selectIcon(index)"><img class="enlargeAnimation" :src="item.icon"/></div>
-                    <div>
-                        <input spellcheck="false" placeholder="名称" v-model="item.name"/>
-                    </div>
-                    <div>
-                        <input spellcheck="false" placeholder="地址(搜索的关键字用%s代替)" v-model="item.url" class="url"/>
-                    </div>
-                    <div @click="delSearchEngine(index)">
-                        <!--                        <i @click="delSearchEngine(index)" class="fa fa-minus" aria-hidden="true"></i>-->
-                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                    </div>
+            <draggable v-model="searchEngineList" :options="options">
+                <transition-group enter-active-class="animated fadeInUp"
+                                  leave-active-class="animated fadeOutLeft faster">
+                    <div class="row" v-for="(item, index) in searchEngineList" :key="item.uuid">
+                        <div @click="selectIcon(index)"><img class="enlargeAnimation" :src="item.icon"/></div>
+                        <div>
+                            <input spellcheck="false" placeholder="名称" v-model="item.name"/>
+                        </div>
+                        <div>
+                            <input spellcheck="false" placeholder="地址(搜索的关键字用%s代替)" v-model="item.url" class="url"/>
+                        </div>
+                        <div>
+                            <i class="fas fa-arrows-alt-v" aria-hidden="true"></i>
+                        </div>
+                        <div @click="delSearchEngine(index)">
+                            <!--                        <i @click="delSearchEngine(index)" class="fa fa-minus" aria-hidden="true"></i>-->
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        </div>
 
-                </div>
-            </transition-group>
+                    </div>
+                </transition-group>
+            </draggable>
 
         </div>
 
@@ -56,14 +63,26 @@
 </template>
 
 <script>
+    import draggable from 'vuedraggable'
+
     export default {
         name: "Set",
-        components: {},
+        components: {
+            draggable
+        },
         data() {
             return {
                 searchEngineList: [],
                 iconSelectShow: false,
-                index: -1
+                index: -1,
+                options: {
+                    delayOnTouchOnly: true,  //开启触摸延时
+                    direction: 'vertical',   //拖动方向
+                    delay: 1000,              //延时时长
+                    touchStartThreshold: 3,  //防止某些手机过于敏感(3~5 效果最好)
+                    dragClass: 'drag',    //格式为简单css选择器的字符串，目标拖动过程中添加
+                    animation: 500    // ms, 动画速度运动项目排序时，' 0 ' -没有动画。
+                }
             }
         },
         computed: {
@@ -219,7 +238,7 @@
         border-radius: 3px;
 
         display: grid;
-        grid-template-columns: 30px 50px 1fr 30px;
+        grid-template-columns: 30px 50px 1fr 30px 30px;
 
         margin-top: 10px;
 
@@ -246,6 +265,7 @@
         border: none;
         font-size: 15px;
         width: 100%;
+        background: transparent;
     }
 
 
@@ -261,6 +281,10 @@
 
         display: grid;
         grid-template-columns: 1fr;
+    }
+
+    .row.drag {
+        background-color: orange;
     }
 
     .row > div:first-child {

@@ -6,26 +6,35 @@
                 <span>提示：</span>
                 <span>1.点击图标可以更换</span>
                 <span>2.导航链接必须含有http或者https</span>
+                <span>3.按住 <i class="fas fa-arrows-alt-v" style="color: red;"
+                              aria-hidden="true"></i> 1秒不放，可以拖动排序哦</span>
+                <!--                <span>3.长按一会儿，可以拖动排序哦</span>-->
             </div>
         </div>
 
-        <div class="search-engine">
-            <transition-group enter-active-class="animated fadeInUp"
-                              leave-active-class="animated fadeOutLeft faster">
-                <div class="row" v-for="(item, index) in indexList" :key="item.uuid">
-                    <div @click="selectIndexIcon(index)"><img class="enlargeAnimation" :src="item.icon"/></div>
-                    <div>
-                        <input spellcheck="false" placeholder="名称" v-model="item.name"/>
-                    </div>
-                    <div>
-                        <input spellcheck="false" placeholder="链接" v-model="item.url" class="url"/>
-                    </div>
-                    <div @click="delIndex(index)">
-                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                    </div>
+        <div class="row-list">
+            <draggable v-model="indexList" :options="options">
+                <transition-group enter-active-class="animated fadeInUp"
+                                  leave-active-class="animated fadeOutLeft faster">
+                    <div class="row" v-for="(item, index) in indexList" :key="item.uuid">
+                        <div @click="selectIndexIcon(index)"><img class="enlargeAnimation" :src="item.icon"/></div>
+                        <div>
+                            <input spellcheck="false" placeholder="名称" v-model="item.name"/>
+                        </div>
+                        <div>
+                            <input spellcheck="false" placeholder="链接" v-model="item.url" class="url"/>
+                        </div>
+                        <div>
+                            <i class="fas fa-arrows-alt-v" aria-hidden="true"></i>
+                        </div>
 
-                </div>
-            </transition-group>
+                        <div @click="delIndex(index)">
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </transition-group>
+            </draggable>
 
         </div>
 
@@ -54,14 +63,26 @@
 </template>
 
 <script>
+    import draggable from 'vuedraggable';
+
     export default {
         name: "IndexSet",
-        components: {},
+        components: {
+            draggable
+        },
         data() {
             return {
                 indexList: [],
                 iconSelectShow: false,
-                index: -1
+                index: -1,
+                options: {
+                    delayOnTouchOnly: true,  //开启触摸延时
+                    direction: 'vertical',   //拖动方向
+                    delay: 1000,              //延时时长
+                    touchStartThreshold: 3,  //防止某些手机过于敏感(3~5 效果最好)
+                    dragClass: 'drag',    //格式为简单css选择器的字符串，目标拖动过程中添加
+                    animation: 500    // ms, 动画速度运动项目排序时，' 0 ' -没有动画。
+                }
             }
         },
         computed: {
@@ -81,6 +102,32 @@
             this.getIndexList();
         },
         methods: {
+            dragendHandler(e, index) {
+                // window.console.log(e);
+                let dx = e.x;
+                let dy = e.y;
+
+                // window.console.log(e.screenX + '-' + e.screenY);
+
+                let items = document.querySelectorAll('.row-list  .row');
+                for (let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    let boundingClientRect = item.getBoundingClientRect();
+
+                    let x = boundingClientRect.left + boundingClientRect.width / 2;
+                    let y = boundingClientRect.top + boundingClientRect.height / 2;
+
+                    if (dx - x <= boundingClientRect.width / 2 && dy - y <= boundingClientRect.height / 2) {
+                        // window.console.log(this.itemList[i].guideName);
+                        // let curI = this.activeIndex;
+                        // 重新排序
+                        this.indexList[index] = this.indexList.splice(i, 1, this.indexList[index])[0];
+
+                        // this.$toast('排序保存成功');
+                        return;
+                    }
+                }
+            },
             resetSearchEngine() {
                 this.Utils.getSearchEngine(list => {
                     this.indexList = list;
@@ -194,14 +241,15 @@
         padding: 0 5px;
     }
 
-    .search-engine {
+    .row-list {
         height: 240px;
         overflow-y: auto;
         padding: 0 5px;
 
-        /*display: grid;*/
-        /*justify-content: stretch;*/
-        /*align-content: center;*/
+        /*防止长按系统默认弹窗*/
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
 
 
     }
@@ -213,19 +261,15 @@
         border-radius: 3px;
 
         display: grid;
-        grid-template-columns: 30px 50px 1fr 30px;
+        grid-template-columns: 30px 50px 1fr 30px 30px;
 
         margin-top: 10px;
 
 
-        /*justify-content: stretch;*/
-        /*align-content: stretch;*/
+    }
 
-
-        /*align-content: start;*/
-
-        /*grid-column-gap: 20px;*/
-        /*justify-content: start;*/
+    .row.drag {
+        background-color: orange;
     }
 
 
@@ -241,6 +285,8 @@
         border: none;
         font-size: 15px;
         width: 100%;
+
+        background: transparent;
     }
 
 
