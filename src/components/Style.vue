@@ -618,7 +618,7 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
-        grid-row-gap: 10px;
+        /*grid-row-gap: 10px;*/
     }
 
     /*.user-cust-bg > div:first-child {*/
