@@ -60,10 +60,11 @@
 
         <div v-show="searchKey !== ''">
             <transition-group :enter-active-class="enterClass_sug" class="suggestion">
-                <div v-for="(item) in suggestion" :key="item.uuid" class="suggestion-item" @click="sugClick(item.sug)">
-                    <div><i class="fa fa-search" aria-hidden="true"></i></div>
-                    <div><span v-html="item.sug"></span></div>
-                    <div><i class="fa fa-mouse-pointer" aria-hidden="true"></i></div>
+                <div v-for="(item) in suggestion" :key="item.uuid" class="suggestion-item">
+                    <div @click="sugClick(item.sug, true)"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    <div @click="sugClick(item.sug, true)"><span v-html="item.sug"></span></div>
+                    <!--                    <div @click="sugClick(item.sug, false)"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></div>-->
+                    <div @click="sugClick(item.sug, false)"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>
                 </div>
             </transition-group>
         </div>
@@ -257,7 +258,6 @@
             }
 
 
-
             // window.addEventListener("popstate", function () {
             //     // window.location = 'http://www.baidu.com';
             //     alert(1111);
@@ -271,9 +271,12 @@
                     this.$store.commit('uSearchFixShow', false);
                 }
             },
-            sugClick(sug) {
+            sugClick(sug, search) {
                 this.searchKey = sug.replace('<b>', '').replace('</b>', '');
-                this.search();
+                if (search) {
+                    this.search();
+                }
+
             },
             clearSearchKey() {
                 this.searchKey = '';
@@ -647,8 +650,6 @@
     }
 
     .suggestion {
-
-
         max-width: 1200px;
         width: 95%;
         position: fixed;
@@ -657,16 +658,13 @@
         bottom: unset;
         left: 0px;
         right: 0px;
-
         margin: 0 auto;
-
-        display: grid;
     }
 
     .suggestion-item {
-        cursor: pointer;
+
         display: grid;
-        grid-template-columns: 50px 1fr 30px;
+        grid-template-columns: 50px 1fr 50px;
         align-content: center;
         align-items: center;
 
@@ -683,15 +681,23 @@
     }
 
     .suggestion-item > div {
+        cursor: pointer;
     }
 
     .suggestion-item > div:first-child {
         align-self: center;
-        justify-self: center;
+        justify-self: stretch;
+        text-align: center;
     }
 
     .suggestion-item > div:last-child {
-        justify-self: center;
+        align-self: center;
+        justify-self: stretch;
+        text-align: center;
+    }
+
+    .suggestion-item > div:nth-child(2) {
+        display: grid;
     }
 
     @media screen and (max-width: 700px) {
