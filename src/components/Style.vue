@@ -98,8 +98,8 @@
                         <div>
                             <input spellcheck="false" placeholder="链接" v-model="item.url" class="url"/>
                         </div>
-                        <div>
-                            <i @click="delBgImgUrl(index)" class="fa fa-minus" aria-hidden="true"></i>
+                        <div @click="delBgImgUrl(index)">
+                            <i class="fa fa-trash-alt" aria-hidden="true"></i>
                         </div>
 
                     </div>
