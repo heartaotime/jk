@@ -342,19 +342,6 @@
         background-color: orange;
     }
 
-    /*.tips {*/
-    /*    padding: 0 5px;*/
-    /*    background-color: cornsilk;*/
-    /*    border: 1px solid lightgrey;*/
-    /*    border-radius: 3px;*/
-
-    /*    display: grid;*/
-    /*    grid-row-gap: 3px;*/
-
-    /*    line-height: 25px;*/
-    /*    font-size: 13px;*/
-    /*}*/
-
 
     @media screen and (max-width: 700px) {
 

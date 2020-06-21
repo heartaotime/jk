@@ -5,28 +5,34 @@
         <div class="login" v-show="loginShow">
 
             <div class="row">
-                <span>登陆账号</span>
-                <input spellcheck="false" v-model="user.userName" placeholder="请输入登陆账号" @change="checkUserExist(1)"/>
+                <div><span>登陆账号</span></div>
+                <div><input spellcheck="false" v-model="user.userName" placeholder="请输入登陆账号"
+                            @change="checkUserExist(1)"/></div>
             </div>
             <div class="row">
-                <span>密码</span>
-                <input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/>
+                <div><span>密码</span></div>
+                <div><input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/></div>
             </div>
 
             <div class="row animated fadeInRight" v-show="showRegist">
-                <span>确认密码</span>
-                <input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/>
+                <div><span>确认密码</span></div>
+                <div><input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/></div>
             </div>
 
             <div class="row animated fadeInRight" v-show="showRegist">
-                <span>邮箱</span>
-                <input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" @change="checkUserExist(2)"/>
+                <div><span>邮箱</span></div>
+                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" @change="checkUserExist(2)"/>
+                </div>
             </div>
 
             <div class="row verifyCode animated fadeInRight" v-show="showRegist">
-                <span>验证码</span>
-                <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
-                <button @click="sendEmail()">发送</button>
+                <div><span>验证码</span></div>
+                <div>
+                    <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
+                </div>
+                <div>
+                    <button @click="sendEmail()">发 送</button>
+                </div>
             </div>
 
             <div class="btn">
@@ -41,7 +47,7 @@
             <div class="user-info">
                 <span>{{openUserInfo.user.userName}} 你好</span>
                 <img src="../assets/img/logout.svg" title="退出登陆" @click="clearLocalStorage()"/>
-<!--                <span>tips: 如遇部分问题，尝试点击左侧登出按钮，并重新登陆</span>-->
+                <!--                <span>tips: 如遇部分问题，尝试点击左侧登出按钮，并重新登陆</span>-->
             </div>
             <div>
                 施工中...
@@ -328,36 +334,41 @@
 
     .row {
         display: grid;
+        grid-template-columns: 80px 1fr 0;
+        grid-column-gap: 10px;
 
-        grid-template-columns: 80px 1fr;
+
         border: 1px solid lightgrey;
         border-radius: 3px;
 
-
-        /*align-content: start;*/
-
-        /*grid-column-gap: 20px;*/
-        /*justify-content: start;*/
+        align-items: center;
+        align-content: center;
+        line-height: 40px;
     }
 
+    .row > div {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .row > div:first-child {
+        border-right: 1px solid lightgrey;
+    }
 
     .row span {
-        text-align: center;
-        line-height: 40px;
-        /*align-self: center;*/
-
-        border-right: 1px solid lightgrey;
+        font-size: 13px;
     }
 
 
     input {
         outline: none;
         border: none;
-
-        padding: 0 10px;
-
+        background: transparent;
         font-size: 15px;
-
         font-weight: bold;
     }
 
@@ -478,20 +489,16 @@
         line-height: 25px;
     }
 
-
-    /*.regist {*/
-    /*    background-color: orange;*/
+    /*.verifyCode {*/
+    /*    grid-template-columns: 80px 1fr 50px;*/
     /*}*/
 
-    .verifyCode {
-        display: grid;
-        grid-template-columns: 80px 160px auto;
-        /*grid-template-columns: repeat(3, auto);*/
-    }
 
-
-    .verifyCode > button {
-        grid-column: unset;
+    .verifyCode > div:last-child > button {
+        position: relative;
+        right: 50px;
+        width: 50px;
+        letter-spacing: 0;
     }
 
     @media screen and (max-width: 700px) {
@@ -507,6 +514,13 @@
         .user-info > span:last-child {
             grid-column: 1/3;
         }
+
+        /*.verifyCode {*/
+        /*    grid-template-columns: 80px 160px auto;*/
+        /*}*/
+        /*.verifyCode > div:last-child {*/
+        /*    justify-self: right;*/
+        /*}*/
 
 
     }
