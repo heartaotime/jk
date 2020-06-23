@@ -45,7 +45,7 @@
 
         <div class="search-history animated fadeInUp" v-show="searchKey === ''">
             <div class="trash" v-show="searchHistory.length > 0">
-                <i class="fas fa-trash-alt" aria-hidden="true" @click="clearSearchHis()"></i>
+                <i class="fas fa-trash-alt enlargeAnimation" aria-hidden="true" @click="clearSearchHis()"></i>
             </div>
 
             <transition-group enter-active-class="animated rollIn"
@@ -301,7 +301,7 @@
 
                     let needSave = true;
                     for (let i = 0; i < this.searchHistoryOrg.length; i++) {
-                        if (this.searchKey === this.searchHistoryOrg[i]) {
+                        if (this.searchKey === this.searchHistoryOrg[i].word) {
                             needSave = false;
                             break;
                         }
