@@ -61,10 +61,10 @@
         <div v-show="searchKey !== ''">
             <transition-group :enter-active-class="enterClass_sug" class="suggestion">
                 <div v-for="(item) in suggestion" :key="item.uuid" class="suggestion-item">
-                    <div @click="sugClick(item.sug, true)"><i class="fa fa-search" aria-hidden="true"></i></div>
-                    <div @click="sugClick(item.sug, true)"><span v-html="item.sug"></span></div>
+                    <div @click="sugClick(item.orgSug, true)"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    <div @click="sugClick(item.orgSug, true)"><span v-html="item.sug"></span></div>
                     <!--                    <div @click="sugClick(item.sug, false)"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></div>-->
-                    <div @click="sugClick(item.sug, false)"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>
+                    <div @click="sugClick(item.orgSug, false)"><i class="fa fa-pencil-alt" aria-hidden="true"></i></div>
                 </div>
             </transition-group>
         </div>
@@ -149,7 +149,8 @@
                             for (let i = 0; i < data.length; i++) {
                                 this.suggestion.push({
                                     uuid: this.Utils.generateUUID(),
-                                    sug: data[i].replace(this.searchKey, '<b>' + this.searchKey + '</b>')
+                                    sug: data[i].replace(this.searchKey, '<b>' + this.searchKey + '</b>'),
+                                    orgSug: data[i]
                                 });
                             }
                             if (this.Utils.isPhone()) {
@@ -277,7 +278,8 @@
             },
             sugClick(sug, search) {
                 document.querySelector('#search').focus();
-                this.searchKey = sug.replace('<b>', '').replace('</b>', '');
+                // this.searchKey = sug.replace('<b>', '').replace('</b>', '');
+                this.searchKey = sug;
                 if (search) {
                     this.search();
                 }
@@ -297,21 +299,30 @@
 
                 if (this.searchKey !== '') {
 
-                    // 最多存储 6 个
-                    if (this.searchHistoryOrg.length > 5) {
-                        this.searchHistoryOrg.splice(0, 1);
+                    let needSave = true;
+                    for (let i = 0; i < this.searchHistoryOrg.length; i++) {
+                        if (this.searchKey === this.searchHistoryOrg[i]) {
+                            needSave = false;
+                            break;
+                        }
                     }
-                    this.searchHistoryOrg.push({
-                        uuid: this.Utils.generateUUID(),
-                        word: this.searchKey
-                    });
-                    localStorage.setItem('searchHistory', JSON.stringify(this.searchHistoryOrg));
-                    this.searchHistory = [];
-                    for (let i = this.searchHistoryOrg.length - 1; i >= 0; i--) {
-                        this.searchHistory.push(this.searchHistoryOrg[i]);
+                    if (needSave) {
+                        // 最多存储 6 个
+                        if (this.searchHistoryOrg.length > 5) {
+                            this.searchHistoryOrg.splice(0, 1);
+                        }
+                        this.searchHistoryOrg.push({
+                            uuid: this.Utils.generateUUID(),
+                            word: this.searchKey
+                        });
+                        localStorage.setItem('searchHistory', JSON.stringify(this.searchHistoryOrg));
+                        this.searchHistory = [];
+                        for (let i = this.searchHistoryOrg.length - 1; i >= 0; i--) {
+                            this.searchHistory.push(this.searchHistoryOrg[i]);
+                        }
                     }
-                }
 
+                }
 
                 setTimeout(() => {
                     this.searchKey = '';
