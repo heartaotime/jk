@@ -20,12 +20,13 @@
         <!--        </transition>-->
 
 
-        <Top></Top>
+        <!--        <Top></Top>-->
 
         <SearchBox></SearchBox>
 
 
         <Index></Index>
+        <Set></Set>
 
 
         <!--        <img alt="Vue logo" src="./assets/logo.png">-->
@@ -50,10 +51,11 @@
 
     import PopCommon from "./components/PopCommon";
 
-    import Top from "./components/Top";
+    // import Top from "./components/Top";
     import SearchBox from "./components/SearchBox";
     import Search from "./components/Search";
     import Index from "./components/Index";
+    import Set from "./components/Set";
 
 
     export default {
@@ -63,10 +65,11 @@
             // Tips,
 
             PopCommon,
-            Top,
+            // Top,
             SearchBox,
             Search,
-            Index
+            Index,
+            Set
         },
         data() {
             return {
@@ -118,6 +121,10 @@
                     // 2.查看背景图的 展示 模式
                     let bgImgShowType = ext.bg.bgImgShowType || 'lasted';
                     this.getByImg(bgImgShowType);
+
+                    // 3.更新Logo
+                    // let logoShowType = ext.logo.logoShowType || 'none';
+                    // this.getByImg(bgImgShowType);
 
                     if (user.userCode && user.userCode !== '-1') {
                         console.log('同步用户设置数据, ', user.userCode);

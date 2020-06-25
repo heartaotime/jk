@@ -1,6 +1,12 @@
 <template>
-    <div class="card module-searchBox animated fadeInDown">
-        <div class="row row1" id="searchBox">
+    <div class="module-searchBox animated fadeInDown">
+
+        <div class="logo">
+            <img v-show="logoShowType == 'url' && url !== ''" :src="url"/>
+            <span v-show="logoShowType == 'time'">{{time}}</span>
+        </div>
+
+        <div class="card row row1" id="searchBox">
             <input spellcheck="false" @focus="inputFocus" :placeholder="yiyanStr"/>
         </div>
     </div>
@@ -18,7 +24,10 @@
         data() {
             return {
                 yiyan: {},
-                yiyanStr: ''
+                yiyanStr: '',
+                logoShowType: 'none',
+                url: '',
+                time: ''
             }
         },
         computed: {
@@ -27,27 +36,46 @@
             },
         },
         watch: {
-            // openUserInfo: {
-            //     handler() {
-            //         // this.getSearchEngine();
-            //         this.searchEngineList = this.openUserInfo.ext.searchEngineList.concat();
-            //         // alert('SearchBox getSearchEngine from openUserInfo, ' + this.searchEngineList.length);
-            //         console.log('SearchBox getSearchEngine from openUserInfo, ', this.searchEngineList);
-            //         for (let i = 0; i < this.searchEngineList.length; i++) {
-            //             let isDefault = this.searchEngineList[i].isDefault;
-            //             if (isDefault) {
-            //                 this.searchEngineIndex = i;
-            //                 break;
-            //             }
-            //         }
-            //     },
-            //     deep: true
-            // },
+            openUserInfo: {
+                handler() {
+                    // 获取Logo
+                    this.logoShowType = this.openUserInfo.ext.logo.logoShowType || 'none';
+                    this.url = this.openUserInfo.ext.logo.url || '';
+                    // if (logoShowType == 'url' && url !== '') {
+                    //     this.url = url;
+                    // } else if (logoShowType == 'time') {
+                    //     this.url = '';
+                    // } else if (logoShowType == 'none') {
+                    //     this.url = '';
+                    // }
+
+
+                    // // this.getSearchEngine();
+                    // this.searchEngineList = this.openUserInfo.ext.searchEngineList.concat();
+                    // // alert('SearchBox getSearchEngine from openUserInfo, ' + this.searchEngineList.length);
+                    // console.log('SearchBox getSearchEngine from openUserInfo, ', this.searchEngineList);
+                    // for (let i = 0; i < this.searchEngineList.length; i++) {
+                    //     let isDefault = this.searchEngineList[i].isDefault;
+                    //     if (isDefault) {
+                    //         this.searchEngineIndex = i;
+                    //         break;
+                    //     }
+                    // }
+                },
+                deep: true
+            },
         },
         created() {
         },
         mounted() {
             this.getYiyan();
+            setInterval(() => {
+                let now = new Date();
+                let hours = now.getHours() > 9 ? now.getHours() : '0' + now.getHours();
+                let minutes = now.getMinutes() > 9 ? now.getMinutes() : '0' + now.getMinutes();
+                // let seconds = now.getSeconds() > 9 ? now.getSeconds() : '0' + now.getSeconds();
+                this.time = hours + ':' + minutes;
+            }, 1000);
         },
         methods: {
             inputFocus() {
@@ -82,13 +110,32 @@
         width: 95%;
 
 
-        margin: 15% auto 0;
+        margin: 10% auto 0;
 
         display: grid;
         grid-template-columns: 100%;
-        grid-row-gap: 5px;
+        grid-row-gap: 20px;
         place-content: center;
         place-items: center;
+
+    }
+
+    .logo {
+        width: 100%;
+        height: 108px;
+        text-align: center;
+        background: transparent;
+    }
+
+    .logo > img {
+        height: 108px;
+        max-width: 250px;
+    }
+
+    .logo > span {
+        font-size: 50px;
+        line-height: 108px;
+        letter-spacing: 10px;
     }
 
     .row {
@@ -132,7 +179,7 @@
     @media screen and (max-width: 700px) {
 
         .module-searchBox {
-            margin: 45% auto 0;
+            margin: 20% auto 0;
             grid-template-columns: 1fr;
         }
 

@@ -11,6 +11,7 @@
                 <User v-if="popConfig.componentName === 'User'"></User>
                 <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
                 <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
+                <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
             </section>
 
             <footer>
@@ -39,7 +40,8 @@
     import Style from "./Style";
     import User from "./User";
     import SearchEngineSet from "./SearchEngineSet";
-    import IndexSet from './IndexSet'
+    import IndexSet from './IndexSet';
+    import LogoSet from "./LogoSet";
 
     export default {
         name: "PopCommon",
@@ -47,7 +49,8 @@
             Style,
             User,
             SearchEngineSet,
-            IndexSet
+            IndexSet,
+            LogoSet
         },
         props: {
             // popConfig: Object

@@ -423,6 +423,7 @@ export default class Utils {
     static basicUrl() {
         return 'https://www.myindex.top/api';
         // return 'http://127.0.0.1:5555/api';
+        // return 'http://139.186.66.121/api';
     }
 
     static isPhone() {

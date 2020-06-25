@@ -12,7 +12,11 @@ let openUserInfo = {
         },
         cardTransparency: '2',
         searchEngineList: [],
-        index: []
+        index: [],
+        logo: {
+            logoShowType: 'none',
+            url: ''
+        }
     }
 
 };

@@ -383,7 +383,7 @@
     .module-search {
 
 
-        z-index: 2;
+        z-index: 3;
         /*background-color: rgba(255, 255, 255, 1);*/
         background-color: whitesmoke;
 
