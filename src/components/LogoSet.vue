@@ -184,6 +184,7 @@
         display: grid;
         place-content: center;
         place-items: center;
+        cursor: pointer;
 
 
     }
