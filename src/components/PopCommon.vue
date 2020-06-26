@@ -143,6 +143,9 @@
     }
 
     @media screen and (max-width: 700px) {
+        .popcommon-module {
+            top: 50px;
+        }
         .popcommon-content {
             width: 98%;
         }

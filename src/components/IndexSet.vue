@@ -78,7 +78,7 @@
                 options: {
                     delayOnTouchOnly: true,  //开启触摸延时
                     direction: 'vertical',   //拖动方向
-                    delay: 1000,              //延时时长
+                    delay: 500,              //延时时长
                     touchStartThreshold: 3,  //防止某些手机过于敏感(3~5 效果最好)
                     dragClass: 'drag',    //格式为简单css选择器的字符串，目标拖动过程中添加
                     animation: 500    // ms, 动画速度运动项目排序时，' 0 ' -没有动画。
@@ -167,31 +167,8 @@
                 document.querySelector('#selectIndexIcon').click();
             },
             upLoadFile() {
-                let appCode = this.Utils.getCommonReq({}).appCode;
-
-                let param = new FormData();
-                param.append("appCode", appCode);
-                // 通过append向form对象添加数据
-                param.append("file", document.querySelector('#selectIndexIcon').files[0]);
-                // FormData私有类对象，访问不到，可以通过get判断值是否传进去
-                // console.log(param.get("file"));
-
-                let config = {
-                    //添加请求头
-                    headers: {"Content-Type": "multipart/form-data"},
-                    //添加上传进度监听事件
-                    onUploadProgress: e => {
-                        var completeProgress = ((e.loaded / e.total * 100) | 0) + "%";
-                        console.log(completeProgress);
-                        // this.progress = completeProgress;
-                    }
-                };
-                this.Utils.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
-                    if (!response || response.code !== '0') {
-                        this.$toast(response.message);
-                        return;
-                    }
-                    this.indexList[this.index].icon = response.data;
+                this.Utils.upLoadFile('selectIndexIcon', url => {
+                    this.indexList[this.index].icon = url;
                 });
             },
             addIndex() {
@@ -283,7 +260,7 @@
     input {
         outline: none;
         border: none;
-        font-size: 15px;
+        font-size: 13px;
         width: 100%;
 
         background: transparent;

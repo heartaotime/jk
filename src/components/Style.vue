@@ -74,12 +74,22 @@
             </div>
 
             <div class="user-cust-bg" v-show="activeTabIndex === 2">
+                <div class="img" @click="selectImg">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </div>
+
+                <input type="file" name="file" id="selectImg" @change="upLoadFile()" hidden style="display: none">
+            </div>
+
+            <div class="user-cust-url-bg" v-show="activeTabIndex === 3">
 
                 <div class="animated fadeInRight faster">
                     <div class="tips">
                         <span>提示：</span>
                         <span>1.可以多选</span>
-                        <span>2.每次刷新页面会从选中的链接中获取一个作为背景</span>
+                        <span>2.每次刷新页面会从选中的链接中随机获取一个</span>
+                        <span>3.下面是一些链接可以供你选择和参考哦</span>
+                        <span>4.选择一个或者多个刷新页面试试看</span>
                     </div>
                 </div>
 
@@ -113,33 +123,6 @@
                 </div>
 
 
-                <!--                <div>-->
-                <!--                    <label for="shareBgImg">背景图链接: </label>-->
-                <!--                    <textarea spellcheck="false" id="shareBgImg" rows="3" v-model="shareBgImg"></textarea>-->
-                <!--                    <button @click="setShareBgImg()">保存</button>-->
-                <!--                </div>-->
-
-                <!--                <div class="animated fadeInRight faster" style="padding: 0 5px;">-->
-                <!--                    <span>可以自己填入链接，也可以选择下面的链接</span>-->
-                <!--                    <span>如果多选，每次刷新页面随机其中的一个链接</span>-->
-                <!--                    <span>自己填入链接和下面的选择可以并存哦</span>-->
-                <!--                    <div class="tips">-->
-                <!--                        <div v-for="(item, index) in bgImgUrl" :key="item.url" :index="index" class="cu-item">-->
-                <!--                            <input type="checkbox" :index="index" :id="'cu-item-' + index" v-model="checkedUUIDList"-->
-                <!--                                   :value="item.url"/><label :for="'cu-item-' + index">{{item.name}}-->
-                <!--                            {{item.url}}</label>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-
-                <!--                <div :style="{-->
-                <!--                               backgroundSize: '100% 100%',-->
-                <!--                               backgroundRepeat: 'no-repeat',-->
-                <!--                               backgroundImage: 'url('+shareBgImg+')'-->
-                <!--                        }">-->
-
-                <!--                </div>-->
-
             </div>
 
         </div>
@@ -166,6 +149,9 @@
                     },
                     {
                         guideName: '自定义背景'
+                    },
+                    {
+                        guideName: '自由设置背景链接'
                     }
                 ],
                 showList: [],
@@ -229,7 +215,8 @@
                     },
                 ],
                 bgImgList: [],
-                checkedUUIDList: []
+                checkedUUIDList: [],
+                custBgImg: ''
             }
         },
         computed: {
@@ -370,7 +357,7 @@
 
                 let list = [];
                 for (let i = 0; i < this.bgImgList.length; i++) {
-                    if (this.bgImgList[i].name != '必应壁纸') {
+                    if (!this.bgImgList[i].one) {
                         this.bgImgList[i].checked = false;
                         list.push(this.bgImgList[i]);
                     }
@@ -379,7 +366,8 @@
                     url: this.showList[index].codeValue,
                     name: '必应壁纸',
                     uuid: this.Utils.generateUUID(),
-                    checked: true
+                    checked: true,
+                    one: true
                 })
                 this.openUserInfo.ext.bg.bgImg = list;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
@@ -409,10 +397,14 @@
                         this.$toast('名称和链接不能为空');
                         return;
                     }
-                    if (item.name === '必应壁纸') {
-                        this.$toast('名称不能为 必应壁纸');
-                        return;
-                    }
+                    // if (item.name === '必应壁纸') {
+                    //     this.$toast('名称不能为 必应壁纸');
+                    //     return;
+                    // }
+                    // if (item.name === '自定义背景') {
+                    //     this.$toast('名称不能为 自定义背景');
+                    //     return;
+                    // }
                 }
 
                 this.openUserInfo.ext.bg.bgImg = [].concat(this.bgImgList);
@@ -432,7 +424,33 @@
                 this.openUserInfo.ext.bg.bgImg = [].concat(this.bgImgList);
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
                 this.$toast('保存成功');
-            }
+            },
+            selectImg() {
+                document.querySelector('#selectImg').click();
+            },
+            upLoadFile() {
+                this.Utils.upLoadFile('selectImg', url => {
+                    this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 选择其一
+                    let list = [];
+                    for (let i = 0; i < this.bgImgList.length; i++) {
+                        if (!this.bgImgList[i].one) {
+                            this.bgImgList[i].checked = false;
+                            list.push(this.bgImgList[i]);
+                        }
+                    }
+                    list.push({
+                        url: url,
+                        name: '自定义背景',
+                        uuid: this.Utils.generateUUID(),
+                        checked: true,
+                        one: true
+                    })
+                    this.openUserInfo.ext.bg.bgImg = list;
+                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                    this.$toast('保存成功');
+                    // this.Utils.closePop();
+                })
+            },
         }
     }
 </script>
@@ -453,7 +471,7 @@
 
     nav {
         display: grid;
-        grid-template-columns: repeat(3, auto);
+        grid-template-columns: repeat(4, auto);
         justify-content: start;
         align-content: center;
 
@@ -485,7 +503,7 @@
     }
 
     .show-item {
-        height: 310px;
+        height: 400px;
         padding: 0 20px 0;
         overflow-y: auto;
     }
@@ -613,7 +631,7 @@
     }
 
 
-    .user-cust-bg {
+    .user-cust-url-bg {
         margin-top: 10px;
         display: grid;
         grid-template-columns: 1fr;
@@ -621,7 +639,7 @@
         /*grid-row-gap: 10px;*/
     }
 
-    /*.user-cust-bg > div:first-child {*/
+    /*.user-cust-url-bg > div:first-child {*/
     /*    height: 50px;*/
     /*    display: grid;*/
     /*    grid-template-columns: auto 4fr 1fr;*/
@@ -641,11 +659,11 @@
         padding: 5px 10px;
     }
 
-    .user-cust-bg > div:last-child {
+    .user-cust-url-bg > div:last-child {
         /*height: 240px;*/
     }
 
-    .user-cust-bg > img {
+    .user-cust-url-bg > img {
         width: 300px;
         height: 300px;
     }
@@ -755,7 +773,7 @@
         outline: none;
         border: none;
         /*padding: 0 10px;*/
-        font-size: 15px;
+        font-size: 13px;
 
         /*border-left: 1px solid lightgray;*/
 
@@ -830,30 +848,37 @@
         background-color: orange;
     }
 
+    .user-cust-bg {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr;
+        place-content: center;
+        place-items: center;
+    }
 
-    /*.tips {*/
-    /*    padding: 2px 5px;*/
-    /*    background-color: cornsilk;*/
-    /*    border: 1px solid lightgrey;*/
-    /*    border-radius: 3px;*/
+    .img {
 
-    /*    display: grid;*/
-    /*    grid-row-gap: 3px;*/
+        height: 200px;
+        width: 200px;
 
-    /*    line-height: 25px;*/
-    /*    font-size: 13px;*/
-    /*}*/
+        border: 1px dashed #DCDFE6;;
 
-    /*.tips > .cu-item {*/
-    /*    display: grid;*/
-    /*    grid-template-columns: repeat(2, auto);*/
-    /*    justify-content: left;*/
-    /*    justify-items: left;*/
-    /*    align-content: center;*/
-    /*    align-items: center;*/
-    /*    grid-column-gap: 10px;*/
-    /*    line-height: 30px;*/
-    /*}*/
+        display: grid;
+        place-content: center;
+        place-items: center;
+        cursor: pointer;
+
+    }
+
+    .img > img {
+        /*height: 300px;*/
+        /*width: 300px;*/
+    }
+
+    .img > i {
+        font-size: 40px;
+    }
+
 
     @media screen and (max-width: 700px) {
         .item {
@@ -890,7 +915,7 @@
             grid-template-columns: 1fr;
         }
 
-        .user-cust-bg > div:last-child {
+        .user-cust-url-bg > div:last-child {
             /*height: 200px;*/
         }
 
@@ -899,12 +924,12 @@
         }
 
 
-        .user-cust-bg > div:first-child {
+        .user-cust-url-bg > div:first-child {
             grid-template-columns: auto 1fr;
             grid-row-gap: 5px;
         }
 
-        .user-cust-bg button {
+        .user-cust-url-bg button {
             grid-column: 1/3;
             line-height: 40px;
         }
