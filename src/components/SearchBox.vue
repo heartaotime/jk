@@ -39,8 +39,8 @@
             openUserInfo: {
                 handler() {
                     // 获取Logo
-                    this.logoShowType = this.openUserInfo.ext.logo.logoShowType || 'none';
-                    this.url = this.openUserInfo.ext.logo.url || '';
+                    this.logoShowType = this.openUserInfo.ext.logo.logoShowType;
+                    this.url = this.openUserInfo.ext.logo.url;
                     // if (logoShowType == 'url' && url !== '') {
                     //     this.url = url;
                     // } else if (logoShowType == 'time') {

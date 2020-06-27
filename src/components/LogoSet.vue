@@ -87,7 +87,7 @@
         },
         methods: {
             init() {
-                this.logoShowType = this.openUserInfo.ext.logo.logoShowType || 'none';
+                this.logoShowType = this.openUserInfo.ext.logo.logoShowType;
                 this.url = this.openUserInfo.ext.logo.url;
             },
             save() {

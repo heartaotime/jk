@@ -492,5 +492,32 @@ export default class Utils {
         });
     }
 
+    static isType(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Array]') {
+            return 'Array';
+        } else if (type == '[object Object]') {
+            return "Object"
+        } else {
+            return 'param is no object type';
+        }
+    }
+
+    static isObject(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Object]') {
+            return true;
+        }
+        return false;
+    }
+
+    static isArray(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Array]') {
+            return true;
+        }
+        return false;
+    }
+
 
 }

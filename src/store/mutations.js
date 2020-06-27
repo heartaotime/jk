@@ -1,4 +1,6 @@
 export default {
+
+
     uOpenUserInfo(state, openUserInfo) {
         // alert('uOpenUserInfo');
         console.log('uOpenUserInfo before:', JSON.parse(JSON.stringify(state.openUserInfo)));
@@ -10,7 +12,77 @@ export default {
 
         // console.log('uOpenUserInfo openUserInfo.change:', openUserInfo.change);
 
+
+        function isObject(obj) {
+            var type = Object.prototype.toString.call(obj);
+            if (type == '[object Object]') {
+                return true;
+            }
+            return false;
+        }
+
+        function isArray(obj) {
+            var type = Object.prototype.toString.call(obj);
+            if (type == '[object Array]') {
+                return true;
+            }
+            return false;
+        }
+
+        // 处理下字段
+        if (!isObject(openUserInfo.user)) {
+            openUserInfo.user = {
+                userCode: '-1',
+                userName: '访客'
+            };
+        }
+
+        if (!isObject(openUserInfo.ext)) {
+            openUserInfo.ext = {
+                bg: {
+                    bgImgShowType: 'lasted',
+                    bgImg: [],
+                    bgColor: 'white'
+                },
+                cardTransparency: '2',
+                searchEngineList: [],
+                index: [],
+                logo: {
+                    logoShowType: 'none',
+                    url: ''
+                }
+            };
+        }
+
+        if (!isObject(openUserInfo.ext.bg)) {
+            openUserInfo.ext.bg = {
+                bgImgShowType: 'lasted',
+                bgImg: [],
+                bgColor: 'white'
+            }
+        }
+
+        if (!isArray(openUserInfo.ext.bg.bgImg)) {
+            openUserInfo.ext.bg.bgImg = [];
+        }
+
+        if (!isArray(openUserInfo.ext.searchEngineList)) {
+            openUserInfo.ext.searchEngineList = [];
+        }
+
+        if (!isArray(openUserInfo.ext.index)) {
+            openUserInfo.ext.index = [];
+        }
+
+        if (!isObject(openUserInfo.ext.logo)) {
+            openUserInfo.ext.logo = {
+                logoShowType: 'none',
+                url: ''
+            };
+        }
+
         state.openUserInfo = openUserInfo;
+
 
         console.log('uOpenUserInfo after:', JSON.parse(JSON.stringify(state.openUserInfo)));
 

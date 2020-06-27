@@ -1,5 +1,5 @@
 <template>
-    <div class="card set animated fadeInDown">
+    <div class="set animated fadeInDown">
         <!--        @mouseover="show = true" @mouseout="show = false"-->
 
         <div class="card up animated fadeInUp" @click="show = true,Utils.closePop()" v-show="!show">
