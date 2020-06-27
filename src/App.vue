@@ -116,15 +116,14 @@
                     // console.log('openUserInfo changed-1-2, ', this.openUserInfo.ext.searchEngineList);
                     // console.log('openUserInfo changed-1-3, ', openUserInfo);
 
-                    // 1.更新卡片 透明度
-                    this.Utils.uCardStyle(ext.cardTransparency || '2');
-                    // 2.查看背景图的 展示 模式
-                    let bgImgShowType = ext.bg.bgImgShowType || 'lasted';
-                    this.getByImg(bgImgShowType);
 
-                    // 3.更新Logo
-                    // let logoShowType = ext.logo.logoShowType || 'none';
-                    // this.getByImg(bgImgShowType);
+                    this.$nextTick(() => {
+                        // 1.更新卡片 透明度
+                        this.Utils.uCardStyle(ext.cardTransparency || '2');
+                        // 2.查看背景图的 展示 模式
+                        let bgImgShowType = ext.bg.bgImgShowType || 'lasted';
+                        this.getByImg(bgImgShowType);
+                    })
 
                     if (user.userCode && user.userCode !== '-1') {
                         console.log('同步用户设置数据, ', user.userCode);

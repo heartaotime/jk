@@ -5,7 +5,7 @@
                           leave-active-class="animated fadeOut" class="module-items">
             <div class="item enlargeAnimation" v-for="(item) in index" :key="item.uuid" @click="window.open(item.url)">
                 <div><a :href="item.url"><img :src="item.icon"></a></div>
-                <div class="name"><span>{{item.name}}</span></div>
+                <div class="card name"><span>{{item.name}}</span></div>
             </div>
         </transition-group>
 
@@ -99,8 +99,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        background-color: rgba(255, 255, 255, 0.7);
-        border-radius: 5px;
+        /*background-color: rgba(255, 255, 255, 0.7);*/
+        /*border-radius: 5px;*/
         padding: 2px 5px;
     }
 
