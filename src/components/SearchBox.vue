@@ -4,6 +4,7 @@
         <div class="logo">
             <img v-show="logoShowType == 'url' && url !== ''" :src="url"/>
             <span v-show="logoShowType == 'time'">{{time}}</span>
+            <Weather class="weather" v-show="logoShowType == 'weather'"></Weather>
         </div>
 
         <div class="card row row1" id="searchBox">
@@ -15,12 +16,16 @@
 
 <script>
 
+    import Weather from "./Weather";
+
     export default {
         name: 'SearchBox',
         props: {
             // msg: String
         },
-        components: {},
+        components: {
+            Weather
+        },
         data() {
             return {
                 yiyan: {},
@@ -125,6 +130,10 @@
         height: 108px;
         text-align: center;
         background: transparent;
+
+        display: grid;
+        place-content: center;
+        place-items: center;
     }
 
     .logo > img {
@@ -134,8 +143,12 @@
 
     .logo > span {
         font-size: 50px;
-        line-height: 108px;
+        /*line-height: 108px;*/
         letter-spacing: 10px;
+    }
+
+    .logo > .weather {
+        /*background-color: rgba(255, 255, 255, 0.2);*/
     }
 
     .row {

@@ -20,6 +20,10 @@
                 <span>{{time}}</span>
             </div>
 
+            <div class="weather" v-show="logoShowType === 'weather'">
+                <Weather></Weather>
+            </div>
+
         </div>
 
 
@@ -35,8 +39,45 @@
 </template>
 
 <script>
+    import Weather from "./Weather";
+
+    window.WIDGET = {
+        CONFIG: {
+            "modules": "01234",
+            "background": 5,
+            "tmpColor": "4A4A4A",
+            "tmpSize": "15",
+            "cityColor": "4A4A4A",
+            "citySize": "15",
+            "aqiSize": "15",
+            "weatherIconSize": "20",
+            "alertIconSize": "16",
+            "padding": "0px 0px 0px 0px",
+            "shadow": "0",
+            "language": "auto",
+            "borderRadius": 5,
+            "fixed": "false",
+            "vertical": "middle",
+            "horizontal": "left",
+            "key": "a57958f86f70480d988820933f1d0f87"
+        }
+    }
+    // window.onload = function () {
+    //     document.querySelector('#he-plugin-simple').style.zIndex = 2;
+    // }
+    export default {
+        components: {Weather}
+    }
+</script>
+<script src="https://widget.heweather.net/simple/static/js/he-simple-common.js?v=1.1"></script>
+<script>
+    import Weather from "./Weather";
+
     export default {
         name: "LogoSet",
+        components: {
+            Weather
+        },
         data() {
             return {
                 url: '',
@@ -56,6 +97,11 @@
                         code: 'time',
                         name: '时间',
                         desc: '每分钟更新'
+                    },
+                    {
+                        code: 'weather',
+                        name: '天气',
+                        desc: '天气'
                     },
 
                 ],
@@ -124,7 +170,7 @@
 
     .tab {
         display: grid;
-        grid-template-columns: repeat(3, auto);
+        grid-template-columns: repeat(4, auto);
         justify-content: left;
         grid-row-gap: 10px;
         grid-column-gap: 20px;
@@ -197,6 +243,15 @@
         /*transform: translate(-50%, -50%);*/
         /*color: #daf6ff;*/
         /*text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);*/
+    }
+
+    .weather {
+        height: 100px;
+        width: 200px;
+
+        display: grid;
+        place-content: center;
+        place-items: center;
     }
 
     input {
