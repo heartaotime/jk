@@ -91,6 +91,10 @@
         margin-top: -5px;
     }
 
+    .card {
+        box-shadow: unset;
+    }
+
     .name {
 
         line-height: 20px;
