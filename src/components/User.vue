@@ -712,6 +712,12 @@
         letter-spacing: 0;
     }
 
+    .user-info-detail > div:first-child {
+        background-color: cornsilk;
+        border-radius: 12px;
+        padding: 0 5px;
+    }
+
     @media screen and (max-width: 700px) {
 
         span, textarea {
