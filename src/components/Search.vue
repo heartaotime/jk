@@ -657,11 +657,11 @@
     .search-history-item {
         max-width: 300px;
         cursor: pointer;
-        padding: 5px;
+        padding: 3px;
         border-radius: 5px;
         outline: none;
         background-color: white;
-        font-size: 15px;
+        font-size: 13px;
         display: inline-block;
         margin: 5px;
 
