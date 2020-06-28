@@ -1,5 +1,41 @@
+// 导入compression-webpack-plugin
+// const CompressionWebpackPlugin = require('compression-webpack-plugin');
+// 定义压缩文件类型
+// const productionGzipExtensions = ['js', 'css'];
+
 module.exports = {
     publicPath: '/jk',
+    productionSourceMap: false,
+    // 统一配置打包插件
+    // configureWebpack: () => {
+    //     if (process.env.NODE_ENV === 'production')
+    //         return {
+    //             plugins: [
+    //                 new CompressionWebpackPlugin({
+    //                     // asset: '[path].gz[query]',
+    //                     filename: '[path].gz[query]',
+    //                     algorithm: 'gzip',
+    //                     test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),//匹配文件名
+    //                     // threshold: 10240, // 对10K以上的数据进行压缩
+    //                     minRatio: 0.8, // 只有压缩率比这个值小的资源才会被处理
+    //                     deleteOriginalAssets: true, // 是否删除源文件
+    //                 })
+    //             ]
+    //         }
+    // },
+    // configureWebpack: config => {
+    //     if (process.env.NODE_ENV === 'production') {
+    //         return {
+    //             plugins: [
+    //                 new CompressionPlugin({
+    //                     test: productionGzipExtensions,
+    //                     deleteOriginalAssets: true // 是否删除源文件
+    //                 })
+    //             ]
+    //         }
+    //     }
+    // },
+
     devServer: {
         port: 9000,
         host: '0.0.0.0',

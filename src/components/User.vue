@@ -59,15 +59,9 @@
                     <button @click="showDeleteUser()">注销用户</button>
                 </div>
             </div>
-            <!--            <textarea v-model="showUserInfo" spellcheck="false"></textarea>-->
-            <!--            <div class="operation">-->
-            <!--                <button @click="save(1)">保存到本地</button>-->
-            <!--                <button @click="save(2)">保存到本地,并同步到服务器</button>-->
-            <!--                <button @click="save(3)">清空本地和服务器个性化设置</button>-->
-            <!--            </div>-->
         </div>
 
-        <div class="login" v-show="deleteUser">
+        <div class="login" v-show="modifyUserPwd || updateUser || deleteUser">
 
             <div class="row animated fadeInRight">
                 <div><span>邮箱</span></div>
@@ -85,73 +79,26 @@
                 </div>
             </div>
 
-            <div class="btn">
-                <button style="background-color: red;" @click="deleteUserMethod()">注销</button>
-            </div>
-        </div>
-
-
-        <div class="login" v-show="updateUser">
-
-            <div class="row animated fadeInRight">
-                <div><span>邮箱</span></div>
-                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
-                </div>
-            </div>
-
-            <div class="row verifyCode animated fadeInRight">
-                <div><span>验证码</span></div>
-                <div>
-                    <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
-                </div>
-                <div>
-                    <button @click="sendEmail()">发 送</button>
-                </div>
-            </div>
-
-            <div class="row">
-                <div><span>登陆账号</span></div>
-                <div><input spellcheck="false" v-model="user.userName" placeholder="请输入登陆账号"
-                            @change="checkUserExist(1)"/></div>
-            </div>
-
-            <div class="btn">
-                <button style="background-color: orange;" @click="updateUserMethod()">修改用户信息</button>
-            </div>
-        </div>
-
-
-        <div class="login" v-show="modifyUserPwd">
-
-            <div class="row animated fadeInRight">
-                <div><span>邮箱</span></div>
-                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
-                </div>
-            </div>
-
-            <div class="row verifyCode animated fadeInRight">
-                <div><span>验证码</span></div>
-                <div>
-                    <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
-                </div>
-                <div>
-                    <button @click="sendEmail()">发 送</button>
-                </div>
-            </div>
-
-            <div class="row animated fadeInRight">
+            <div class="row animated fadeInRight" v-show="modifyUserPwd">
                 <div><span>密码</span></div>
                 <div><input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/></div>
             </div>
 
-            <div class="row animated fadeInRight">
+            <div class="row animated fadeInRight" v-show="modifyUserPwd">
                 <div><span>确认密码</span></div>
                 <div><input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/>
                 </div>
             </div>
 
+            <div class="row" v-show="updateUser">
+                <div><span>登陆账号</span></div>
+                <div><input spellcheck="false" v-model="user.userName" placeholder="请输入登陆账号"/></div>
+            </div>
+
             <div class="btn">
-                <button style="background-color: orange;" @click="modifyUserPwdMethod()">修改密码</button>
+                <button style="" @click="submitAction()">
+                    {{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser ? '注销' : ''}}
+                </button>
             </div>
         </div>
 
@@ -210,6 +157,15 @@
             this.init();
         },
         methods: {
+            submitAction() {
+                if (this.modifyUserPwd) {
+                    this.modifyUserPwdMethod()
+                } else if (this.updateUser) {
+                    this.updateUserMethod();
+                } else if (this.deleteUser) {
+                    this.deleteUserMethod();
+                }
+            },
             deleteUserMethod() {
                 if (this.user.email == '' || this.user.verifyCode == '') {
                     this.$toast('请先填写信息后再提交');
@@ -240,6 +196,7 @@
                 this.deleteUser = true;
                 this.modifyUserPwd = false;
                 this.updateUser = false;
+
                 this.loginShow = false;
                 this.showRegist = false;
                 this.user.email = this.openUserInfo.user.email;
@@ -278,6 +235,7 @@
                 this.updateUser = true;
                 this.modifyUserPwd = false;
                 this.deleteUser = false;
+
                 this.loginShow = false;
                 this.showRegist = false;
                 this.user.email = this.openUserInfo.user.email;
@@ -317,6 +275,7 @@
                 this.modifyUserPwd = true;
                 this.updateUser = false;
                 this.deleteUser = false;
+
                 this.loginShow = false;
                 this.showRegist = false;
                 this.user.email = this.openUserInfo.user.email;
