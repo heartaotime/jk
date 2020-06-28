@@ -43,14 +43,21 @@
 
         </div>
 
-        <div v-show="!loginShow" class="info">
+        <div v-show="!loginShow && !modifyUserPwd && !updateUser && !deleteUser" class="info">
             <div class="user-info">
                 <span>{{openUserInfo.user.userName}} 你好</span>
-                <img src="../assets/img/logout.svg" title="退出登陆" @click="clearLocalStorage()"/>
-                <!--                <span>tips: 如遇部分问题，尝试点击左侧登出按钮，并重新登陆</span>-->
+                <!--                <img src="../assets/img/logout.svg" title="退出登陆" @click="clearLocalStorage()"/>-->
             </div>
-            <div>
-                施工中...
+            <div class="user-info-detail">
+                <div>
+                    <label>注册时间 : </label><span>{{openUserInfo.user.createDate}}</span>
+                </div>
+                <div class="operation">
+                    <button @click="clearLocalStorage()">登出</button>
+                    <button @click="showMdPwd()">修改密码</button>
+                    <button @click="showMdUserInfo()">修改用户信息</button>
+                    <button @click="showDeleteUser()">注销用户</button>
+                </div>
             </div>
             <!--            <textarea v-model="showUserInfo" spellcheck="false"></textarea>-->
             <!--            <div class="operation">-->
@@ -59,6 +66,95 @@
             <!--                <button @click="save(3)">清空本地和服务器个性化设置</button>-->
             <!--            </div>-->
         </div>
+
+        <div class="login" v-show="deleteUser">
+
+            <div class="row animated fadeInRight">
+                <div><span>邮箱</span></div>
+                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
+                </div>
+            </div>
+
+            <div class="row verifyCode animated fadeInRight">
+                <div><span>验证码</span></div>
+                <div>
+                    <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
+                </div>
+                <div>
+                    <button @click="sendEmail()">发 送</button>
+                </div>
+            </div>
+
+            <div class="btn">
+                <button style="background-color: red;" @click="deleteUserMethod()">注销</button>
+            </div>
+        </div>
+
+
+        <div class="login" v-show="updateUser">
+
+            <div class="row animated fadeInRight">
+                <div><span>邮箱</span></div>
+                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
+                </div>
+            </div>
+
+            <div class="row verifyCode animated fadeInRight">
+                <div><span>验证码</span></div>
+                <div>
+                    <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
+                </div>
+                <div>
+                    <button @click="sendEmail()">发 送</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div><span>登陆账号</span></div>
+                <div><input spellcheck="false" v-model="user.userName" placeholder="请输入登陆账号"
+                            @change="checkUserExist(1)"/></div>
+            </div>
+
+            <div class="btn">
+                <button style="background-color: orange;" @click="updateUserMethod()">修改用户信息</button>
+            </div>
+        </div>
+
+
+        <div class="login" v-show="modifyUserPwd">
+
+            <div class="row animated fadeInRight">
+                <div><span>邮箱</span></div>
+                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
+                </div>
+            </div>
+
+            <div class="row verifyCode animated fadeInRight">
+                <div><span>验证码</span></div>
+                <div>
+                    <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
+                </div>
+                <div>
+                    <button @click="sendEmail()">发 送</button>
+                </div>
+            </div>
+
+            <div class="row animated fadeInRight">
+                <div><span>密码</span></div>
+                <div><input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/></div>
+            </div>
+
+            <div class="row animated fadeInRight">
+                <div><span>确认密码</span></div>
+                <div><input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/>
+                </div>
+            </div>
+
+            <div class="btn">
+                <button style="background-color: orange;" @click="modifyUserPwdMethod()">修改密码</button>
+            </div>
+        </div>
+
 
         <div class="tips animated fadeInUp">
             <span>提示：</span>
@@ -91,7 +187,10 @@
                     nickName: '',
                 },
                 showUserInfo: {},
-                showRegist: false
+                showRegist: false,
+                modifyUserPwd: false,
+                updateUser: false,
+                deleteUser: false
             }
         },
         computed: {
@@ -111,6 +210,119 @@
             this.init();
         },
         methods: {
+            deleteUserMethod() {
+                if (this.user.email == '' || this.user.verifyCode == '') {
+                    this.$toast('请先填写信息后再提交');
+                    return;
+                }
+
+                let result = window.confirm('确认注销吗？')
+                if (result) {
+                    let url = this.Utils.basicUrl() + '/user/v1/deleteUser';
+                    let param = {
+                        "userCode": this.openUserInfo.user.userCode,
+                        "verifyCode": this.user.verifyCode
+                    };
+                    this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                        if (!response || response.code !== '0') {
+                            this.$toast(response.message);
+                            return;
+                        }
+                        this.$toast("注销成功");
+                        setTimeout(() => {
+                            this.Utils.clearLocalStorage();
+                        }, 1000)
+
+                    });
+                }
+            },
+            showDeleteUser() {
+                this.deleteUser = true;
+                this.modifyUserPwd = false;
+                this.updateUser = false;
+                this.loginShow = false;
+                this.showRegist = false;
+                this.user.email = this.openUserInfo.user.email;
+            },
+            updateUserMethod() {
+                if (this.user.userName == '' || this.user.email == '' || this.user.verifyCode == '') {
+                    // this.$toast('请先填写信息后在提交');
+                    this.$toast('请先填写信息后再提交');
+                    return;
+                }
+
+                if (this.user.passWord !== this.user.passWord2) {
+                    this.$toast('两次填写的密码不一致');
+                    return;
+                }
+
+                let url = this.Utils.basicUrl() + '/user/v1/updateUser';
+                let param = {
+                    "userCode": this.openUserInfo.user.userCode,
+                    "userName": this.user.userName,
+                    "verifyCode": this.user.verifyCode
+                };
+                this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                    if (!response || response.code !== '0') {
+                        this.$toast(response.message);
+                        return;
+                    }
+                    this.$toast("修改成功，请重新登陆");
+                    setTimeout(() => {
+                        this.Utils.clearLocalStorage();
+                    }, 1000)
+
+                });
+            },
+            showMdUserInfo() {
+                this.updateUser = true;
+                this.modifyUserPwd = false;
+                this.deleteUser = false;
+                this.loginShow = false;
+                this.showRegist = false;
+                this.user.email = this.openUserInfo.user.email;
+                this.user.userName = '';
+            },
+            modifyUserPwdMethod() {
+                if (this.user.passWord == '' || this.user.email == '' || this.user.verifyCode == '') {
+                    // this.$toast('请先填写信息后在提交');
+                    this.$toast('请先填写信息后再提交');
+                    return;
+                }
+
+                if (this.user.passWord !== this.user.passWord2) {
+                    this.$toast('两次填写的密码不一致');
+                    return;
+                }
+
+                let url = this.Utils.basicUrl() + '/user/v1/modifyUserPwd';
+                let param = {
+                    "userCode": this.openUserInfo.user.userCode,
+                    "passWord": this.user.passWord,
+                    "verifyCode": this.user.verifyCode
+                };
+                this.Utils.postJson(url, this.Utils.getCommonReq(param)).then(response => {
+                    if (!response || response.code !== '0') {
+                        this.$toast(response.message);
+                        return;
+                    }
+                    this.$toast("修改成功，请重新登陆");
+                    setTimeout(() => {
+                        this.Utils.clearLocalStorage();
+                    }, 500)
+
+                });
+            },
+            showMdPwd() {
+                this.modifyUserPwd = true;
+                this.updateUser = false;
+                this.deleteUser = false;
+                this.loginShow = false;
+                this.showRegist = false;
+                this.user.email = this.openUserInfo.user.email;
+                this.user.passWord = '';
+                this.user.passWord2 = '';
+            },
             registUser() {
                 if (this.showRegist) {
                     if (this.user.userName == '' || this.user.passWord == '' || this.user.email == '' || this.user.verifyCode == '') {
@@ -380,7 +592,7 @@
 
         grid-row-gap: 10px;
 
-        height: 200px;
+        height: 240px;
 
         align-content: start;
 
@@ -402,8 +614,9 @@
 
 
     .operation {
+        margin-top: 10px;
         display: grid;
-        grid-row-gap: 5px;
+        grid-row-gap: 10px;
     }
 
 
@@ -466,12 +679,10 @@
 
     .operation > button:nth-child(2):hover {
         background: darkorange;
-        /*border-color: red;*/
     }
 
     .operation > button:last-child:hover {
         background: red;
-        /*border-color: red;*/
     }
 
 
