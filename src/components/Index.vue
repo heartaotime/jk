@@ -3,7 +3,7 @@
 
         <transition-group enter-active-class="animated fadeInUp"
                           leave-active-class="animated fadeOut" class="module-items">
-            <div class="item enlargeAnimation" v-for="(item) in index" :key="item.uuid" @click="window.open(item.url)">
+            <div class="item" v-for="(item) in index" :key="item.uuid" @click="window.open(item.url)">
                 <div><a :href="item.url"><img :src="item.icon"></a></div>
                 <div class="card name"><span>{{item.name}}</span></div>
             </div>
@@ -121,6 +121,12 @@
     @media screen and (max-width: 700px) {
         .module-items {
             grid-template-columns: repeat(5, 1fr);
+        }
+
+        .item:hover {
+            -webkit-animation: unset;
+            animation: unset;
+            margin-top: unset;
         }
     }
 </style>
