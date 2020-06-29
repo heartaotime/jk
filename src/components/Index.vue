@@ -106,7 +106,7 @@
         white-space: nowrap;
         /*background-color: rgba(255, 255, 255, 0.7);*/
         /*border-radius: 5px;*/
-        padding: 2px 5px;
+        padding: 1px 3px;
     }
 
     .name > span {
