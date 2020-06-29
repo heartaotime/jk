@@ -96,10 +96,11 @@
     }
 
     .name {
+        max-width: 80%;
+        text-align: center;
 
         line-height: 20px;
         font-size: 13px;
-        max-width: 40px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
