@@ -118,7 +118,7 @@
         margin: 10% auto 0;
 
         display: grid;
-        grid-template-columns: 100%;
+        grid-template-columns: 1fr;
         grid-row-gap: 20px;
         place-content: center;
         place-items: center;
@@ -194,7 +194,7 @@
 
         .module-searchBox {
             margin: 20% auto 0;
-            grid-template-columns: 1fr;
+            /*grid-template-columns: 1fr;*/
         }
 
         .row {

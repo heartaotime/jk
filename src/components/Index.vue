@@ -66,8 +66,10 @@
     .module-items {
         /*width: 100%;*/
         display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        justify-content: space-evenly;
+        /*grid-template-columns: repeat(8, 1fr);*/
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        justify-content: space-around;
+        /*grid-gap: 30px;*/
         grid-row-gap: 30px;
         padding: 10px;
     }
@@ -86,9 +88,12 @@
     }
 
     .item:hover {
-        -webkit-animation: fadeInS 0.8s;
-        animation: fadeInS 0.8s;
-        margin-top: -5px;
+        /*-webkit-animation: fadeInS 0.8s;*/
+        /*animation: fadeInS 0.8s;*/
+        /*margin-top: -5px;*/
+
+        transition: all .15s ease;
+        transform: translateY(-5px);
     }
 
     .card {
@@ -96,7 +101,7 @@
     }
 
     .name {
-        max-width: 80%;
+        max-width: 100%;
         text-align: center;
 
         line-height: 20px;
@@ -119,10 +124,9 @@
     }
 
     @media screen and (max-width: 700px) {
-        .module-items {
-            grid-template-columns: repeat(5, 1fr);
-        }
-
+        /*.module-items {*/
+        /*    grid-template-columns: repeat(5, 1fr);*/
+        /*}*/
         .item:hover {
             -webkit-animation: unset;
             animation: unset;

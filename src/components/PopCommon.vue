@@ -104,8 +104,12 @@
         background-color: rgba(255, 255, 255, 1);
 
         /*padding: 20px;*/
-        width: 800px;
+        /*width: 800px;*/
         /*height: 600px;*/
+
+        max-width: 800px;
+        width: 98vw;
+
         margin: 0 auto;
 
         display: grid;
@@ -146,9 +150,9 @@
         .popcommon-module {
             top: 50px;
         }
-        .popcommon-content {
-            width: 98%;
-        }
+        /*.popcommon-content {*/
+        /*    width: 98%;*/
+        /*}*/
     }
 
 </style>
