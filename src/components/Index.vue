@@ -124,13 +124,9 @@
     }
 
     @media screen and (max-width: 700px) {
-        /*.module-items {*/
-        /*    grid-template-columns: repeat(5, 1fr);*/
-        /*}*/
         .item:hover {
-            -webkit-animation: unset;
-            animation: unset;
-            margin-top: unset;
+            transition: unset;
+            transform: unset;
         }
     }
 </style>
