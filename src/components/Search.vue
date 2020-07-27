@@ -383,6 +383,7 @@
     .module-search {
 
 
+
         z-index: 3;
         /*background-color: rgba(255, 255, 255, 1);*/
         background-color: whitesmoke;
@@ -400,7 +401,7 @@
 
     .search {
 
-        max-width: 1200px;
+        max-width: 800px;
         width: 95%;
         position: fixed;
         top: 20px;
@@ -610,7 +611,7 @@
     }
 
     .search-history {
-        max-width: 1200px;
+        max-width: 800px;
         width: 95%;
         position: fixed;
         z-index: -1;
@@ -673,7 +674,7 @@
     }
 
     .suggestion {
-        max-width: 1200px;
+        max-width: 800px;
         width: 95%;
         position: fixed;
         z-index: -1;
