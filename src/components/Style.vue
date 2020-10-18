@@ -459,9 +459,9 @@
 
 
     .top {
-        background-color: #f9f9f9;
+        /*background-color: #f9f9f9;*/
 
-        padding: 10px 20px 0;
+        /*padding: 10px 20px 0;*/
 
         display: grid;
         grid-template-columns: 1fr;
@@ -504,7 +504,7 @@
 
     .show-item {
         height: 400px;
-        padding: 0 20px 0;
+        /*padding: 0 20px 0;*/
         overflow-y: auto;
     }
 

@@ -8,6 +8,26 @@
 
 
         <transition enter-active-class="animated fadeInUp faster"
+                    leave-active-class="animated fadeOut faster">
+            <pop :show="popConfig.show" :style-set="{top:'10%',maxWidth:'800px'}" @close="Utils.closePop()">
+                <div slot="header">{{popConfig.title}}</div>
+                <div slot="main">
+<!--                    <div style="text-align: center;">-->
+<!--&lt;!&ndash;                        <router-view :name="popConfig.componentName"></router-view>&ndash;&gt;-->
+<!--                       -->
+<!--                    </div>-->
+
+                    <Style v-if="popConfig.componentName === 'Style'"></Style>
+                    <User v-if="popConfig.componentName === 'User'"></User>
+                    <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
+                    <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
+                    <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
+                </div>
+            </pop>
+        </transition>
+
+
+        <transition enter-active-class="animated fadeInUp faster"
                     leave-active-class="animated fadeOutDown faster">
             <div class="card menu" v-show="show">
                 <div class="items">
@@ -70,10 +90,24 @@
 </template>
 
 <script>
+    import Style from "./Style";
+    import User from "./User";
+    import SearchEngineSet from "./SearchEngineSet";
+    import IndexSet from './IndexSet';
+    import LogoSet from "./LogoSet";
+
     export default {
         name: "Set",
+        components: {
+            Style,
+            User,
+            SearchEngineSet,
+            IndexSet,
+            LogoSet
+        },
         data() {
             return {
+                dialogShow: false,
                 show: false,
                 iClass: 'fa fa-angle-up'
             }
@@ -97,6 +131,7 @@
             uPopConfig(type, title) {
                 this.show = false;
 
+
                 let show = false;
                 if (this.popConfig.componentName === type) {
                     show = !this.popConfig.show;
@@ -108,6 +143,7 @@
                     title: title,
                     componentName: type
                 });
+                this.dialogShow = show;
             },
             scroll() {
                 let scrollTop = document.documentElement.scrollTop;

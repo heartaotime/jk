@@ -114,3 +114,8 @@ a, span {
     line-height: 25px;
     font-size: 13px;
 }
+
+.content-wd {
+    width: 90vw;
+    max-width: 800px;
+}

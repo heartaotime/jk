@@ -205,7 +205,7 @@
 <style scoped>
 
     .module {
-        padding: 10px 10px 0;
+        /*padding: 10px 10px 0;*/
         display: grid;
         grid-template-columns: 1fr;
 
