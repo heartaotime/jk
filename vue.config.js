@@ -1,5 +1,5 @@
 module.exports = {
-    // "publicPath": "/jk",
+    "publicPath": "/jk",
     "productionSourceMap": false,
     "devServer": {
         "port": 9000,

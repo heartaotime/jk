@@ -122,7 +122,7 @@
 
         background-color: #e0e0e0;
         border-color: #e0e0e0;
-        border-radius: 5px;
+        border-radius: 5px 5px 0 0;
 
         span:last-child {
             justify-self: right;

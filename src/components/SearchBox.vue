@@ -268,7 +268,6 @@
 
             &:nth-child(1) {
                 width: $div1-width;
-                cursor: pointer;
             }
 
             &:nth-child(2) {
@@ -301,6 +300,7 @@
                 align-content: center;
                 align-items: center;
                 grid-column-gap: 5px;
+                cursor: pointer;
             }
 
             ul {
