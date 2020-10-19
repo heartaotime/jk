@@ -54,7 +54,7 @@
 <style scoped>
 
     .module-box {
-        max-width: 800px;
+        max-width: 500px;
         width: 95%;
         margin: 20px auto;
     }

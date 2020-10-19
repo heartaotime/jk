@@ -25,6 +25,8 @@
         bottom: 0;
         width: 100%;
         background-size: cover;
+        overflow-y: hidden;
+        overflow-x: hidden;
     }
 
 
