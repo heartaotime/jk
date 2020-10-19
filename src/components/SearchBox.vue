@@ -7,7 +7,7 @@
             <Weather class="weather" v-show="logoShowType == 'weather'"></Weather>
         </div>
 
-        <div class="form">
+        <div class="card form">
             <div class="form-left">
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow">
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
@@ -189,6 +189,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+
     .module-searchBox {
 
         max-width: 1200px;
@@ -482,31 +484,36 @@
         }
     }
 
-
-    @media screen and (max-width: 700px) {
-
+    @media screen and (max-width: 600px) {
         .module-searchBox {
             margin: 20% auto 0;
             /*grid-template-columns: 1fr;*/
         }
 
-        .row {
-            /*grid-template-columns: 50px auto 50px;*/
+        .form {
+            $div1-width: 20%;
+            $div3-width: 12%;
+            $div2-width: calc(100% - #{$div1-width} - #{$div3-width});
 
-            /*grid-template-rows: 40px;*/
+            div {
+                &:nth-child(1) {
+                    width: $div1-width;
+                }
+
+                &:nth-child(2) {
+                    width: $div2-width;
+                }
+
+                &:nth-child(3) {
+                    width: $div3-width;
+                }
+            }
+
+            input {
+                font-size: 15px;
+            }
         }
-
-        .searchEngineShow {
-            /*grid-template-rows: 40px;*/
-        }
-
-        button {
-            /*padding: 0 5px;*/
-        }
-
-        input {
-            font-size: 16px;
-        }
-
     }
+
+
 </style>
