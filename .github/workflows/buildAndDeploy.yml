@@ -1,40 +1,40 @@
-name: buildAndDeploy
-on:
-  push
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest # 我们选择使用最新的ubuntu系统
-    steps:
-      - name: checkout
-        uses: actions/checkout@master # 将代码拷贝到虚机中
-
-      - name: vuepress-deploy
-        uses: jenkey2011/vuepress-deploy@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          TARGET_REPO: heartaotime/jk
-          TARGET_BRANCH: gh-pages
-          BUILD_SCRIPT: yarn && yarn build
-          BUILD_DIR: dist/
-
-      - name: Sync to Gitee
-        uses: wearerequired/git-mirror-action@master
-        env:
-          # 注意在 Settings->Secrets 配置 GITEE_RSA_PRIVATE_KEY
-          SSH_PRIVATE_KEY: ${{ secrets.GITEE_PRIVATE_KEY }}
-        with:
-          # 注意替换为你的 GitHub 源仓库地址
-          source-repo: "git@github.com:heartaotime/jk.git"
-          # 注意替换为你的 Gitee 目标仓库地址
-          destination-repo: "git@gitee.com:heartaotime/jk.git"
-
-      - name: Build Gitee Pages
-        uses: yanglbme/gitee-pages-action@master
-        with:
-          # 注意替换为你的 Gitee 用户名
-          gitee-username: heartaotime
-          # 注意在 Settings->Secrets 配置 GITEE_PASSWORD
-          gitee-password: ${{ secrets.GITEE_PASSWORD }}
-          # 注意替换为你的 Gitee 仓库
-          gitee-repo: heartaotime/jk
-          branch: gh-pages
+#name: buildAndDeploy
+#on:
+#  push
+#jobs:
+#  build-and-deploy:
+#    runs-on: ubuntu-latest # 我们选择使用最新的ubuntu系统
+#    steps:
+#      - name: checkout
+#        uses: actions/checkout@master # 将代码拷贝到虚机中
+#
+#      - name: vuepress-deploy
+#        uses: jenkey2011/vuepress-deploy@master
+#        env:
+#          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+#          TARGET_REPO: heartaotime/jk
+#          TARGET_BRANCH: gh-pages
+#          BUILD_SCRIPT: yarn && yarn build
+#          BUILD_DIR: dist/
+#
+#      - name: Sync to Gitee
+#        uses: wearerequired/git-mirror-action@master
+#        env:
+#          # 注意在 Settings->Secrets 配置 GITEE_RSA_PRIVATE_KEY
+#          SSH_PRIVATE_KEY: ${{ secrets.GITEE_PRIVATE_KEY }}
+#        with:
+#          # 注意替换为你的 GitHub 源仓库地址
+#          source-repo: "git@github.com:heartaotime/jk.git"
+#          # 注意替换为你的 Gitee 目标仓库地址
+#          destination-repo: "git@gitee.com:heartaotime/jk.git"
+#
+#      - name: Build Gitee Pages
+#        uses: yanglbme/gitee-pages-action@master
+#        with:
+#          # 注意替换为你的 Gitee 用户名
+#          gitee-username: heartaotime
+#          # 注意在 Settings->Secrets 配置 GITEE_PASSWORD
+#          gitee-password: ${{ secrets.GITEE_PASSWORD }}
+#          # 注意替换为你的 Gitee 仓库
+#          gitee-repo: heartaotime/jk
+#          branch: gh-pages

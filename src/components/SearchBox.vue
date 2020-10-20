@@ -26,10 +26,30 @@
                     </ul>
                 </transition>
             </div>
-            <div>
-                <input type="text" spellcheck="false" id="searchInput" @keyup.enter="search()"
-                       @focus="searchEngineShow = false"
-                       v-model="searchKey">
+            <div class="form-center">
+                <div>
+                    <!--                    @blur="inputBlur"-->
+                    <input type="text" spellcheck="false" id="searchInput" @keyup.enter="search()"
+                           @focus="inputFocus" @blur="inputBlur"
+                           v-model="searchKey">
+                </div>
+
+                <transition enter-active-class="animated fadeIn faster"
+                            leave-active-class="animated fadeOut faster">
+                    <ul v-show="suggestionShow">
+                        <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
+                            <div @click="sugClick(item.orgSug, true)">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </div>
+                            <div @click="sugClick(item.orgSug, true)">
+                                <span v-html="item.sug"></span>
+                            </div>
+                            <div @click="sugClick(item.orgSug, false)">
+                                <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </transition>
             </div>
             <div class="form-right" @click="search()">
                 <i class="fa fa-search"></i>
@@ -69,7 +89,9 @@
                 searchEngineList: [],
                 searchEngineShow: false,
                 searchEngineIndex: 0,
-                searchKey: ''
+                searchKey: '',
+                suggestionShow: false,
+                isNeedFresh: true,
             }
         },
         computed: {
@@ -97,10 +119,16 @@
                 },
                 deep: true
             },
+            searchKey() {
+                if (this.isNeedFresh) {
+                    this.getSug();
+                }
+            }
         },
         created() {
         },
         mounted() {
+            this.getSearchHis();
             this.getYiyan();
             setInterval(() => {
                 let now = new Date();
@@ -111,12 +139,77 @@
             }, 1000);
         },
         methods: {
+            getSug() {
+                this.suggestion = [];
+                if (this.searchKey === '') {
+                    for (let i = 0; i < this.searchHistory.length; i++) {
+                        this.suggestion.push({
+                            uuid: this.Utils.generateUUID(),
+                            sug: this.searchHistory[i].word,
+                            orgSug: this.searchHistory[i].word
+                        });
+                    }
+                    if (this.suggestion.length > 0) {
+                        this.suggestionShow = true;
+                    }
+                } else {
+                    let url = 'https://suggestion.baidu.com/su?callback=sug&wd=' + this.searchKey + '&cb=sug&_=' + new Date().getTime();
+                    window.sug = (result) => {
+                        // console.log(result);
+                        if (result && result.s && result.s.length > 0) {
+                            let data = result.s;
+                            for (let i = 0; i < data.length; i++) {
+                                this.suggestion.push({
+                                    uuid: this.Utils.generateUUID(),
+                                    sug: data[i].replace(this.searchKey, '<b>' + this.searchKey + '</b>'),
+                                    orgSug: data[i]
+                                });
+                            }
+                            if (this.suggestion.length > 0) {
+                                this.suggestionShow = true;
+                            }
+                        }
+                    }
+                    var JSONP = document.createElement("script");
+                    JSONP.type = "text/javascript";
+                    JSONP.src = `${url}&callback=sug`;
+                    document.getElementsByTagName("head")[0].appendChild(JSONP);
+                    setTimeout(() => {
+                        JSONP.remove();
+                    }, 500);
+                }
+            },
+            getSearchHis() {
+                if (localStorage.getItem('searchHistory')) {
+                    this.searchHistoryOrg = JSON.parse(localStorage.getItem('searchHistory'));
+                    if (this.searchHistoryOrg.length > 0) {
+                        this.searchHistory = [].concat(this.searchHistoryOrg.reverse());
+                    }
+                }
+            },
+            sugClick(sug, search) {
+                // document.querySelector('#searchInput').focus();
+                // this.searchKey = sug.replace('<b>', '').replace('</b>', '');
+                if (search) {
+                    this.isNeedFresh = false; // 不需要刷新sug
+                    this.searchKey = sug;
+                    this.search();
+                } else {
+                    this.isNeedFresh = true; // 需要刷新sug
+                    this.searchKey = sug;
+                }
+
+            },
             inputFocus() {
-                this.$store.commit('uSearchFixShow', true);
+                // this.$store.commit('uSearchFixShow', true);
                 // history.pushState({page: 1}, "搜索", "?page=search");
                 history.pushState(null, '搜索', null);
+                this.searchEngineShow = false;
+                this.getSug();
             },
             inputBlur() {
+                this.searchEngineShow = false;
+                this.suggestionShow = false;
                 // document.querySelector('[name=tmp]').remove();
             },
             setSearchEngine(index) {
@@ -135,7 +228,9 @@
                 // this.$set(this.searchEngineList, index, this.searchEngineList[index]);
             },
             search() {
-                document.querySelector('#searchInput').focus();
+                this.isNeedFresh = false;
+                this.searchEngineShow = false;
+                this.suggestionShow = false;
 
                 window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
 
@@ -163,11 +258,12 @@
                             this.searchHistory.push(this.searchHistoryOrg[i]);
                         }
                     }
-
                 }
 
                 setTimeout(() => {
                     this.searchKey = '';
+                    this.isNeedFresh = true; // 重置默认值
+                    // document.querySelector('#searchInput').focus();
                 }, 500);
             },
             getYiyan() {
@@ -259,13 +355,13 @@
         width: 95%;
         max-width: 500px;
 
-        $height: 40px;
+        $height: 45px;
         $div1-width: 15%;
         $div3-width: 8%;
         $div2-width: calc(100% - #{$div1-width} - #{$div3-width});
 
 
-        div {
+        > div {
             float: left;
 
             &:nth-child(1) {
@@ -282,11 +378,12 @@
                 float: right;
                 line-height: $height;
                 cursor: pointer;
+                text-align: center;
             }
         }
 
 
-        border-radius: 40px;
+        border-radius: $height;
         box-shadow: 0 0 18px rgba(70, 70, 40, .255);
         background-color: rgba(255, 255, 255, 0.4);
         /*background-color: white;*/
@@ -294,7 +391,7 @@
 
         .form-left {
             .show-engine {
-                height: 40px;
+                height: $height;
                 width: 100%;
                 display: grid;
                 grid-template-columns: repeat(2, auto);
@@ -306,28 +403,21 @@
             }
 
             ul {
-                margin-top: 45px;
-                position: relative;
-
+                // margin-top: calc(#{$height + 2px});
+                margin-top: 2px;
                 font-size: 15px;
-
                 z-index: 1;
                 border-radius: 5px;
                 box-shadow: 0 0 18px rgba(70, 70, 40, .255);
                 border-top: none;
-                background-color: transparent;
                 background-color: rgba(255, 255, 255, 0.9);
-
                 width: 120px;
 
                 li {
                     list-style: none;
                     cursor: pointer;
                     padding-left: 15px;
-
                     line-height: calc(#{$height} - 2px);
-
-
                     display: grid;
                     grid-template-columns: repeat(2, auto);
                     grid-column-gap: 10px;
@@ -349,18 +439,61 @@
             }
         }
 
-        input {
-            width: 100%;
-            font-size: 18px;
-            background-color: transparent;
-            outline: none;
-            border: none;
-            line-height: $height;
+        .form-center {
+            input {
+                width: 100%;
+                font-size: 18px;
+                background-color: transparent;
+                outline: none;
+                border: none;
+                line-height: $height;
 
-            &::-webkit-input-placeholder {
-                color: #333;
+                &::-webkit-input-placeholder {
+                    color: #333;
+                }
+            }
+
+            ul {
+                margin-top: 2px;
+                font-size: 15px;
+                z-index: 1;
+                border-radius: 5px;
+                box-shadow: 0 0 18px rgba(70, 70, 40, .255);
+                background-color: rgba(255, 255, 255, 0.9);
+
+                li {
+                    list-style: none;
+                    cursor: pointer;
+                    line-height: calc(#{$height} - 2px);
+                    display: grid;
+                    grid-template-columns: 50px 1fr 50px;
+                    align-content: center;
+                    align-items: center;
+                    border-bottom: 1px dashed #DCDFE6;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    &:hover {
+                        border-radius: 5px;
+                        background-color: #ecf5ff;
+                        color: #409EFF;
+                    }
+
+                    > div {
+                        &:first-child {
+                            text-align: center;
+                        }
+
+                        &:last-child {
+                            text-align: center;
+                        }
+                    }
+                }
             }
         }
+
 
     }
 
@@ -380,8 +513,8 @@
 
 
     .searchIcon {
-        width: 20px;
-        height: 20px;
+        width: 23px;
+        height: 23px;
     }
 
 
@@ -495,7 +628,7 @@
             $div3-width: 12%;
             $div2-width: calc(100% - #{$div1-width} - #{$div3-width});
 
-            div {
+            > div {
                 &:nth-child(1) {
                     width: $div1-width;
                 }
@@ -509,9 +642,12 @@
                 }
             }
 
-            input {
-                font-size: 15px;
+            .form-center {
+                input {
+                    font-size: 15px;
+                }
             }
+
         }
     }
 

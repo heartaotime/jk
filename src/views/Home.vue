@@ -1,12 +1,11 @@
 <template>
     <div class="home">
-<!--        <transition enter-active-class="animated fadeInUp faster"-->
-<!--                    leave-active-class="animated fadeOut faster">-->
-<!--            <PopCommon v-show="popConfig.show"></PopCommon>-->
-<!--        </transition>-->
+        <!--        <transition enter-active-class="animated fadeInUp faster"-->
+        <!--                    leave-active-class="animated fadeOut faster">-->
+        <!--            <PopCommon v-show="popConfig.show"></PopCommon>-->
+        <!--        </transition>-->
 
-
-        <Search v-show="searchFixShow"></Search>
+        <!--        <Search v-show="searchFixShow"></Search>-->
         <SearchBox></SearchBox>
         <Index></Index>
         <Set></Set>
@@ -15,7 +14,6 @@
 
 <script>
     import SearchBox from "../components/SearchBox";
-    import Search from "../components/Search";
     import Index from "../components/Index";
     import Set from "../components/Set";
 
@@ -23,7 +21,6 @@
         name: 'Home',
         components: {
             SearchBox,
-            Search,
             Index,
             Set
         },

@@ -17,7 +17,7 @@
 <!--                       -->
 <!--                    </div>-->
 
-                    <Style v-if="popConfig.componentName === 'Style'"></Style>
+                    <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
                     <User v-if="popConfig.componentName === 'User'"></User>
                     <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
                     <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
@@ -43,7 +43,7 @@
                         <i class="far fa-edit animated tada" aria-hidden="true"></i>
                         <span>搜索引擎</span>
                     </div>
-                    <div @click="uPopConfig('Style', '主题设置')">
+                    <div @click="uPopConfig('StyleSet', '主题设置')">
                         <i class="far fa-images animated tada"></i>
                         <span>主题</span>
                     </div>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-    import Style from "./Style";
+    import StyleSet from "./StyleSet";
     import User from "./User";
     import SearchEngineSet from "./SearchEngineSet";
     import IndexSet from './IndexSet';
@@ -99,7 +99,7 @@
     export default {
         name: "Set",
         components: {
-            Style,
+            StyleSet,
             User,
             SearchEngineSet,
             IndexSet,
