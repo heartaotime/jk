@@ -7,24 +7,20 @@
         </div>
 
 
-        <transition enter-active-class="animated fadeInUp faster"
-                    leave-active-class="animated fadeOut faster">
-            <pop :show="popConfig.show" :style-set="{top:'10%',maxWidth:'800px'}" @close="Utils.closePop()">
-                <div slot="header">{{popConfig.title}}</div>
-                <div slot="main">
-<!--                    <div style="text-align: center;">-->
-<!--&lt;!&ndash;                        <router-view :name="popConfig.componentName"></router-view>&ndash;&gt;-->
-<!--                       -->
-<!--                    </div>-->
-
-                    <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
-                    <User v-if="popConfig.componentName === 'User'"></User>
-                    <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
-                    <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
-                    <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
-                </div>
-            </pop>
-        </transition>
+        <pop :show="popConfig.show" :style-set="{top:'10%',maxWidth:'800px'}" @close="Utils.closePop()">
+            <div slot="header">{{popConfig.title}}</div>
+            <div slot="main">
+                <!--                    <div style="text-align: center;">-->
+                <!--&lt;!&ndash;                        <router-view :name="popConfig.componentName"></router-view>&ndash;&gt;-->
+                <!--                       -->
+                <!--                    </div>-->
+                <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
+                <User v-if="popConfig.componentName === 'User'"></User>
+                <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
+                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
+                <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
+            </div>
+        </pop>
 
 
         <transition enter-active-class="animated fadeInUp faster"

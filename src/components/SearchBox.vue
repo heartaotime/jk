@@ -1,15 +1,17 @@
 <template>
-    <div class="module-searchBox animated fadeInDown">
+    <div class="module-searchBox">
 
-        <div class="logo">
+        <div class="search-fix" v-show="searchFocus"></div>
+
+        <div class="logo animated fadeInDown">
             <img v-show="logoShowType == 'url' && url !== ''" :src="url"/>
             <span v-show="logoShowType == 'time'">{{time}}</span>
             <Weather class="weather" v-show="logoShowType == 'weather'"></Weather>
         </div>
 
-        <div class="card form">
+        <div class="card form animated fadeInDown" id="search-form">
             <div class="form-left">
-                <div class="show-engine" @click="searchEngineShow = !searchEngineShow">
+                <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
                          class="searchIcon"/>
                     <i :class="!searchEngineShow ? 'fa fa-angle-down' : 'fa fa-angle-up'"></i>
@@ -33,28 +35,34 @@
                            @focus="inputFocus" @blur="inputBlur"
                            v-model="searchKey">
                 </div>
-
-                <transition enter-active-class="animated fadeIn faster"
-                            leave-active-class="animated fadeOut faster">
-                    <ul v-show="suggestionShow">
-                        <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
-                            <div @click="sugClick(item.orgSug, true)">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </div>
-                            <div @click="sugClick(item.orgSug, true)">
-                                <span v-html="item.sug"></span>
-                            </div>
-                            <div @click="sugClick(item.orgSug, false)">
-                                <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-                            </div>
-                        </li>
-                    </ul>
-                </transition>
             </div>
             <div class="form-right" @click="search()">
                 <i class="fa fa-search"></i>
             </div>
             <div style="clear: both"></div>
+            <transition enter-active-class="animated fadeIn faster"
+                        leave-active-class="animated fadeOut faster">
+                <ul v-show="suggestionShow" class="suggestion">
+                    <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
+                        <!--                            <div @click="sugClick(item.orgSug, true)">-->
+                        <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
+                        <!--                            </div>-->
+                        <div @click="sugClick(item.orgSug, true)" class="sug-item">
+                            <span v-html="item.sug"></span>
+                        </div>
+                        <div @click="sugClick(item.orgSug, false)">
+                            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                        </div>
+                    </li>
+
+                    <li class="clear-search-his" @click="clearSearchHis()" v-show="searchKey === ''">
+                        <div>
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            <span>清空</span>
+                        </div>
+                    </li>
+                </ul>
+            </transition>
         </div>
     </div>
 
@@ -75,6 +83,7 @@
         },
         data() {
             return {
+                searchFocus: false,
                 yiyan: {},
                 yiyanStr: '',
                 logoShowType: 'none',
@@ -90,14 +99,17 @@
                 searchEngineShow: false,
                 searchEngineIndex: 0,
                 searchKey: '',
-                suggestionShow: false,
-                isNeedFresh: true,
+                isNeedShowSug: false,
             }
         },
         computed: {
             openUserInfo() {
                 return JSON.parse(JSON.stringify(this.$store.getters.openUserInfo));
             },
+            suggestionShow() {
+                // 是否展示有两个条件，1.需要展示 2.suggestion的长度大于0
+                return this.isNeedShowSug && this.suggestion.length > 0;
+            }
         },
         watch: {
             openUserInfo: {
@@ -120,9 +132,7 @@
                 deep: true
             },
             searchKey() {
-                if (this.isNeedFresh) {
-                    this.getSug();
-                }
+                this.isNeedShowSug && this.getSug();
             }
         },
         created() {
@@ -139,6 +149,11 @@
             }, 1000);
         },
         methods: {
+            clearSearchHis() {
+                this.searchHistory = [];
+                this.searchHistoryOrg = [];
+                localStorage.removeItem('searchHistory');
+            },
             getSug() {
                 this.suggestion = [];
                 if (this.searchKey === '') {
@@ -149,24 +164,21 @@
                             orgSug: this.searchHistory[i].word
                         });
                     }
-                    if (this.suggestion.length > 0) {
-                        this.suggestionShow = true;
-                    }
                 } else {
                     let url = 'https://suggestion.baidu.com/su?callback=sug&wd=' + this.searchKey + '&cb=sug&_=' + new Date().getTime();
                     window.sug = (result) => {
                         // console.log(result);
                         if (result && result.s && result.s.length > 0) {
                             let data = result.s;
-                            for (let i = 0; i < data.length; i++) {
+                            let size = data.length > 6 ? 6 : data.length;
+
+                            this.suggestion = [];
+                            for (let i = 0; i < size; i++) {
                                 this.suggestion.push({
                                     uuid: this.Utils.generateUUID(),
                                     sug: data[i].replace(this.searchKey, '<b>' + this.searchKey + '</b>'),
                                     orgSug: data[i]
                                 });
-                            }
-                            if (this.suggestion.length > 0) {
-                                this.suggestionShow = true;
                             }
                         }
                     }
@@ -191,11 +203,11 @@
                 // document.querySelector('#searchInput').focus();
                 // this.searchKey = sug.replace('<b>', '').replace('</b>', '');
                 if (search) {
-                    this.isNeedFresh = false; // 不需要刷新sug
+                    this.isNeedShowSug = false; // 不需要刷新sug
                     this.searchKey = sug;
                     this.search();
                 } else {
-                    this.isNeedFresh = true; // 需要刷新sug
+                    this.isNeedShowSug = true; // 需要刷新sug
                     this.searchKey = sug;
                 }
 
@@ -203,14 +215,20 @@
             inputFocus() {
                 // this.$store.commit('uSearchFixShow', true);
                 // history.pushState({page: 1}, "搜索", "?page=search");
+
+                // 1.创建一个全屏的毛玻璃效果的div，并且他的z-index < form 的 z-index
+                this.searchFocus = true;
+
                 history.pushState(null, '搜索', null);
-                this.searchEngineShow = false;
-                this.getSug();
+
+                this.searchEngineShow = false; // 取消展示搜索引擎
+                this.isNeedShowSug = true; // 需要展示搜索建议
+                this.getSug(); // 开始搜索
             },
             inputBlur() {
+                this.searchFocus = false;
                 this.searchEngineShow = false;
-                this.suggestionShow = false;
-                // document.querySelector('[name=tmp]').remove();
+                this.isNeedShowSug = false;
             },
             setSearchEngine(index) {
                 this.searchEngineIndex = index;
@@ -228,9 +246,8 @@
                 // this.$set(this.searchEngineList, index, this.searchEngineList[index]);
             },
             search() {
-                this.isNeedFresh = false;
-                this.searchEngineShow = false;
-                this.suggestionShow = false;
+                this.searchEngineShow = false; // 取消展示搜索引擎
+                this.isNeedShowSug = false; // 不需要展示搜索建议
 
                 window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
 
@@ -262,7 +279,6 @@
 
                 setTimeout(() => {
                     this.searchKey = '';
-                    this.isNeedFresh = true; // 重置默认值
                     // document.querySelector('#searchInput').focus();
                 }, 500);
             },
@@ -347,8 +363,29 @@
         align-items: center;
     }
 
+    .search-fix {
+
+        visibility: visible;
+        opacity: 0.55;
+
+        width: 100%;
+        height: 100%;
+
+        /*background-color: rgb(255, 255, 255, 0.5);*/
+        background: #000;
+
+        z-index: 5;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
 
     .form {
+
+        z-index: 10;
 
         margin: 20px 0 5px;
 
@@ -452,50 +489,71 @@
                     color: #333;
                 }
             }
+        }
 
-            ul {
-                margin-top: 2px;
-                font-size: 15px;
-                z-index: 1;
-                border-radius: 5px;
-                box-shadow: 0 0 18px rgba(70, 70, 40, .255);
-                background-color: rgba(255, 255, 255, 0.9);
+        .suggestion {
+            width: 98%;
+            margin: 0 auto;
+            margin-top: calc(#{$height} + 2px);
+            font-size: 13px;
+            z-index: 1;
+            border-radius: 5px;
+            box-shadow: 0 0 18px rgba(70, 70, 40, .255);
+            background-color: rgba(255, 255, 255, 0.9);
 
-                li {
-                    list-style: none;
-                    cursor: pointer;
-                    line-height: calc(#{$height} - 2px);
-                    display: grid;
-                    grid-template-columns: 50px 1fr 50px;
-                    align-content: center;
-                    align-items: center;
-                    border-bottom: 1px dashed #DCDFE6;
+            li {
+                list-style: none;
+                cursor: pointer;
+                line-height: calc(#{$height} - 2px);
+                display: grid;
+                grid-template-columns: 1fr 50px;
+                align-content: center;
+                align-items: center;
+                border-bottom: 1px dashed #DCDFE6;
 
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    border-radius: 5px;
+                    background-color: #ecf5ff;
+                    color: #409EFF;
+                }
+
+                .sug-item {
+                    padding-left: 10px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                > div {
                     &:last-child {
-                        border-bottom: none;
-                    }
-
-                    &:hover {
-                        border-radius: 5px;
-                        background-color: #ecf5ff;
-                        color: #409EFF;
-                    }
-
-                    > div {
-                        &:first-child {
-                            text-align: center;
-                        }
-
-                        &:last-child {
-                            text-align: center;
-                        }
+                        text-align: center;
                     }
                 }
             }
+
+            .clear-search-his {
+                line-height: 30px;
+
+                > div {
+                    grid-column: 1/3;
+                    color: #9a9a9e;
+
+                    span {
+                        margin-left: 5px;
+                    }
+                }
+
+                &:hover > div {
+                    color: red;
+                }
+            }
         }
-
-
     }
+
 
     .eng-list {
         @extend .row;

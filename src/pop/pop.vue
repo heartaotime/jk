@@ -5,17 +5,17 @@
                 <div class="popcommon-content">
                     <header>
                         <slot name="header">弹窗标题</slot>
-                        <span @click="close()" name="dialog-close"><i class="fas fa-times" aria-hidden="true"></i></span>
+                        <span @click="close()" name="dialog-close"><i class="fas fa-times"
+                                                                      aria-hidden="true"></i></span>
                     </header>
                     <section>
                         <slot name="main">弹窗内容</slot>
                     </section>
 
 
+                    <!--                    <footer>-->
 
-<!--                    <footer>-->
-
-<!--                    </footer>-->
+                    <!--                    </footer>-->
                 </div>
             </div>
         </div>
@@ -52,7 +52,15 @@
             return {}
         },
         computed: {},
-        watch: {},
+        watch: {
+            show() {
+                if (this.show) {
+                    document.querySelector('#search-form').style.zIndex = '0';
+                } else {
+                    document.querySelector('#search-form').style.zIndex = '10';
+                }
+            }
+        },
         mounted() {
         },
         methods: {
@@ -66,7 +74,7 @@
 <style scoped lang="scss">
 
     .dialog-module {
-        z-index: 2;
+        z-index: 20;
         position: fixed;
         top: 0;
         bottom: 0;
