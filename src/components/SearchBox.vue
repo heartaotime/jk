@@ -17,16 +17,18 @@
                     <i :class="!searchEngineShow ? 'fa fa-angle-down' : 'fa fa-angle-up'"></i>
                 </div>
 
-                <transition :enter-active-class="enterClass"
-                            :leave-active-class="leaveClass">
-                    <ul v-show="searchEngineShow">
-                        <li v-for="(item, index) in searchEngineList" :key="index" :value="item.url"
-                            @click="setSearchEngine(index)">
-                            <img :src="item.icon" class="searchIcon"/>
-                            <span>{{item.name}}</span>
-                        </li>
-                    </ul>
-                </transition>
+                <!--                <transition enter-active-class="animated fadeInUp faster"-->
+                <!--                            leave-active-class="animated fadeOutDown faster"-->
+                <!--                            @before-leave="searchengIsLeave = false"-->
+                <!--                            @after-leave="searchengIsLeave = true">-->
+                <ul v-show="searchEngineShow">
+                    <li v-for="(item, index) in searchEngineList" :key="index" :value="item.url"
+                        @click="setSearchEngine(index)">
+                        <img :src="item.icon" class="searchIcon"/>
+                        <span>{{item.name}}</span>
+                    </li>
+                </ul>
+                <!--                </transition>-->
             </div>
             <div class="form-center">
                 <div>
@@ -40,29 +42,29 @@
                 <i class="fa fa-search"></i>
             </div>
             <div style="clear: both"></div>
-            <transition enter-active-class="animated fadeIn faster"
-                        leave-active-class="animated fadeOut faster">
-                <ul v-show="suggestionShow" class="suggestion">
-                    <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
-                        <!--                            <div @click="sugClick(item.orgSug, true)">-->
-                        <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
-                        <!--                            </div>-->
-                        <div @click="sugClick(item.orgSug, true)" class="sug-item">
-                            <span v-html="item.sug"></span>
-                        </div>
-                        <div @click="sugClick(item.orgSug, false)">
-                            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-                        </div>
-                    </li>
+            <!--            <transition enter-active-class="animated fadeIn faster"-->
+            <!--                        leave-active-class="animated fadeOut faster">-->
+            <ul v-show="suggestionShow" class="suggestion">
+                <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
+                    <!--                            <div @click="sugClick(item.orgSug, true)">-->
+                    <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
+                    <!--                            </div>-->
+                    <div @click="sugClick(item.orgSug, true)" class="sug-item">
+                        <span v-html="item.sug"></span>
+                    </div>
+                    <div @click="sugClick(item.orgSug, false)">
+                        <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                    </div>
+                </li>
 
-                    <li class="clear-search-his" @click="clearSearchHis()" v-show="searchKey === ''">
-                        <div>
-                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                            <span>清空</span>
-                        </div>
-                    </li>
-                </ul>
-            </transition>
+                <li class="clear-search-his" @click="clearSearchHis()" v-show="searchKey === ''">
+                    <div>
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <span>清空</span>
+                    </div>
+                </li>
+            </ul>
+            <!--            </transition>-->
         </div>
     </div>
 
@@ -83,6 +85,7 @@
         },
         data() {
             return {
+                searchengIsLeave: true,
                 searchFocus: false,
                 yiyan: {},
                 yiyanStr: '',
@@ -108,7 +111,7 @@
             },
             suggestionShow() {
                 // 是否展示有两个条件，1.需要展示 2.suggestion的长度大于0
-                return this.isNeedShowSug && this.suggestion.length > 0;
+                return this.searchengIsLeave && this.isNeedShowSug && this.suggestion.length > 0;
             }
         },
         watch: {
@@ -132,6 +135,7 @@
                 deep: true
             },
             searchKey() {
+                console.log(this.isNeedShowSug);
                 this.isNeedShowSug && this.getSug();
             }
         },
@@ -246,8 +250,10 @@
                 // this.$set(this.searchEngineList, index, this.searchEngineList[index]);
             },
             search() {
+                // 移除焦点
                 this.searchEngineShow = false; // 取消展示搜索引擎
                 this.isNeedShowSug = false; // 不需要展示搜索建议
+                document.querySelector('#searchInput').blur();
 
                 window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
 
@@ -276,6 +282,7 @@
                         }
                     }
                 }
+
 
                 setTimeout(() => {
                     this.searchKey = '';
