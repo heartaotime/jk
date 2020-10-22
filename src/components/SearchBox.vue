@@ -110,7 +110,7 @@
                 return JSON.parse(JSON.stringify(this.$store.getters.openUserInfo));
             },
             suggestionShow() {
-                // 是否展示有两个条件，1.需要展示 2.suggestion的长度大于0
+                // 是否展示有3个条件，1.动画完成 2.需要展示 2.suggestion的长度大于0
                 return this.searchengIsLeave && this.isNeedShowSug && this.suggestion.length > 0;
             }
         },
@@ -135,7 +135,6 @@
                 deep: true
             },
             searchKey() {
-                console.log(this.isNeedShowSug);
                 this.isNeedShowSug && this.getSug();
             }
         },
@@ -159,8 +158,8 @@
                 localStorage.removeItem('searchHistory');
             },
             getSug() {
-                this.suggestion = [];
                 if (this.searchKey === '') {
+                    this.suggestion = []
                     for (let i = 0; i < this.searchHistory.length; i++) {
                         this.suggestion.push({
                             uuid: this.Utils.generateUUID(),
@@ -172,11 +171,10 @@
                     let url = 'https://suggestion.baidu.com/su?callback=sug&wd=' + this.searchKey + '&cb=sug&_=' + new Date().getTime();
                     window.sug = (result) => {
                         // console.log(result);
+                        this.suggestion = [];
                         if (result && result.s && result.s.length > 0) {
                             let data = result.s;
                             let size = data.length > 6 ? 6 : data.length;
-
-                            this.suggestion = [];
                             for (let i = 0; i < size; i++) {
                                 this.suggestion.push({
                                     uuid: this.Utils.generateUUID(),
