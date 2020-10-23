@@ -205,7 +205,6 @@
                 // document.querySelector('#searchInput').focus();
                 // this.searchKey = sug.replace('<b>', '').replace('</b>', '');
                 if (search) {
-                    this.isNeedShowSug = false; // 不需要刷新sug
                     this.searchKey = sug;
                     this.search();
                 } else {
@@ -228,9 +227,13 @@
                 this.getSug(); // 开始搜索
             },
             inputBlur() {
+                //  alert('inputBlur');
                 this.searchFocus = false;
                 this.searchEngineShow = false;
-                this.isNeedShowSug = false;
+                setTimeout(() => {
+                    // 防止立刻隐藏后，导致的 sugClick 触发不了
+                    this.isNeedShowSug = false;
+                }, 100);
             },
             setSearchEngine(index) {
                 this.searchEngineIndex = index;
