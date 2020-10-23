@@ -245,7 +245,9 @@
                 this.openUserInfo.ext.searchEngineList = this.searchEngineList;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
 
-                document.querySelector('#searchInput').focus();
+                this.searchEngineShow = false;
+
+                // document.querySelector('#searchInput').focus();
 
                 // 强制更新数组，让vue可以监听到数组的变化
                 // this.$set(this.searchEngineList, index, this.searchEngineList[index]);
