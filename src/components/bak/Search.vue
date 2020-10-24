@@ -724,7 +724,7 @@
         display: grid;
     }
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 600px) {
         .search {
             top: unset;
             bottom: 20px;

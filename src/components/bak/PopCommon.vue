@@ -146,7 +146,7 @@
         grid-template-columns: 1fr;
     }
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 600px) {
         .popcommon-module {
             top: 50px;
         }

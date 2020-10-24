@@ -677,7 +677,7 @@
         padding: 0 5px;
     }
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 600px) {
 
         span, textarea {
             font-size: 13px;

@@ -882,7 +882,7 @@
     }
 
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 600px) {
         .item {
             grid-template-columns: auto 1fr 20px;
             line-height: 30px;

@@ -5,14 +5,13 @@
                 <div class="popcommon-content">
                     <header>
                         <slot name="header">弹窗标题</slot>
-                        <span @click="close()" name="dialog-close"><i class="fas fa-times"
-                                                                      aria-hidden="true"></i></span>
+                        <div @click="close()" name="dialog-close">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </div>
                     </header>
                     <section>
                         <slot name="main">弹窗内容</slot>
                     </section>
-
-
                     <!--                    <footer>-->
 
                     <!--                    </footer>-->
@@ -116,35 +115,31 @@
     }
 
     header {
-        height: 30px;
+        $height: 50px;
+        line-height: $height;
+        height: $height;
+
+        padding-left: 10px;
         border-bottom: 1px solid #ededed;
         font-weight: bold;
 
         letter-spacing: 1px;
 
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr $height;
         justify-content: space-between;
-        align-content: center;
-        align-items: center;
 
         background-color: #e0e0e0;
         border-color: #e0e0e0;
         border-radius: 5px 5px 0 0;
 
-        span:last-child {
-            justify-self: right;
+        [name='dialog-close'] {
             cursor: pointer;
-            padding-right: 5px;
-
+            text-align: center;
         }
 
     }
 
-
-    header, footer {
-        padding: 10px;
-    }
 
     section {
         display: grid;
@@ -152,18 +147,14 @@
         padding: 1rem;
     }
 
-    @media screen and (max-width: 769px) {
-        .popcommon-module {
-            top: 50px;
-        }
+    @media screen and (max-width: 600px) {
+        /*.popcommon-module {*/
+        /*    top: 50px;*/
+        /*}*/
 
-        .dialog-module {
-            position: fixed;
-        }
-
-        .popcommon-module {
-            position: fixed;
-        }
+        /*.popcommon-module {*/
+        /*    position: fixed;*/
+        /*}*/
 
         /*.popcommon-content {*/
         /*    width: 98%;*/

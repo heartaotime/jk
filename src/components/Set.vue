@@ -8,8 +8,8 @@
 
 
         <pop :show="popConfig.show" :style-set="{top:'10%',maxWidth:'800px'}" @close="Utils.closePop()">
-            <div slot="header">{{popConfig.title}}</div>
-            <div slot="main">
+            <template v-slot:header>{{popConfig.title}}</template>
+            <template v-slot:main>
                 <!--                    <div style="text-align: center;">-->
                 <!--&lt;!&ndash;                        <router-view :name="popConfig.componentName"></router-view>&ndash;&gt;-->
                 <!--                       -->
@@ -19,7 +19,7 @@
                 <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
 <!--                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>-->
                 <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
-            </div>
+            </template>
         </pop>
 
 

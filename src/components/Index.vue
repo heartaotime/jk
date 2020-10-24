@@ -31,16 +31,18 @@
         </div>
 
 
-        <pop :show="popShow" :style-set="{top:'10%',maxWidth:'800px'}" @close="popShow = false">
-            <div slot="header">编辑导航</div>
-            <div slot="main">
+        <pop :show="popShow" :style-set="{top:'20%',maxWidth:'800px'}" @close="popShow = false">
+            <template v-slot:header>
+                <div>编辑导航</div>
+            </template>
+            <template v-slot:main>
                 <div class="rows">
                     <div class="row1">
                         <label>导航名称</label>
                         <input v-model="editItemData.name" spellcheck="false"/>
                     </div>
                     <div class="row2">
-                        <label>导航连接</label>
+                        <label>导航链接</label>
                         <input v-model="editItemData.url" spellcheck="false"/>
                         <button class="btn" @click="getIcon">获取图标</button>
                     </div>
@@ -51,7 +53,8 @@
                             <img :src="editItemData.icon" v-show="hasIcon">
                         </div>
                         <div>
-                            点击左侧图标可以更换
+                            点击左侧图标可以更换，<a style="text-decoration: underline;color: #0f88eb;"
+                                          href="https://www.iconfont.cn/" target="_blank">图标下载</a>
                         </div>
                     </div>
                 </div>
@@ -60,7 +63,7 @@
                     <button class="btn" @click="saveIndex()">保存</button>
                     <button class="btn btn-warn" @click="delIndex()">删除</button>
                 </div>
-            </div>
+            </template>
         </pop>
 
 
@@ -98,7 +101,7 @@
             },
             editIndexShow() {
                 return this.$store.getters.editIndexShow;
-            }
+            },
         },
         watch: {
             openUserInfo: {
@@ -106,7 +109,7 @@
                     this.indexList = [].concat(this.openUserInfo.ext.index);
                 },
                 deep: true
-            },
+            }
         },
         created() {
 
@@ -119,6 +122,11 @@
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
             },
             saveIndex() {
+                let url = this.editItemData.url;
+                if (url && url !== '' && url.indexOf('http') < 0) {
+                    this.$toast('导航链接需要包含http');
+                    return;
+                }
                 if (this.activeIndex === -1) {
                     this.indexList.push(this.editItemData);
                 } else {
@@ -129,16 +137,27 @@
                 this.$toast('保存成功');
             },
             delIndex() {
-                this.indexList.splice(this.activeIndex, 1);
-                this.merge();
-                this.popShow = false;
-                this.$toast('删除成功');
+                if (confirm("确认删除吗")) {
+                    this.indexList.splice(this.activeIndex, 1);
+                    this.merge();
+                    this.popShow = false;
+                    this.$toast('删除成功');
+                }
             },
             getIcon() {
-                let splitUrlTmp = this.editItemData.url.split('/');
-                let iconUrl = splitUrlTmp[0] + "//" + splitUrlTmp[2].split(':')[0] + '/' + 'favicon.ico';
-                this.editItemData.icon = iconUrl;
-                this.hasIcon = this.editItemData.icon && this.editItemData.icon !== ''
+                let url = this.editItemData.url;
+                if (!url || url === '' || url.indexOf('http') < 0) {
+                    this.$toast('导航链接需要包含http');
+                    return;
+                }
+                let splitUrlTmp = url.split('/');
+                if (splitUrlTmp.length > 2) {
+                    let iconUrl = splitUrlTmp[0] + "//" + splitUrlTmp[2].split(':')[0] + '/' + 'favicon.ico';
+                    this.editItemData.icon = iconUrl;
+                } else {
+                    this.$toast('获取失败');
+                }
+                this.hasIcon = this.editItemData.icon && this.editItemData.icon !== '';
             },
             indexClick(index) {
                 if (this.editIndexShow) {
@@ -149,7 +168,6 @@
                     } else {
                         this.editItemData = this.Utils.convert(this.indexList)[index];
                     }
-                    this.hasIcon = this.editItemData.icon && this.editItemData.icon !== '';
                 } else {
                     this.Utils.go2Link(this.indexList[index].url, '_blank')
                 }
@@ -160,7 +178,7 @@
             upLoadFile() {
                 this.Utils.upLoadFile('selectIcon', url => {
                     this.editItemData.icon = url;
-                    this.hasIcon = this.editItemData.icon && this.editItemData.icon !== ''
+                    this.hasIcon = this.editItemData.icon && this.editItemData.icon !== '';
                 })
             },
         }
@@ -363,7 +381,7 @@
     }
 
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 600px) {
         .item:hover {
             transition: unset;
             transform: unset;

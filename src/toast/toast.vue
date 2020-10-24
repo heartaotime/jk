@@ -12,8 +12,9 @@
 
     <div class="tips-module">
 
-        <transition leave-active-class="animated fadeOut faster">
-            <div class="tips-content animated fadeIn faster" v-show="show">
+        <transition leave-active-class="animated fadeOut faster"
+                    enter-active-class="animated fadeIn faster">
+            <div class="tips-content" v-show="show">
                 <span>{{text}}</span>
             </div>
         </transition>
@@ -24,7 +25,7 @@
 
 <style scoped>
     .tips-module {
-        z-index: 3;
+        z-index: 999;
 
         position: fixed;
         margin: 0 auto;
