@@ -23,12 +23,12 @@
                     <div class="card name"><span>{{item.name}}</span></div>
                 </div>
             </draggable>
-<!--            <div :class="editIndexShow ? 'item item-edit':'item'" id="n-draggable" @click="indexClick(-1)"-->
-<!--                 v-show="editIndexShow">-->
-<!--                <div style="align-self: center;"><i class="fas fa-plus" aria-hidden="true" style="font-size: 30px;"></i>-->
-<!--                </div>-->
-<!--                <div class="card name"><span>添加</span></div>-->
-<!--            </div>-->
+            <!--            <div :class="editIndexShow ? 'item item-edit':'item'" id="n-draggable" @click="indexClick(-1)"-->
+            <!--                 v-show="editIndexShow">-->
+            <!--                <div style="align-self: center;"><i class="fas fa-plus" aria-hidden="true" style="font-size: 30px;"></i>-->
+            <!--                </div>-->
+            <!--                <div class="card name"><span>添加</span></div>-->
+            <!--            </div>-->
         </div>
 
 
@@ -163,14 +163,29 @@
                     return;
                 }
 
-                let getTitleUrl = './qqsuu/api/title?url=' + encodeURIComponent(this.editUrl);
-                this.Utils.getJson(getTitleUrl, {}).then((response) => {
-                    if (!response || response.success !== true) {
+                // let getTitleUrl = './qqsuu/api/title?url=' + encodeURIComponent(this.editUrl);
+                // this.Utils.getJson(getTitleUrl, {}).then((response) => {
+                //     if (!response || response.success !== true) {
+                //         this.$toast(response.message);
+                //         return;
+                //     }
+                //     this.editName = response.title;
+                // });
+
+                let url = this.Utils.basicUrl() + '/common/v1/getWebTitle';
+                this.Utils.postJson(url, this.Utils.getCommonReq(this.editUrl)).then(response => {
+                    if (!response || response.code !== '0') {
                         this.$toast(response.message);
                         return;
                     }
-                    this.editName = response.title;
+                    let data = response.data;
+                    if (!data || data.success !== true) {
+                        this.$toast("获取失败");
+                        return;
+                    }
+                    this.editName = data.title;
                 });
+
 
                 // https://api.qqsuu.cn/
                 // let getIconUrl = './qqsuu/api/get?url=' + encodeURIComponent(this.editUrl);
