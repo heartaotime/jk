@@ -20,5 +20,8 @@ export default {
     searchFixShow: (state) => {
         return state.searchFixShow;
     },
+    editIndexShow: (state) => {
+        return state.editIndexShow;
+    }
 
 };

@@ -119,3 +119,31 @@ a, span {
     width: 90vw;
     max-width: 800px;
 }
+
+
+.btn {
+    /*height: 40px;*/
+    height: 100%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    background-color: #409eff;
+    border-radius: 5px;
+    padding: 5px 8px;
+}
+
+.btn:hover {
+    background-color: #4070ff;
+}
+
+.btn-warn {
+    background-color: orange;
+}
+
+
+.btn-warn:hover {
+    background-color: coral;
+}
+

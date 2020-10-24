@@ -8,6 +8,7 @@ import registryLoading from "./loading";
 import router from "./router";
 
 import pop from "./pop";
+import draggable from "./plugins/draggable";
 
 // import 'tailwindcss/tailwind.css'
 // 这里也可以直接执行 registryToast()
@@ -15,6 +16,7 @@ Vue.use(registryToast);
 Vue.use(registryLoading);
 Vue.use(router)
 Vue.use(pop)
+Vue.use(draggable)
 
 
 Vue.config.productionTip = false

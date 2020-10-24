@@ -17,7 +17,7 @@
                 <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
                 <User v-if="popConfig.componentName === 'User'"></User>
                 <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
-                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>
+<!--                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>-->
                 <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
             </div>
         </pop>
@@ -31,7 +31,11 @@
                         <i class="far fa-lightbulb animated tada" aria-hidden="true"></i>
                         <span>Logo</span>
                     </div>
-                    <div @click="uPopConfig('IndexSet', '快捷导航设置')">
+<!--                    <div @click="uPopConfig('IndexSet', '快捷导航设置')">-->
+<!--                        <i class="far fa-bookmark animated tada" aria-hidden="true"></i>-->
+<!--                        <span>快捷导航</span>-->
+<!--                    </div>-->
+                    <div @click="editIndex">
                         <i class="far fa-bookmark animated tada" aria-hidden="true"></i>
                         <span>快捷导航</span>
                     </div>
@@ -89,7 +93,7 @@
     import StyleSet from "./StyleSet";
     import User from "./User";
     import SearchEngineSet from "./SearchEngineSet";
-    import IndexSet from './IndexSet';
+    // import IndexSet from './IndexSet';
     import LogoSet from "./LogoSet";
 
     export default {
@@ -98,7 +102,7 @@
             StyleSet,
             User,
             SearchEngineSet,
-            IndexSet,
+            // IndexSet,
             LogoSet
         },
         data() {
@@ -140,6 +144,10 @@
                     componentName: type
                 });
                 this.dialogShow = show;
+            },
+            editIndex() {
+                this.$store.commit('uEditIndexShow', true);
+                this.show = false;
             },
             scroll() {
                 let scrollTop = document.documentElement.scrollTop;

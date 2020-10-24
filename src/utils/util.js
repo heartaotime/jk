@@ -519,5 +519,30 @@ export default class Utils {
         return false;
     }
 
+    static go2Link(url, target) {
+        let a = document.createElement('a');
+        a.href = url;
+        if (target) {
+            a.target = target;
+        }
+        a.click();
+        a.remove();
+    }
+
+    static scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    static go2Router(name) {
+        this.Vue.$router.push({name});
+    }
+
+    static convert(json) {
+        return JSON.parse(JSON.stringify(json));
+    }
+
 
 }

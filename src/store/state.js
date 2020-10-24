@@ -41,11 +41,14 @@ let loadingConfig = {
 
 let searchFixShow = false;
 
+let editIndexShow = false;
+
 
 export default {
     openUserInfo,
     popConfig,
     tipsConfig,
     loadingConfig,
-    searchFixShow
+    searchFixShow,
+    editIndexShow
 }

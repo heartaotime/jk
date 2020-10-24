@@ -110,5 +110,9 @@ export default {
     uLoadingConfig(state, loadingConfig) {
         console.log('uLoadingConfig:', loadingConfig);
         state.loadingConfig = loadingConfig;
+    },
+    uEditIndexShow(state, editIndexShow) {
+        console.log('editIndexShow:', editIndexShow);
+        state.editIndexShow = editIndexShow;
     }
 }
