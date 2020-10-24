@@ -101,12 +101,15 @@ export default class Utils {
     // }
 
     static getJson(url, data) {
+        let loadingDom = this.Vue.$loading();
         return new Promise((resolve, reject) => {
             // window.console.info('req url, ', url, '\nreq param, ', data);
             this.Vue.axios.get(url, {params: data}).then(res => {
+                loadingDom.remove();
                 // window.console.info('get resopnse sucess, ', res.data);
                 resolve(res.data);
             }).catch(error => {
+                loadingDom.remove();
                 window.console.error('axios getJson error, ', error);
                 reject(error);
             });

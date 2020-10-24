@@ -6,6 +6,13 @@ module.exports = {
         "host": "0.0.0.0",
         "disableHostCheck": true,
         "proxy": {
+            "/qqsuu": {
+                "target": "https://api.qqsuu.cn/",
+                "changeOrigin": true,
+                "pathRewrite": {
+                    "^/qqsuu": ""
+                }
+            },
             "/common-server": {
                 "target": "http://47.100.96.24:5000/",
                 "changeOrigin": true,

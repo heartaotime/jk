@@ -3,7 +3,8 @@
 
         <div class="tips" v-show="editIndexShow">
             <div>
-                <span>提示：点击可以编辑，按住不放拖到可以排序</span>
+                <span>点击编辑，拖动排序</span>
+                <button class="btn" @click="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"> 添加</i></button>
                 <button class="btn" @click="$store.commit('uEditIndexShow', false)">退出编辑</button>
             </div>
         </div>
@@ -13,7 +14,7 @@
 
         <!--        </transition-group>-->
         <div class="animated fadeInUp">
-            <draggable v-model="indexList" :options="options" class="module-items" @end="merge">
+            <draggable v-model="indexList" v-bind="options" class="module-items" @end="merge">
                 <div :class="editIndexShow ? 'item item-edit':'item'" v-for="(item, index) in indexList"
                      :key="item.uuid"
                      :index="index"
@@ -22,12 +23,12 @@
                     <div class="card name"><span>{{item.name}}</span></div>
                 </div>
             </draggable>
-            <div :class="editIndexShow ? 'item item-edit':'item'" id="n-draggable" @click="indexClick(-1)"
-                 v-show="editIndexShow">
-                <div style="align-self: center;"><i class="fas fa-plus" aria-hidden="true" style="font-size: 30px;"></i>
-                </div>
-                <div class="card name"><span>添加</span></div>
-            </div>
+<!--            <div :class="editIndexShow ? 'item item-edit':'item'" id="n-draggable" @click="indexClick(-1)"-->
+<!--                 v-show="editIndexShow">-->
+<!--                <div style="align-self: center;"><i class="fas fa-plus" aria-hidden="true" style="font-size: 30px;"></i>-->
+<!--                </div>-->
+<!--                <div class="card name"><span>添加</span></div>-->
+<!--            </div>-->
         </div>
 
 
@@ -38,23 +39,23 @@
             <template v-slot:main>
                 <div class="rows">
                     <div class="row1">
-                        <label>导航名称</label>
-                        <input v-model="editItemData.name" spellcheck="false"/>
+                        <label>导航链接</label>
+                        <input v-model="editUrl" spellcheck="false"/>
+                        <button class="btn" @click="getInfo">抓取信息</button>
                     </div>
                     <div class="row2">
-                        <label>导航链接</label>
-                        <input v-model="editItemData.url" spellcheck="false"/>
-                        <button class="btn" @click="getIcon">获取图标</button>
+                        <label>导航名称</label>
+                        <input v-model="editName" spellcheck="false"/>
                     </div>
                     <div class="row3">
                         <label>导航图标</label>
                         <div class="img" @click="selectIcon()">
                             <i class="fas fa-plus" aria-hidden="true" style="font-size: 20px;" v-show="!hasIcon"></i>
-                            <img :src="editItemData.icon" v-show="hasIcon">
+                            <img :src="editIcon" v-show="hasIcon">
                         </div>
                         <div>
                             点击左侧图标可以更换，<a style="text-decoration: underline;color: #0f88eb;"
-                                          href="https://www.iconfont.cn/" target="_blank">图标下载</a>
+                                          href="https://www.iconfont.cn/" target="_blank">搜索图标</a>
                         </div>
                     </div>
                 </div>
@@ -82,7 +83,9 @@
                 popShow: false,
                 iconUrl: '',
                 editItemData: {},
-                hasIcon: false,
+                editUrl: '',
+                editName: '',
+                editIcon: '',
                 options: {
                     delayOnTouchOnly: true,  //开启触摸延时
                     direction: 'vertical',   //拖动方向
@@ -102,6 +105,9 @@
             editIndexShow() {
                 return this.$store.getters.editIndexShow;
             },
+            hasIcon() {
+                return this.editIcon && this.editIcon !== '';
+            }
         },
         watch: {
             openUserInfo: {
@@ -122,15 +128,22 @@
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
             },
             saveIndex() {
-                let url = this.editItemData.url;
-                if (url && url !== '' && url.indexOf('http') < 0) {
+                if (this.editUrl && this.editUrl !== '' && this.editUrl.indexOf('http') < 0) {
                     this.$toast('导航链接需要包含http');
                     return;
                 }
                 if (this.activeIndex === -1) {
-                    this.indexList.push(this.editItemData);
+                    this.indexList.push({
+                        url: this.editUrl,
+                        name: this.editName,
+                        icon: this.editIcon
+                    });
                 } else {
-                    this.indexList[this.activeIndex] = this.editItemData;
+                    this.indexList[this.activeIndex] = {
+                        url: this.editUrl,
+                        name: this.editName,
+                        icon: this.editIcon
+                    };
                 }
                 this.merge();
                 this.popShow = false;
@@ -144,29 +157,51 @@
                     this.$toast('删除成功');
                 }
             },
-            getIcon() {
-                let url = this.editItemData.url;
-                if (!url || url === '' || url.indexOf('http') < 0) {
+            getInfo() {
+                if (!this.editUrl || this.editUrl === '' || this.editUrl.indexOf('http') < 0) {
                     this.$toast('导航链接需要包含http');
                     return;
                 }
-                let splitUrlTmp = url.split('/');
+
+                let getTitleUrl = './qqsuu/api/title?url=' + encodeURIComponent(this.editUrl);
+                this.Utils.getJson(getTitleUrl, {}).then((response) => {
+                    if (!response || response.success !== true) {
+                        this.$toast(response.message);
+                        return;
+                    }
+                    this.editName = response.title;
+                });
+
+                // https://api.qqsuu.cn/
+                // let getIconUrl = './qqsuu/api/get?url=' + encodeURIComponent(this.editUrl);
+                // this.Utils.getJson(getIconUrl, {}).then((response) => {
+                //     this.editIcon = response;
+                // });
+
+                // this.editIcon = 'https://api.qqsuu.cn/api/get?url=' + encodeURIComponent(this.editUrl);
+
+                let splitUrlTmp = this.editUrl.split('/');
                 if (splitUrlTmp.length > 2) {
                     let iconUrl = splitUrlTmp[0] + "//" + splitUrlTmp[2].split(':')[0] + '/' + 'favicon.ico';
-                    this.editItemData.icon = iconUrl;
+                    this.editIcon = iconUrl;
                 } else {
                     this.$toast('获取失败');
                 }
-                this.hasIcon = this.editItemData.icon && this.editItemData.icon !== '';
+
             },
             indexClick(index) {
                 if (this.editIndexShow) {
                     this.popShow = true;
                     this.activeIndex = index;
                     if (index === -1) {
-                        this.editItemData = {};
+                        this.editUrl = ''
+                        this.editName = '';
+                        this.editIcon = '';
                     } else {
-                        this.editItemData = this.Utils.convert(this.indexList)[index];
+                        let editItemData = this.Utils.convert(this.indexList)[index];
+                        this.editUrl = editItemData.url;
+                        this.editName = editItemData.name;
+                        this.editIcon = editItemData.icon;
                     }
                 } else {
                     this.Utils.go2Link(this.indexList[index].url, '_blank')
@@ -177,8 +212,7 @@
             },
             upLoadFile() {
                 this.Utils.upLoadFile('selectIcon', url => {
-                    this.editItemData.icon = url;
-                    this.hasIcon = this.editItemData.icon && this.editItemData.icon !== '';
+                    this.editIcon = url;
                 })
             },
         }
@@ -308,16 +342,15 @@
 
         }
 
-        .row2 {
+        .row1 {
             grid-template-columns: auto 1fr auto;
 
             padding-right: 0;
 
             button {
                 letter-spacing: 1px;
-                padding: 0 2px;
+                padding: 0 5px;
                 border-radius: 3px;
-
             }
         }
 
@@ -368,9 +401,10 @@
         > div {
             font-size: 12px;
             display: grid;
-            grid-template-columns: repeat(2, auto);
+            grid-template-columns: 1fr auto auto;
+            grid-column-gap: 5px;
             justify-content: space-between;
-            justify-items: center;
+            justify-items: left;
             align-content: center;
             align-items: center;
 

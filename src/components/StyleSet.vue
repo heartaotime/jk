@@ -213,6 +213,11 @@
                         name: '手机随机动漫妹子',
                         url: 'https://api.btstu.cn/sjbz/?m_lx=suiji'
                     },
+                    {
+                        name: '随机风景',
+                        url: 'https://api.qqsuu.cn/api/img'
+                    },
+
                 ],
                 bgImgList: [],
                 checkedUUIDList: [],
