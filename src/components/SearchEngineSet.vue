@@ -40,7 +40,7 @@
         <input type="file" name="file" id="selectIcon" @change="upLoadFile()" hidden style="display: none">
 
 
-        <div class="btn">
+        <div class="btn-group">
             <button @click="addSearchEngine()">新增一个</button>
             <button @click="saveSearchEngine()">保存</button>
             <button @click="resetSearchEngine()">恢复默认</button>
@@ -275,7 +275,7 @@
     }
 
 
-    .btn {
+    .btn-group {
         width: 100%;
         margin-top: 10px;
 

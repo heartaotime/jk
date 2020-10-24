@@ -116,7 +116,7 @@
                 </transition-group>
 
 
-                <div class="btn">
+                <div class="btn-group">
                     <button @click="addBgImgUrl()">新增一个</button>
                     <button @click="saveBgImgUrl()">保存</button>
                     <button @click="resetBgImgUrl()">恢复默认</button>
@@ -819,7 +819,7 @@
     }
 
 
-    .btn {
+    .btn-group {
         width: 100%;
         margin-top: 10px;
 

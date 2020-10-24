@@ -347,12 +347,17 @@
 
     .tips {
         > div {
+            font-size: 12px;
             display: grid;
             grid-template-columns: repeat(2, auto);
             justify-content: space-between;
             justify-items: center;
             align-content: center;
             align-items: center;
+
+            button {
+                font-size: 12px;
+            }
         }
     }
 
