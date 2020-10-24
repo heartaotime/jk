@@ -6,6 +6,7 @@
     /*font-family: "Noto Sans CJK SC", "Source Han Sans CN", sans-serif !important;*/
 }
 
+
 html, body {
     width: 100%;
     height: 100%;
@@ -126,7 +127,7 @@ a, span {
     height: 100%;
     outline: none;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     color: white;
     background-color: #409eff;
@@ -147,3 +148,13 @@ a, span {
     background-color: coral;
 }
 
+
+@media screen and (max-width: 769px) {
+    * {
+        font-size: 13px;
+    }
+
+    .btn {
+        font-size: 13px;
+    }
+}

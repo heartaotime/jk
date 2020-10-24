@@ -138,6 +138,7 @@
                 let splitUrlTmp = this.editItemData.url.split('/');
                 let iconUrl = splitUrlTmp[0] + "//" + splitUrlTmp[2].split(':')[0] + '/' + 'favicon.ico';
                 this.editItemData.icon = iconUrl;
+                this.hasIcon = this.editItemData.icon && this.editItemData.icon !== ''
             },
             indexClick(index) {
                 if (this.editIndexShow) {

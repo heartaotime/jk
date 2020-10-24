@@ -136,6 +136,7 @@
             justify-self: right;
             cursor: pointer;
             padding-right: 5px;
+
         }
 
     }
