@@ -30,7 +30,7 @@
         <input type="file" name="file" id="selectLogo" @change="upLoadFile()" hidden style="display: none">
 
 
-        <div class="btn">
+        <div class="btn-group">
             <button @click="save()">保存</button>
         </div>
 
@@ -283,7 +283,7 @@
     }
 
 
-    .btn {
+    .btn-group {
         width: 100%;
         margin-top: 10px;
 
