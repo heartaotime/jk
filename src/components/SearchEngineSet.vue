@@ -63,13 +63,10 @@
 </template>
 
 <script>
-    import draggable from 'vuedraggable'
 
     export default {
         name: "Set",
-        components: {
-            draggable
-        },
+        components: {},
         data() {
             return {
                 searchEngineList: [],
