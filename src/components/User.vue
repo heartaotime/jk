@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="btn">
+            <div class="btn-group">
                 <button @click="login()" v-show="!showRegist">登 陆</button>
                 <button style="background-color: orange;" @click="registUser()">注 册</button>
             </div>
@@ -95,7 +95,7 @@
                 <div><input spellcheck="false" v-model="user.userName" placeholder="请输入登陆账号"/></div>
             </div>
 
-            <div class="btn">
+            <div class="btn-group">
                 <button style="" @click="submitAction()">
                     {{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser ? '注销' : ''}}
                 </button>
@@ -645,7 +645,7 @@
     }
 
 
-    .btn {
+    .btn-group {
         display: grid;
         grid-row-gap: 10px;
     }

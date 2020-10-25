@@ -88,10 +88,10 @@
                 editIcon: '',
                 options: {
                     delayOnTouchOnly: true,  //开启触摸延时
-                    direction: 'vertical',   //拖动方向
+                    // direction: 'vertical',   //拖动方向
                     delay: 500,              //延时时长
                     touchStartThreshold: 3,  //防止某些手机过于敏感(3~5 效果最好)
-                    dragClass: 'drag',    //格式为简单css选择器的字符串，目标拖动过程中添加
+                    //dragClass: 'drag',    //格式为简单css选择器的字符串，目标拖动过程中添加
                     animation: 500,    // ms, 动画速度运动项目排序时，' 0 ' -没有动画。
                     // filter: '#n-draggable'
                 }

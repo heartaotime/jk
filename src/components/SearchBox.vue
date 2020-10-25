@@ -14,7 +14,7 @@
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
                          class="searchIcon"/>
-                    <i :class="!searchEngineShow ? 'fa fa-angle-down' : 'fa fa-angle-up'"></i>
+                    <i :class="!searchEngineShow ? 'fa fa-angle-down' : 'fa fa-angle-up'" style="font-size: 15px;"></i>
                 </div>
 
                 <!--                <transition enter-active-class="animated fadeInUp faster"-->
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-right" @click="search()">
-                <i class="fa fa-search"></i>
+                <i class="fa fa-search" style="font-size: 15px;"></i>
             </div>
             <div style="clear: both"></div>
             <!--            <transition enter-active-class="animated fadeIn faster"-->
@@ -59,7 +59,7 @@
 
                 <li class="clear-search-his" @click="clearSearchHis()" v-show="searchKey === ''">
                     <div>
-                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <i class="fas fa-trash-alt" aria-hidden="true" style="font-size: 15px;"></i>
                         <span>清空</span>
                     </div>
                 </li>
