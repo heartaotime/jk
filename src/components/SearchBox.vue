@@ -452,7 +452,6 @@
             ul {
                 // margin-top: calc(#{$height + 2px});
                 margin-top: 2px;
-                font-size: 15px;
                 z-index: 1;
                 border-radius: 5px;
                 box-shadow: 0 0 18px rgba(70, 70, 40, .255);

@@ -117,9 +117,9 @@
 
 
                 <div class="btn-group">
-                    <button @click="addBgImgUrl()">新增一个</button>
-                    <button @click="saveBgImgUrl()">保存</button>
-                    <button @click="resetBgImgUrl()">恢复默认</button>
+                    <button class="btn" @click="addBgImgUrl()">新增一个</button>
+                    <button class="btn" @click="saveBgImgUrl()">保存</button>
+                    <button class="btn btn-warn" @click="resetBgImgUrl()">恢复默认</button>
                 </div>
 
 
@@ -673,24 +673,6 @@
         height: 300px;
     }
 
-    button {
-        outline: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        font-weight: bold;
-
-        /*color: #8590a6;*/
-
-        color: white;
-        background-color: #409EFF;
-
-        border-radius: 5px;
-
-        /*text-shadow: 0 1px 0 #fff;*/
-
-        /*border-left: 1px solid #ccd8e1;*/
-    }
 
     input[type="range"] {
         -webkit-appearance: none;
@@ -834,23 +816,6 @@
 
     button {
         height: 40px;
-        outline: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: white;
-        background-color: #409EFF;
-        /*text-shadow: 0 1px 0 #fff;*/
-
-        /*word-spacing: 2px;*/
-
-        letter-spacing: 5px;
-
-        border-radius: 5px;
-    }
-
-    button:last-child {
-        background-color: orange;
     }
 
     .user-cust-bg {
@@ -926,11 +891,9 @@
             /*height: 200px;*/
         }
 
-        span, a, label {
-            font-size: 13px;
-        }
-
-
+        /*span, a, label {*/
+        /*    font-size: 13px;*/
+        /*}*/
         .user-cust-url-bg > div:first-child {
             grid-template-columns: auto 1fr;
             grid-row-gap: 5px;
@@ -938,7 +901,6 @@
 
         .user-cust-url-bg button {
             grid-column: 1/3;
-            line-height: 40px;
         }
 
 

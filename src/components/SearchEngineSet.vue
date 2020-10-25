@@ -41,9 +41,9 @@
 
 
         <div class="btn-group">
-            <button @click="addSearchEngine()">新增一个</button>
-            <button @click="saveSearchEngine()">保存</button>
-            <button @click="resetSearchEngine()">恢复默认</button>
+            <button class="btn" @click="addSearchEngine()">新增一个</button>
+            <button class="btn" @click="saveSearchEngine()">保存</button>
+            <button class="btn btn-warn" @click="resetSearchEngine()">恢复默认</button>
         </div>
 
         <!--            <div v-show="iconSelectShow" class="icon-select">-->
@@ -240,7 +240,6 @@
     input {
         outline: none;
         border: none;
-        font-size: 13px;
         width: 100%;
         background: transparent;
     }
@@ -285,45 +284,7 @@
 
     button {
         height: 40px;
-        outline: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: white;
-        background-color: #409EFF;
-        /*text-shadow: 0 1px 0 #fff;*/
-
-        /*word-spacing: 2px;*/
-
-        letter-spacing: 5px;
-
-        border-radius: 5px;
     }
-
-    button:last-child {
-        background-color: orange;
-    }
-
-    /*.tips {*/
-    /*    padding: 0 5px;*/
-    /*    background-color: cornsilk;*/
-    /*    border: 1px solid lightgrey;*/
-    /*    border-radius: 3px;*/
-
-    /*    display: grid;*/
-    /*    grid-row-gap: 3px;*/
-
-    /*    line-height: 25px;*/
-    /*    font-size: 13px;*/
-    /*}*/
-
-    /*.tips > span {*/
-    /*    font-size: 15px;*/
-    /*}*/
-
-    /*.tips > span:first-child {*/
-    /*    font-size: 18px;*/
-    /*}*/
 
 
     @media screen and (max-width: 600px) {

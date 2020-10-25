@@ -23,12 +23,6 @@
                     <div class="card name"><span>{{item.name}}</span></div>
                 </div>
             </draggable>
-            <!--            <div :class="editIndexShow ? 'item item-edit':'item'" id="n-draggable" @click="indexClick(-1)"-->
-            <!--                 v-show="editIndexShow">-->
-            <!--                <div style="align-self: center;"><i class="fas fa-plus" aria-hidden="true" style="font-size: 30px;"></i>-->
-            <!--                </div>-->
-            <!--                <div class="card name"><span>添加</span></div>-->
-            <!--            </div>-->
         </div>
 
 
@@ -295,7 +289,6 @@
         text-align: center;
 
         line-height: 20px;
-        font-size: 13px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -324,7 +317,6 @@
             margin-top: 10px;
             align-content: center;
             align-items: center;
-            font-size: 15px;
             height: 40px;
 
             padding: 0 10px;
@@ -347,7 +339,6 @@
 
             input {
                 line-height: 40px;
-                font-size: 15px;
                 outline: none;
                 border: none;
                 width: 100%;
@@ -414,7 +405,6 @@
 
     .tips {
         > div {
-            font-size: 12px;
             display: grid;
             grid-template-columns: 1fr auto auto;
             grid-column-gap: 5px;
@@ -424,7 +414,6 @@
             align-items: center;
 
             button {
-                font-size: 12px;
             }
         }
     }

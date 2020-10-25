@@ -31,13 +31,13 @@
                     <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
                 </div>
                 <div>
-                    <button @click="sendEmail()">发 送</button>
+                    <button class="btn" @click="sendEmail()">发 送</button>
                 </div>
             </div>
 
             <div class="btn-group">
-                <button @click="login()" v-show="!showRegist">登 陆</button>
-                <button style="background-color: orange;" @click="registUser()">注 册</button>
+                <button class="btn" @click="login()" v-show="!showRegist">登 陆</button>
+                <button class="btn btn-warn" style="background-color: orange;" @click="registUser()">注 册</button>
             </div>
 
 
@@ -53,10 +53,10 @@
                     <label>注册时间 : </label><span>{{openUserInfo.user.createDate}}</span>
                 </div>
                 <div class="operation">
-                    <button @click="clearLocalStorage()">登出</button>
-                    <button @click="showMdPwd()">修改密码</button>
-                    <button @click="showMdUserInfo()">修改用户信息</button>
-                    <button @click="showDeleteUser()">注销用户</button>
+                    <button class="btn" @click="clearLocalStorage()">登出</button>
+                    <button class="btn btn-warn" @click="showMdPwd()">修改密码</button>
+                    <button class="btn btn-warn" @click="showMdUserInfo()">修改用户信息</button>
+                    <button class="btn btn-error" @click="showDeleteUser()">注销用户</button>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
                     <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
                 </div>
                 <div>
-                    <button @click="sendEmail()">发 送</button>
+                    <button class="btn" @click="sendEmail()">发 送</button>
                 </div>
             </div>
 
@@ -96,7 +96,7 @@
             </div>
 
             <div class="btn-group">
-                <button style="" @click="submitAction()">
+                <button class="btn btn-warn" @click="submitAction()">
                     {{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser ? '注销' : ''}}
                 </button>
             </div>
@@ -413,7 +413,9 @@
                 });
             },
             clearLocalStorage() {
-                this.Utils.clearLocalStorage();
+                if (confirm('确认清理缓存吗？清理后需要重新登陆哦')) {
+                    this.Utils.clearLocalStorage();
+                }
             },
             save(type) {
                 let tmp = JSON.parse(this.showUserInfo);
@@ -604,45 +606,23 @@
         padding: 0 5px;
     }
 
-    button {
-        height: 40px;
-        outline: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: white;
-        background-color: #409EFF;
-        /*text-shadow: 0 1px 0 #fff;*/
 
-        /*word-spacing: 2px;*/
+    /*button {*/
+    /*    height: 40px;*/
+    /*    outline: none;*/
+    /*    border: none;*/
+    /*    font-size: 16px;*/
+    /*    cursor: pointer;*/
+    /*    color: white;*/
+    /*    background-color: #409EFF;*/
+    /*    !*text-shadow: 0 1px 0 #fff;*!*/
 
-        letter-spacing: 5px;
+    /*    !*word-spacing: 2px;*!*/
 
-        border-radius: 5px;
-    }
+    /*    letter-spacing: 5px;*/
 
-
-    .operation > button:nth-child(2) {
-        background-color: orange;
-    }
-
-    .operation > button:last-child {
-        background-color: orangered;
-    }
-
-
-    button:hover {
-        background: #0d79d1;
-        border-color: #0f88eb;
-    }
-
-    .operation > button:nth-child(2):hover {
-        background: darkorange;
-    }
-
-    .operation > button:last-child:hover {
-        background: red;
-    }
+    /*    border-radius: 5px;*/
+    /*}*/
 
 
     .btn-group {
@@ -677,11 +657,15 @@
         padding: 0 5px;
     }
 
+    button {
+        height: 40px;
+    }
+
     @media screen and (max-width: 600px) {
 
-        span, textarea {
-            font-size: 13px;
-        }
+        /*span, textarea {*/
+        /*    font-size: 13px;*/
+        /*}*/
 
         .user-info {
             grid-template-columns: repeat(2, auto);

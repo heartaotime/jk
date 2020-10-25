@@ -31,7 +31,7 @@
 
 
         <div class="btn-group">
-            <button @click="save()">保存</button>
+            <button class="btn" @click="save()">保存</button>
         </div>
 
 
@@ -233,16 +233,6 @@
 
     .time > span {
         font-size: 40px;
-        /*font-family: 'Share Tech Mono', monospace;*/
-        /*color: #ffffff;*/
-        /*text-align: center;*/
-        /*position: absolute;*/
-        /*left: 50%;*/
-        /*top: 50%;*/
-        /*-webkit-transform: translate(-50%, -50%);*/
-        /*transform: translate(-50%, -50%);*/
-        /*color: #daf6ff;*/
-        /*text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);*/
     }
 
     .weather {
@@ -257,7 +247,6 @@
     input {
         outline: none;
         border: none;
-        font-size: 15px;
         width: 100%;
         background: transparent;
     }
@@ -293,22 +282,5 @@
 
     button {
         height: 40px;
-        outline: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: white;
-        background-color: #409EFF;
-        /*text-shadow: 0 1px 0 #fff;*/
-
-        /*word-spacing: 2px;*/
-
-        letter-spacing: 5px;
-
-        border-radius: 5px;
-    }
-
-    button:last-child {
-        background-color: orange;
     }
 </style>
