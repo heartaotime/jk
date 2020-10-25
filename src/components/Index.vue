@@ -4,7 +4,7 @@
         <div class="tips" v-show="editIndexShow">
             <div>
                 <span>点击编辑，拖动排序</span>
-                <button class="btn" @click="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"> 添加</i></button>
+                <button class="btn" @click="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"></i> 添加</button>
                 <button class="btn" @click="$store.commit('uEditIndexShow', false)">退出编辑</button>
             </div>
         </div>
