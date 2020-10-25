@@ -56,7 +56,7 @@
 
                 <div class="btn-group">
                     <button class="btn" @click="saveIndex()">保存</button>
-                    <button class="btn btn-warn" @click="delIndex()">删除</button>
+                    <button class="btn btn-warn" @click="delIndex()" v-show="activeIndex !== -1">删除</button>
                 </div>
             </template>
         </pop>
@@ -400,7 +400,10 @@
 
         display: grid;
         grid-row-gap: 10px;
-        grid-template-rows: 40px 40px;
+    }
+
+    button {
+        height: 40px;
     }
 
     .tips {
