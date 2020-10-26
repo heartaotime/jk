@@ -8,16 +8,13 @@
 
 
         <pop :show="popConfig.show" :style-set="{top:'10%',maxWidth:'800px'}" @close="Utils.closePop()">
-            <template v-slot:header>{{popConfig.title}}</template>
+            <template v-slot:header>
+                <div>{{popConfig.title}}</div>
+            </template>
             <template v-slot:main>
-                <!--                    <div style="text-align: center;">-->
-                <!--&lt;!&ndash;                        <router-view :name="popConfig.componentName"></router-view>&ndash;&gt;-->
-                <!--                       -->
-                <!--                    </div>-->
                 <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
                 <User v-if="popConfig.componentName === 'User'"></User>
                 <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
-                <!--                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>-->
                 <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
             </template>
         </pop>
@@ -31,10 +28,6 @@
                         <i class="far fa-lightbulb animated tada" aria-hidden="true"></i>
                         <span>Logo</span>
                     </div>
-                    <!--                    <div @click="uPopConfig('IndexSet', '快捷导航设置')">-->
-                    <!--                        <i class="far fa-bookmark animated tada" aria-hidden="true"></i>-->
-                    <!--                        <span>快捷导航</span>-->
-                    <!--                    </div>-->
                     <div @click="editIndex">
                         <i class="far fa-bookmark animated tada" aria-hidden="true"></i>
                         <span>导航</span>
@@ -58,34 +51,6 @@
             </div>
         </transition>
 
-        <!--        <div class="card menu" v-show="show">-->
-        <!--            <div class="items">-->
-        <!--                <div class="animated fadeInUp" @click="uPopConfig('LogoSet', 'Logo设置')">-->
-        <!--                    <i class="far fa-lightbulb" aria-hidden="true"></i>-->
-        <!--                    <span>Logo</span>-->
-        <!--                </div>-->
-        <!--                <div class="animated fadeInUp" @click="uPopConfig('IndexSet', '快捷导航设置')">-->
-        <!--                    <i class="far fa-bookmark" aria-hidden="true"></i>-->
-        <!--                    <span>快捷导航</span>-->
-        <!--                </div>-->
-        <!--                <div class="animated fadeInUp" @click="uPopConfig('SearchEngineSet', '搜索引擎设置')">-->
-        <!--                    <i class="far fa-edit" aria-hidden="true"></i>-->
-        <!--                    <span>搜索引擎</span>-->
-        <!--                </div>-->
-        <!--                <div class="animated fadeInUp" @click="uPopConfig('Style', '主题设置')">-->
-        <!--                    <i class="far fa-images"></i>-->
-        <!--                    <span>主题</span>-->
-        <!--                </div>-->
-        <!--                <div class="animated fadeInUp" @click="uPopConfig('User','用户设置')">-->
-        <!--                    <i class="far fa-user"></i>-->
-        <!--                    <span>用户</span>-->
-        <!--                </div>-->
-        <!--                <div class="animated fadeInUp" @click="show = false">-->
-        <!--                    <i class="fa fa-angle-down"></i>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
     </div>
 </template>
 
@@ -93,7 +58,6 @@
     import StyleSet from "./StyleSet";
     import User from "./User";
     import SearchEngineSet from "./SearchEngineSet";
-    // import IndexSet from './IndexSet';
     import LogoSet from "./LogoSet";
 
     export default {
@@ -102,7 +66,6 @@
             StyleSet,
             User,
             SearchEngineSet,
-            // IndexSet,
             LogoSet
         },
         data() {

@@ -258,7 +258,8 @@
                 this.isNeedShowSug = false; // 不需要展示搜索建议
                 document.querySelector('#searchInput').blur();
 
-                window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
+                // window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
+                this.Utils.go2Link(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
 
                 if (this.searchKey !== '') {
 

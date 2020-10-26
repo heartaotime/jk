@@ -213,7 +213,7 @@
                         this.editIcon = editItemData.icon;
                     }
                 } else {
-                    this.Utils.go2Link(this.indexList[index].url, '_blank')
+                    this.Utils.go2Link(this.indexList[index].url);
                 }
             },
             selectIcon() {
