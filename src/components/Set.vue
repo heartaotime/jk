@@ -180,8 +180,8 @@
         z-index: 3;
 
         position: fixed;
-        bottom: 5px;
-        right: 5px;
+        bottom: 10px;
+        right: 10px;
     }
 
     .items {
@@ -192,12 +192,12 @@
         place-items: center;
         grid-column-gap: 10px;
         grid-row-gap: 10px;
-        padding: 10px;
+        width: 40px;
     }
 
     .items > div {
         width: 100%;
-        height: 100%;
+        height: 40px;
 
 
         display: grid;
@@ -216,6 +216,12 @@
         /*border: 1px dashed #DCDFE6;*/
 
         cursor: pointer;
+    }
+
+    .items > div:hover {
+        border-radius: 5px;
+        background-color: #ecf5ff;
+        color: #409EFF;
     }
 
     .items > div > span {

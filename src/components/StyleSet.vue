@@ -471,6 +471,8 @@
         display: grid;
         grid-template-columns: 1fr;
 
+
+
     }
 
 
@@ -511,6 +513,7 @@
         height: 400px;
         /*padding: 0 20px 0;*/
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .biying {
