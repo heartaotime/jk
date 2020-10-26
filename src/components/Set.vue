@@ -236,4 +236,24 @@
         font-size: 15px;
         /*cursor: none;*/
     }
+
+
+    @media screen and (max-width: 600px) {
+
+        .menu {
+            left: 10px;
+        }
+
+        .items {
+            width: calc(100% - 20px);
+            grid-template-columns: repeat(3, 1fr);
+            padding: 10px;
+        }
+
+        .items > div {
+            height: 100%;
+        }
+    }
+
+
 </style>
