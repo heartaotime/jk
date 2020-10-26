@@ -17,7 +17,7 @@
                 <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
                 <User v-if="popConfig.componentName === 'User'"></User>
                 <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>
-<!--                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>-->
+                <!--                <IndexSet v-if="popConfig.componentName === 'IndexSet'"></IndexSet>-->
                 <LogoSet v-if="popConfig.componentName === 'LogoSet'"></LogoSet>
             </template>
         </pop>
@@ -31,17 +31,17 @@
                         <i class="far fa-lightbulb animated tada" aria-hidden="true"></i>
                         <span>Logo</span>
                     </div>
-<!--                    <div @click="uPopConfig('IndexSet', '快捷导航设置')">-->
-<!--                        <i class="far fa-bookmark animated tada" aria-hidden="true"></i>-->
-<!--                        <span>快捷导航</span>-->
-<!--                    </div>-->
+                    <!--                    <div @click="uPopConfig('IndexSet', '快捷导航设置')">-->
+                    <!--                        <i class="far fa-bookmark animated tada" aria-hidden="true"></i>-->
+                    <!--                        <span>快捷导航</span>-->
+                    <!--                    </div>-->
                     <div @click="editIndex">
                         <i class="far fa-bookmark animated tada" aria-hidden="true"></i>
-                        <span>快捷导航</span>
+                        <span>导航</span>
                     </div>
                     <div @click="uPopConfig('SearchEngineSet', '搜索引擎设置')">
                         <i class="far fa-edit animated tada" aria-hidden="true"></i>
-                        <span>搜索引擎</span>
+                        <span>搜索</span>
                     </div>
                     <div @click="uPopConfig('StyleSet', '主题设置')">
                         <i class="far fa-images animated tada"></i>
@@ -158,7 +158,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .set {
         z-index: 3;
         display: unset;
@@ -182,12 +182,11 @@
         position: fixed;
         bottom: 5px;
         right: 5px;
-        left: 5px;
     }
 
     .items {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
 
         place-content: center;
         place-items: center;
@@ -207,6 +206,7 @@
 
         place-content: center;
         place-items: center;
+        grid-row-gap: 5px;
 
         /*justify-content: left;*/
         /*align-content: center;*/
@@ -228,7 +228,6 @@
 
     i {
         font-size: 15px;
-        padding: 8px;
         /*cursor: none;*/
     }
 </style>
