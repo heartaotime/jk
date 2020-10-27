@@ -44,7 +44,7 @@
             <div style="clear: both"></div>
             <!--            <transition enter-active-class="animated fadeIn faster"-->
             <!--                        leave-active-class="animated fadeOut faster">-->
-            <ul v-show="suggestionShow" class="suggestion">
+            <ul v-show="suggestionShow" class="suggestion" @mousedown="ulMousedown($event)">
                 <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
                     <!--                            <div @click="sugClick(item.orgSug, true)">-->
                     <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
@@ -158,10 +158,20 @@
             // })
         },
         methods: {
+            ulMousedown(event) {
+                let target = event.target;
+                // console.log(target);
+                if (target && target.preventDefault) {
+                    target.preventDefault();
+                } else {
+                    window.event.returnValue = false;
+                }
+            },
             clearSearchHis() {
                 this.searchHistory = [];
                 this.searchHistoryOrg = [];
                 localStorage.removeItem('searchHistory');
+                this.isNeedShowSug = false;
             },
             getSug() {
                 if (this.searchKey === '') {
@@ -236,9 +246,10 @@
                 //  alert('inputBlur');
                 this.searchFocus = false;
                 this.searchEngineShow = false;
+                this.isNeedShowSug = false;
                 setTimeout(() => {
                     // 防止立刻隐藏后，导致的 sugClick 触发不了
-                    this.isNeedShowSug = false;
+                    // this.isNeedShowSug = false;
                 }, 300);
             },
             setSearchEngine(index) {
