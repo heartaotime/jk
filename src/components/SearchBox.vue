@@ -171,7 +171,7 @@
                 this.searchHistory = [];
                 this.searchHistoryOrg = [];
                 localStorage.removeItem('searchHistory');
-                this.isNeedShowSug = false;
+                this.suggestion = [];
             },
             getSug() {
                 if (this.searchKey === '') {
@@ -304,11 +304,13 @@
                     }
                 }
 
+                this.searchKey = '';
 
-                setTimeout(() => {
-                    this.searchKey = '';
-                    // document.querySelector('#searchInput').focus();
-                }, 500);
+
+                // setTimeout(() => {
+                //     this.searchKey = '';
+                //     // document.querySelector('#searchInput').focus();
+                // }, 500);
             },
             getYiyan() {
                 let url = 'https://v1.hitokoto.cn';
