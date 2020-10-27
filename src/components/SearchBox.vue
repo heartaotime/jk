@@ -150,6 +150,12 @@
                 // let seconds = now.getSeconds() > 9 ? now.getSeconds() : '0' + now.getSeconds();
                 this.time = hours + ':' + minutes;
             }, 1000);
+            // document.addEventListener('click', (ele) => {
+            //     console.log(ele.target.id);
+            //     if (ele.target.id !== 'search-form' && ele.target.id !== 'searchInput') {
+            //         this.isNeedShowSug = false;
+            //     }
+            // })
         },
         methods: {
             clearSearchHis() {
