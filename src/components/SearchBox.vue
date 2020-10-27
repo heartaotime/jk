@@ -233,7 +233,7 @@
                 setTimeout(() => {
                     // 防止立刻隐藏后，导致的 sugClick 触发不了
                     this.isNeedShowSug = false;
-                }, 100);
+                }, 300);
             },
             setSearchEngine(index) {
                 this.searchEngineIndex = index;
