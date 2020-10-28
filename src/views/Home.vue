@@ -313,7 +313,6 @@
 
                 let bgImgUrl = '';
 
-
                 let bgImgChecked = [];
                 for (let i = 0; i < bgImg.length; i++) {
                     if (bgImg[i].checked) {
@@ -365,11 +364,17 @@
 
                 this.appStyle = {
                     backgroundImage: 'url(' + bgImgUrl + ')',
-                    backgroundColor: bgColor
+                    backgroundColor: bgColor,
                 }
 
                 document.querySelector('#app').style.backgroundImage = 'url(' + bgImgUrl + ')';
                 document.querySelector('#app').style.backgroundColor = bgColor;
+
+                // 如果是手机
+                if (this.Utils.isPhone()) {
+                    document.querySelector('#app').style.backgroundSize =
+                        (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
+                }
 
 
                 // let that = this;

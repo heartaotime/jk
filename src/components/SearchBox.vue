@@ -236,7 +236,7 @@
                 // 1.创建一个全屏的毛玻璃效果的div，并且他的z-index < form 的 z-index
                 this.searchFocus = true;
 
-                history.pushState(null, '搜索', null);
+                // history.pushState(null, '搜索', null);
 
                 this.searchEngineShow = false; // 取消展示搜索引擎
                 this.isNeedShowSug = true; // 需要展示搜索建议
