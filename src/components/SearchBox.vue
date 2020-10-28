@@ -241,6 +241,7 @@
                 this.searchEngineShow = false; // 取消展示搜索引擎
                 this.isNeedShowSug = true; // 需要展示搜索建议
                 this.getSug(); // 开始搜索
+
             },
             inputBlur() {
                 //  alert('inputBlur');
