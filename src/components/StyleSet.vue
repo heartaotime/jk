@@ -397,6 +397,10 @@
                         uuid: this.Utils.generateUUID()
                     }
                 );
+                this.$nextTick(() => {
+                    let elementNodeListOfElement = document.querySelector('.user-cust-url-bg .btn-group button:last-child');
+                    elementNodeListOfElement.scrollIntoView();
+                });
             },
             saveBgImgUrl() {
                 this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 自定义背景图
