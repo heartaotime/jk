@@ -1,9 +1,8 @@
 <template>
     <div class="module">
 
-        <div class="animated fadeInUp" style="padding: 0 5px;">
+        <div class="animated fadeInUp">
             <div class="tips">
-                <span>提示：</span>
                 <span>1.点击图标可以更换</span>
                 <span>2.搜索的关键字用%s代替</span>
                 <span>3.按住 <i class="fas fa-arrows-alt-v" style="color: red;"
@@ -152,7 +151,10 @@
                         uuid: this.Utils.generateUUID()
                     }
                 );
-                // console.log('addSearchEngine2', this.searchEngineList);
+                this.$nextTick(() => {
+                    let elementNodeListOfElement = document.querySelector('.search-engine .row:last-child');
+                    elementNodeListOfElement.scrollIntoView();
+                });
             },
             delSearchEngine(index) {
                 if (this.searchEngineList.length == 1) {
@@ -177,16 +179,11 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     .module {
-        /*padding: 10px 10px 0;*/
         display: grid;
         grid-template-columns: 1fr;
-
-        /*grid-row-gap: 20px;*/
-        /*justify-content: center;*/
-        /*justify-items: center;*/
     }
 
     h4 {
@@ -194,15 +191,9 @@
     }
 
     .search-engine {
-        height: 240px;
+        max-height: 240px;
         overflow-y: auto;
-        padding: 0 5px;
-
-        /*display: grid;*/
-        /*justify-content: stretch;*/
-        /*align-content: center;*/
-
-
+        overflow-x: hidden;
     }
 
 
@@ -213,24 +204,42 @@
 
         display: grid;
         grid-template-columns: 30px 50px 1fr 30px 30px;
-
         margin-top: 10px;
 
-        /*justify-content: stretch;*/
-        /*align-content: stretch;*/
+        box-sizing: border-box;
 
+        img {
+            width: 20px;
+            height: 20px;
+            place-self: center;
+        }
 
-        /*align-content: start;*/
+        > div {
+            box-sizing: border-box;
+            border-left: 1px solid lightgray;
+            height: 100%;
+            width: 100%;
+            place-self: center;
+            display: grid;
+            grid-template-columns: 1fr;
+            padding: 0 5px;
 
-        /*grid-column-gap: 20px;*/
-        /*justify-content: start;*/
-    }
+            &:first-child {
+                border-left: none;
+                display: grid;
+                place-content: center;
+                padding: 0;
+            }
 
+            > i {
+                place-self: center;
+                color: red;
+            }
+        }
 
-    .row img {
-        width: 20px;
-        height: 20px;
-        place-self: center;
+        .drag {
+            background-color: orange;
+        }
     }
 
 
@@ -239,35 +248,6 @@
         border: none;
         width: 100%;
         background: transparent;
-    }
-
-
-    .row > div {
-        cursor: pointer;
-
-        border-left: 1px solid lightgray;
-        height: 100%;
-        width: 100%;
-
-
-        place-self: center;
-
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-
-    .row.drag {
-        background-color: orange;
-    }
-
-    .row > div:first-child {
-        border-left: none;
-    }
-
-
-    .row > div > i {
-        place-self: center;
-        color: red;
     }
 
 

@@ -85,11 +85,9 @@
 
                 <div class="animated fadeInRight faster">
                     <div class="tips">
-                        <span>提示：</span>
                         <span>1.可以多选</span>
                         <span>2.每次刷新页面会从选中的链接中随机获取一个</span>
-                        <span>3.下面是一些链接可以供你选择和参考哦</span>
-                        <span>4.选择一个或者多个刷新页面试试看</span>
+                        <span>3.你也可以自己设置壁纸的链接哦</span>
                     </div>
                 </div>
 
@@ -182,42 +180,49 @@
                         url: 'https://api.btstu.cn/sjbz/zsy.php'
                     },
                     {
-                        name: '手机端随机壁纸 1080/1920',
+                        name: '随机-手机',
                         url: 'https://picsum.photos/1080/1920'
                     },
                     {
-                        name: '电脑端随机壁纸 1920/1080',
+                        name: '随机-PC',
                         url: 'https://picsum.photos/1920/1080'
                     },
                     {
-                        name: '电脑动漫图片',
+                        name: '动漫图片-PC',
                         url: 'https://api.btstu.cn/sjbz/?lx=dongman'
                     },
                     {
-                        name: '电脑美女图片',
+                        name: '美女图片-PC',
                         url: 'https://api.btstu.cn/sjbz/?lx=meizi'
                     },
                     {
-                        name: '电脑随机动漫妹子',
+                        name: '美女图片-PC',
                         url: 'https://api.btstu.cn/sjbz/?lx=suiji'
                     },
                     {
-                        name: '手机动漫图片',
+                        name: '动漫图片-手机',
                         url: 'https://api.btstu.cn/sjbz/?lx=m_dongman'
                     },
                     {
-                        name: '手机美女图片',
+                        name: '美女图片-手机',
                         url: 'https://api.btstu.cn/sjbz/?lx=m_meizi'
                     },
                     {
-                        name: '手机随机动漫妹子',
-                        url: 'https://api.btstu.cn/sjbz/?m_lx=suiji'
-                    },
-                    {
-                        name: '随机风景',
+                        name: '风景-PC',
                         url: 'https://api.qqsuu.cn/api/img'
                     },
-
+                    {
+                        name: '动漫-PC',
+                        url: 'https://api.ixiaowai.cn/api/api.php'
+                    },
+                    {
+                        name: 'mc酱动漫-PC',
+                        url: 'https://api.ixiaowai.cn/mcapi/mcapi.php'
+                    },
+                    {
+                        name: '随机-PC',
+                        url: 'https://api.ixiaowai.cn/gqapi/gqapi.php'
+                    },
                 ],
                 bgImgList: [],
                 checkedUUIDList: [],
@@ -460,7 +465,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 
     .top {
@@ -470,7 +475,6 @@
 
         display: grid;
         grid-template-columns: 1fr;
-
 
 
     }
@@ -739,73 +743,44 @@
         height: 40px;
         border: 1px solid lightgrey;
         border-radius: 3px;
-
         display: grid;
         grid-template-columns: 30px 200px 1fr 30px;
-
         margin-top: 10px;
-    }
 
-    .row > div:first-child {
-        display: grid;
-        place-content: center;
+        > div {
+            box-sizing: border-box;
+            border-left: 1px solid lightgray;
+            height: 100%;
+            width: 100%;
+            place-self: center;
+            display: grid;
+            grid-template-columns: 1fr;
+            padding: 0 5px;
 
-    }
+            &:first-child {
+                border-left: none;
+                display: grid;
+                place-content: center;
+                padding: 0;
 
+                > input {
+                    height: 25px;
+                    cursor: pointer;
+                }
+            }
 
-    .row > div:first-child > input {
-        height: 25px;
-        cursor: pointer;
+            > i {
+                place-self: center;
+                color: red;
+            }
+        }
     }
 
 
     input {
         outline: none;
         border: none;
-        /*padding: 0 10px;*/
-        font-size: 13px;
-
-        /*border-left: 1px solid lightgray;*/
-
-        /*width: 50px;*/
-
         width: 100%;
-
-        /*padding-left: 5px;*/
-
-
-    }
-
-    .row > input:first-child {
-        /*text-align: center;*/
-    }
-
-
-    .icon-select {
-
-    }
-
-    .row > div {
-        border-left: 1px solid lightgray;
-        height: 100%;
-        width: 100%;
-
-
-        place-self: center;
-
-        display: grid;
-        grid-template-columns: 1fr;
-        /*place-content: center;*/
-        /*place-items: center;*/
-    }
-
-    .row > div > i {
-        /*height: 100%;*/
-        /*line-height: 30px;*/
-        place-self: center;
-        /*border-left: 1px solid lightgray;*/
-        color: red;
-        /*margin-left: 5px;*/
     }
 
 
@@ -908,7 +883,7 @@
 
 
         .row {
-            grid-template-columns: 30px 110px 1fr 30px;;
+            grid-template-columns: 30px 110px 1fr 30px;
         }
     }
 
