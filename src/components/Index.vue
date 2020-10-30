@@ -302,7 +302,7 @@
 
         .row {
             display: grid;
-            grid-template-columns: auto 1fr;
+            grid-template-columns: 65px 1fr;
             grid-column-gap: 10px;
             margin-top: 10px;
             align-content: center;
@@ -339,7 +339,7 @@
         }
 
         .row1 {
-            grid-template-columns: auto 1fr auto;
+            grid-template-columns: 65px 1fr auto;
 
             padding-right: 0;
 
@@ -351,7 +351,7 @@
         }
 
         .row3 {
-            grid-template-columns: auto 60px 1fr;
+            grid-template-columns: 65px 60px 1fr;
 
             height: 60px;
 
@@ -373,6 +373,7 @@
             }
 
             input {
+                width: 100%;
                 line-height: 60px;
             }
 

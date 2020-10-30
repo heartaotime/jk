@@ -513,7 +513,7 @@
     .row {
         box-sizing: border-box;
         display: grid;
-        grid-template-columns: 80px 1fr 0;
+        grid-template-columns: 80px 1fr auto;
         grid-column-gap: 10px;
 
 
@@ -525,8 +525,8 @@
         line-height: 40px;
 
         > div {
-            width: 100%;
-            height: 100%;
+            /*width: 100%;*/
+            /*height: 100%;*/
             text-align: center;
 
             display: grid;
@@ -547,14 +547,19 @@
         span {
             font-size: 13px;
         }
+
+        input {
+            width: 100%;
+            outline: none;
+            border: none;
+            background: transparent;
+        }
     }
 
-
-    input {
-        outline: none;
-        border: none;
-        background: transparent;
+    .verifyCode {
+        grid-template-columns: 80px 1fr auto;
     }
+
 
     .info {
 
@@ -623,11 +628,6 @@
         display: grid;
         grid-row-gap: 10px;
         line-height: 40px;
-    }
-
-
-    .verifyCode {
-        grid-template-columns: 80px 1fr 50px;
     }
 
 
