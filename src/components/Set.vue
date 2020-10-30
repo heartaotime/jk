@@ -128,6 +128,7 @@
     }
 
     .up {
+        cursor: pointer;
         position: fixed;
         bottom: 10px;
         right: 10px;
