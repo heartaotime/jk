@@ -44,9 +44,9 @@
 
 
         <div class="btn-group">
-            <button class="btn" @click="addSearchEngine()">新增一个</button>
-            <button class="btn" @click="saveSearchEngine()">保存</button>
-            <button class="btn btn-warn" @click="resetSearchEngine()">恢复默认</button>
+            <btn @click.native="addSearchEngine">新增一个</btn>
+            <btn @click.native="saveSearchEngine">保存</btn>
+            <btn @click.native="resetSearchEngine" warning>恢复默认</btn>
         </div>
 
         <!--            <div v-show="iconSelectShow" class="icon-select">-->
@@ -256,13 +256,9 @@
     .btn-group {
         width: 100%;
         margin-top: 10px;
-
+        line-height: 40px;
         display: grid;
         grid-row-gap: 10px;
-    }
-
-    button {
-        height: 40px;
     }
 
 

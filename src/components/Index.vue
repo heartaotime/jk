@@ -4,8 +4,8 @@
         <div class="tips" v-show="editIndexShow">
             <div>
                 <span>点击编辑，拖动排序</span>
-                <button class="btn" @click="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"></i> 添加</button>
-                <button class="btn" @click="$store.commit('uEditIndexShow', false)">退出编辑</button>
+                <btn @click.native="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"></i> 添加</btn>
+                <btn @click.native="$store.commit('uEditIndexShow', false)">退出编辑</btn>
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                     <div class="row1">
                         <label>导航链接</label>
                         <input v-model="editUrl" spellcheck="false"/>
-                        <button class="btn" @click="getInfo">抓取信息</button>
+                        <btn @click.native="getInfo">抓取信息</btn>
                     </div>
                     <div class="row2">
                         <label>导航名称</label>
@@ -55,8 +55,8 @@
                 </div>
 
                 <div class="btn-group">
-                    <button class="btn" @click="saveIndex()">保存</button>
-                    <button class="btn btn-warn" @click="delIndex()" v-show="activeIndex !== -1">删除</button>
+                    <btn @click.native="saveIndex">保存</btn>
+                    <btn @click.native="delIndex" v-show="activeIndex !== -1" warning>删除</btn>
                 </div>
             </template>
         </pop>
@@ -387,13 +387,10 @@
     .btn-group {
         width: 100%;
         margin-top: 20px;
+        line-height: 40px;
 
         display: grid;
         grid-row-gap: 10px;
-    }
-
-    button {
-        height: 40px;
     }
 
     .tips {

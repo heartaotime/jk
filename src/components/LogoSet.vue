@@ -30,7 +30,7 @@
         <upload ref="upload" @upLoadSuccess="(res) => {url = res}"></upload>
 
         <div class="btn-group">
-            <button class="btn" @click="save()">保存</button>
+            <btn @click.native="save()" height="40px">保存</btn>
         </div>
 
 

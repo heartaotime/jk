@@ -31,13 +31,13 @@
                     <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
                 </div>
                 <div>
-                    <button class="btn" @click="sendEmail()">发 送</button>
+                    <btn @click.native="sendEmail">发 送</btn>
                 </div>
             </div>
 
             <div class="btn-group">
-                <button class="btn" @click="login()" v-show="!showRegist">登 陆</button>
-                <button class="btn btn-warn" style="background-color: orange;" @click="registUser()">注 册</button>
+                <btn @click.native="login" v-show="!showRegist">登 陆</btn>
+                <btn @click.native="registUser" warning>注 册</btn>
             </div>
 
 
@@ -53,10 +53,10 @@
                     <label>注册时间 : </label><span>{{openUserInfo.user.createDate}}</span>
                 </div>
                 <div class="operation">
-                    <button class="btn" @click="clearLocalStorage()">登出</button>
-                    <button class="btn btn-warn" @click="showMdPwd()">修改密码</button>
-                    <button class="btn btn-warn" @click="showMdUserInfo()">修改用户信息</button>
-                    <button class="btn btn-error" @click="showDeleteUser()">注销用户</button>
+                    <btn @click.native="logout">登出</btn>
+                    <btn @click.native="showMdPwd" warning>修改密码</btn>
+                    <btn @click.native="showMdUserInfo" warning>修改用户信息</btn>
+                    <btn @click.native="showDeleteUser" danger>注销用户</btn>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
                     <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
                 </div>
                 <div>
-                    <button class="btn" @click="sendEmail()">发 送</button>
+                    <btn @click.native="sendEmail">发 送</btn>
                 </div>
             </div>
 
@@ -96,9 +96,9 @@
             </div>
 
             <div class="btn-group">
-                <button class="btn btn-warn" @click="submitAction()">
-                    {{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser ? '注销' : ''}}
-                </button>
+                <btn @click.native="submitAction" warning>{{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser
+                    ? '注销' : ''}}
+                </btn>
             </div>
         </div>
 
@@ -412,6 +412,11 @@
                     });
                 });
             },
+            logout() {
+                if (confirm('确认登出吗？')) {
+                    this.Utils.clearLocalStorage();
+                }
+            },
             clearLocalStorage() {
                 if (confirm('确认清理缓存吗？清理后需要重新登陆哦')) {
                     this.Utils.clearLocalStorage();
@@ -483,7 +488,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     .module {
         /*padding: 10px 20px 0;*/
@@ -506,6 +511,7 @@
     }
 
     .row {
+        box-sizing: border-box;
         display: grid;
         grid-template-columns: 80px 1fr 0;
         grid-column-gap: 10px;
@@ -517,23 +523,30 @@
         align-items: center;
         align-content: center;
         line-height: 40px;
-    }
 
-    .row > div {
-        width: 100%;
-        height: 100%;
-        text-align: center;
+        > div {
+            width: 100%;
+            height: 100%;
+            text-align: center;
 
-        display: grid;
-        grid-template-columns: 1fr;
-    }
+            display: grid;
+            grid-template-columns: 1fr;
 
-    .row > div:first-child {
-        border-right: 1px solid lightgrey;
-    }
+            &:first-child {
+                border-right: 1px solid lightgrey;
+            }
+        }
 
-    .row span {
-        font-size: 13px;
+        &:last-child > span {
+            grid-column: 1/3;
+            padding: 0 10px;
+            text-align: start;
+            line-height: 25px;
+        }
+
+        span {
+            font-size: 13px;
+        }
     }
 
 
@@ -541,8 +554,6 @@
         outline: none;
         border: none;
         background: transparent;
-        font-size: 15px;
-        font-weight: bold;
     }
 
     .info {
@@ -578,6 +589,7 @@
         margin-top: 10px;
         display: grid;
         grid-row-gap: 10px;
+        line-height: 40px;
     }
 
 
@@ -607,49 +619,17 @@
     }
 
 
-    /*button {*/
-    /*    height: 40px;*/
-    /*    outline: none;*/
-    /*    border: none;*/
-    /*    font-size: 16px;*/
-    /*    cursor: pointer;*/
-    /*    color: white;*/
-    /*    background-color: #409EFF;*/
-    /*    !*text-shadow: 0 1px 0 #fff;*!*/
-
-    /*    !*word-spacing: 2px;*!*/
-
-    /*    letter-spacing: 5px;*/
-
-    /*    border-radius: 5px;*/
-    /*}*/
-
-
     .btn-group {
         display: grid;
         grid-row-gap: 10px;
+        line-height: 40px;
     }
 
 
-    .row:last-child > span {
-        grid-column: 1/3;
-        padding: 0 10px;
-        /*background-color: cornsilk;*/
-        text-align: start;
-        line-height: 25px;
+    .verifyCode {
+        grid-template-columns: 80px 1fr 50px;
     }
 
-    /*.verifyCode {*/
-    /*    grid-template-columns: 80px 1fr 50px;*/
-    /*}*/
-
-
-    .verifyCode > div:last-child > button {
-        position: relative;
-        right: 50px;
-        width: 50px;
-        letter-spacing: 0;
-    }
 
     .user-info-detail > div:first-child {
         background-color: cornsilk;
@@ -657,16 +637,7 @@
         padding: 0 5px;
     }
 
-    button {
-        height: 40px;
-    }
-
     @media screen and (max-width: 600px) {
-
-        /*span, textarea {*/
-        /*    font-size: 13px;*/
-        /*}*/
-
         .user-info {
             grid-template-columns: repeat(2, auto);
         }
@@ -674,13 +645,6 @@
         .user-info > span:last-child {
             grid-column: 1/3;
         }
-
-        /*.verifyCode {*/
-        /*    grid-template-columns: 80px 160px auto;*/
-        /*}*/
-        /*.verifyCode > div:last-child {*/
-        /*    justify-self: right;*/
-        /*}*/
 
 
     }

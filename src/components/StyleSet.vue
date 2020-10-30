@@ -114,9 +114,9 @@
 
 
                 <div class="btn-group">
-                    <button class="btn" @click="addBgImgUrl()">新增一个</button>
-                    <button class="btn" @click="saveBgImgUrl()">保存</button>
-                    <button class="btn btn-warn" @click="resetBgImgUrl()">恢复默认</button>
+                    <btn @click.native="addBgImgUrl()">新增一个</btn>
+                    <btn @click.native="saveBgImgUrl()">保存</btn>
+                    <btn @click.native="resetBgImgUrl()" warning>恢复默认</btn>
                 </div>
 
 
@@ -785,14 +785,11 @@
     .btn-group {
         width: 100%;
         margin-top: 10px;
-
+        line-height: 40px;
         display: grid;
         grid-row-gap: 10px;
     }
 
-    button {
-        height: 40px;
-    }
 
     .user-cust-bg {
         width: 100%;
@@ -874,11 +871,6 @@
             grid-template-columns: auto 1fr;
             grid-row-gap: 5px;
         }
-
-        .user-cust-url-bg button {
-            grid-column: 1/3;
-        }
-
 
         .row {
             grid-template-columns: 30px 110px 1fr 30px;
