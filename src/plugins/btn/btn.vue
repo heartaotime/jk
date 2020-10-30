@@ -49,7 +49,34 @@
                 required: false
             },
         },
-        watch: {},
+        data() {
+            return {}
+        },
+        computed: {
+            watchData() {
+                // this.watchData.height = this.height;
+                // this.watchData.primary = this.primary;
+                // this.watchData.secondary = this.secondary;
+                // this.watchData.success = this.success;
+                // this.watchData.info = this.info;
+                // this.watchData.warning = this.warning;
+                // this.watchData.danger = this.danger;
+                return {
+                    height: this.height,
+                    primary: this.primary,
+                    secondary: this.secondary,
+                    success: this.success,
+                    info: this.info,
+                    warning: this.warning,
+                    danger: this.danger,
+                };
+            }
+        },
+        watch: {
+            watchData() {
+                this.setBgColor();
+            }
+        },
         created() {
         },
         mounted() {

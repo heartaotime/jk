@@ -14,18 +14,18 @@
                 <div><input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/></div>
             </div>
 
-            <div class="row animated fadeInRight" v-show="showRegist">
+            <div class="row animated fadeInUp" v-show="showRegist">
                 <div><span>确认密码</span></div>
                 <div><input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/></div>
             </div>
 
-            <div class="row animated fadeInRight" v-show="showRegist">
+            <div class="row animated fadeInUp" v-show="showRegist">
                 <div><span>邮箱</span></div>
                 <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" @change="checkUserExist(2)"/>
                 </div>
             </div>
 
-            <div class="row verifyCode animated fadeInRight" v-show="showRegist">
+            <div class="row verifyCode animated fadeInUp" v-show="showRegist">
                 <div><span>验证码</span></div>
                 <div>
                     <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
@@ -55,7 +55,7 @@
                 <div class="operation">
                     <btn @click.native="logout">登出</btn>
                     <btn @click.native="showMdPwd" warning>修改密码</btn>
-                    <btn @click.native="showMdUserInfo" warning>修改用户信息</btn>
+                    <btn @click.native="showMdUserInfo" success>修改用户信息</btn>
                     <btn @click.native="showDeleteUser" danger>注销用户</btn>
                 </div>
             </div>
@@ -63,13 +63,13 @@
 
         <div class="login" v-show="modifyUserPwd || updateUser || deleteUser">
 
-            <div class="row animated fadeInRight">
+            <div class="row animated fadeInUp">
                 <div><span>邮箱</span></div>
                 <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
                 </div>
             </div>
 
-            <div class="row verifyCode animated fadeInRight">
+            <div class="row verifyCode animated fadeInUp">
                 <div><span>验证码</span></div>
                 <div>
                     <input spellcheck="false" v-model="user.verifyCode" placeholder="请输入验证码"/>
@@ -79,12 +79,12 @@
                 </div>
             </div>
 
-            <div class="row animated fadeInRight" v-show="modifyUserPwd">
+            <div class="row animated fadeInUp" v-show="modifyUserPwd">
                 <div><span>密码</span></div>
                 <div><input spellcheck="false" v-model="user.passWord" type="password" placeholder="请输入密码"/></div>
             </div>
 
-            <div class="row animated fadeInRight" v-show="modifyUserPwd">
+            <div class="row animated fadeInUp" v-show="modifyUserPwd">
                 <div><span>确认密码</span></div>
                 <div><input spellcheck="false" v-model="user.passWord2" type="password" placeholder="请再次输入密码"/>
                 </div>
@@ -96,8 +96,8 @@
             </div>
 
             <div class="btn-group">
-                <btn @click.native="submitAction" warning>{{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser
-                    ? '注销' : ''}}
+                <btn @click.native="submitAction" :warning="modifyUserPwd" :success="updateUser" :danger="deleteUser">
+                    {{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser ? '注销' : ''}}
                 </btn>
             </div>
         </div>
