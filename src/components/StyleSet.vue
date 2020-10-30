@@ -74,11 +74,10 @@
             </div>
 
             <div class="user-cust-bg" v-show="activeTabIndex === 2">
-                <div class="img" @click="selectImg">
+                <div class="img" @click="$refs.upload.click()">
                     <i class="fas fa-plus" aria-hidden="true"></i>
                 </div>
-
-                <input type="file" name="file" id="selectImg" @change="upLoadFile()" hidden style="display: none">
+                <upload ref="upload" @upLoadSuccess="upLoadSuccess"></upload>
             </div>
 
             <div class="user-cust-url-bg" v-show="activeTabIndex === 3">
@@ -124,6 +123,7 @@
             </div>
 
         </div>
+
 
     </div>
 </template>
@@ -439,31 +439,25 @@
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
                 this.$toast('保存成功');
             },
-            selectImg() {
-                document.querySelector('#selectImg').click();
-            },
-            upLoadFile() {
-                this.Utils.upLoadFile('selectImg', url => {
-                    this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 选择其一
-                    let list = [];
-                    for (let i = 0; i < this.bgImgList.length; i++) {
-                        if (!this.bgImgList[i].one) {
-                            this.bgImgList[i].checked = false;
-                            list.push(this.bgImgList[i]);
-                        }
+            upLoadSuccess(url) {
+                this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 选择其一
+                let list = [];
+                for (let i = 0; i < this.bgImgList.length; i++) {
+                    if (!this.bgImgList[i].one) {
+                        this.bgImgList[i].checked = false;
+                        list.push(this.bgImgList[i]);
                     }
-                    list.push({
-                        url: url,
-                        name: '自定义背景',
-                        uuid: this.Utils.generateUUID(),
-                        checked: true,
-                        one: true
-                    })
-                    this.openUserInfo.ext.bg.bgImg = list;
-                    this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                    this.$toast('保存成功');
-                    // this.Utils.closePop();
+                }
+                list.push({
+                    url: url,
+                    name: '自定义背景',
+                    uuid: this.Utils.generateUUID(),
+                    checked: true,
+                    one: true
                 })
+                this.openUserInfo.ext.bg.bgImg = list;
+                this.$store.commit('uOpenUserInfo', this.openUserInfo);
+                this.$toast('保存成功');
             },
         }
     }

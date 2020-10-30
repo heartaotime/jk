@@ -1,6 +1,7 @@
 <template>
     <div class="module">
 
+        <upload ref="upload" @upLoadSuccess="upLoadSuccess"></upload>
         <div class="animated fadeInUp">
             <div class="tips">
                 <span>1.点击图标可以更换</span>
@@ -15,7 +16,9 @@
                 <transition-group enter-active-class="animated fadeInUp"
                                   leave-active-class="animated fadeOutLeft faster">
                     <div class="row" v-for="(item, index) in searchEngineList" :key="item.uuid">
-                        <div @click="selectIcon(index)"><img class="enlargeAnimation" :src="item.icon"/></div>
+                        <div @click="selectIcon(index)"><img class="enlargeAnimation" :src="item.icon"/>
+
+                        </div>
                         <div>
                             <input spellcheck="false" placeholder="名称" v-model="item.name"/>
                         </div>
@@ -36,7 +39,8 @@
 
         </div>
 
-        <input type="file" name="file" id="selectIcon" @change="upLoadFile()" hidden style="display: none">
+        <input type="file" name="file" id="selectEnIcon" ref="selectEnIcon" @change="upLoadFile()" hidden
+               style="display: none">
 
 
         <div class="btn-group">
@@ -134,12 +138,10 @@
             },
             selectIcon(index) {
                 this.index = index;
-                document.querySelector('#selectIcon').click();
+                this.$refs.upload.click();
             },
-            upLoadFile() {
-                this.Utils.upLoadFile('selectIcon', url => {
-                    this.searchEngineList[this.index].icon = url;
-                });
+            upLoadSuccess(url) {
+                this.searchEngineList[this.index].icon = url;
             },
             addSearchEngine() {
                 // console.log('addSearchEngine1', this.searchEngineList);

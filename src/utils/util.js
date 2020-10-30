@@ -466,13 +466,13 @@ export default class Utils {
         });
     }
 
-    static upLoadFile(fileId, url) {
+    static upLoadFile(ele) {
         let appCode = this.getCommonReq({}).appCode;
 
         let param = new FormData();
         param.append("appCode", appCode);
         // 通过append向form对象添加数据
-        param.append("file", document.querySelector('#' + fileId).files[0]);
+        param.append("file", ele.files[0]);
         // FormData私有类对象，访问不到，可以通过get判断值是否传进去
         // console.log(param.get("file"));
 
@@ -486,13 +486,25 @@ export default class Utils {
                 // this.progress = completeProgress;
             }
         };
-        this.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
-            if (!response || response.code !== '0') {
-                this.Vue.$toast(response.message);
-                return;
-            }
-            url(response.data);
+
+        return new Promise((resolve, reject) => {
+            this.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
+                if (!response || response.code !== '0') {
+                    this.Vue.$toast(response.message);
+                    return;
+                }
+                resolve(response.data);
+            }).catch(error => {
+                reject(error);
+            });
         });
+        // this.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
+        //     if (!response || response.code !== '0') {
+        //         this.Vue.$toast(response.message);
+        //         return;
+        //     }
+        //     url(response.data);
+        // });
     }
 
     static isType(obj) {

@@ -43,7 +43,7 @@
                     </div>
                     <div class="row3">
                         <label>导航图标</label>
-                        <div class="img" @click="selectIcon()">
+                        <div class="img" @click="$refs.upload.click()">
                             <i class="fas fa-plus" aria-hidden="true" style="font-size: 20px;" v-show="!hasIcon"></i>
                             <img :src="editIcon" v-show="hasIcon">
                         </div>
@@ -61,9 +61,7 @@
             </template>
         </pop>
 
-
-        <input type="file" name="file" id="selectIcon" @change="upLoadFile()" hidden style="display: none">
-
+        <upload ref="upload" @upLoadSuccess="(url) => {editIcon =url}"></upload>
     </div>
 </template>
 
@@ -215,14 +213,6 @@
                 } else {
                     this.Utils.go2Link(this.indexList[index].url);
                 }
-            },
-            selectIcon() {
-                document.querySelector('#selectIcon').click();
-            },
-            upLoadFile() {
-                this.Utils.upLoadFile('selectIcon', url => {
-                    this.editIcon = url;
-                })
             },
         }
     }

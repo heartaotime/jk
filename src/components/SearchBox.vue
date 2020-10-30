@@ -33,7 +33,7 @@
             <div class="form-center">
                 <div>
                     <!--                    @blur="inputBlur"-->
-                    <input type="text" spellcheck="false" id="searchInput" @keyup.enter="search()"
+                    <input type="text" spellcheck="false" id="searchInput" ref="searchInput" @keyup.enter="search()"
                            @focus="inputFocus" @blur="inputBlur"
                            v-model="searchKey">
                 </div>
@@ -274,7 +274,7 @@
                 // 移除焦点
                 this.searchEngineShow = false; // 取消展示搜索引擎
                 this.isNeedShowSug = false; // 不需要展示搜索建议
-                document.querySelector('#searchInput').blur();
+                this.$refs.searchInput.blur();
 
                 // window.open(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));
                 this.Utils.go2Link(this.searchEngineList[this.searchEngineIndex].url.replace("%s", this.searchKey));

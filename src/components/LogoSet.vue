@@ -11,7 +11,7 @@
 
         <div class="row">
 
-            <div class="img" v-show="logoShowType === 'url'" @click="selectLogo()">
+            <div class="img" v-show="logoShowType === 'url'" @click="$refs.upload.click()">
                 <i class="fas fa-plus" aria-hidden="true" v-show="!url || url == ''"></i>
                 <img :src="url" v-show="url && url !== ''">
             </div>
@@ -27,8 +27,7 @@
         </div>
 
 
-        <input type="file" name="file" id="selectLogo" @change="upLoadFile()" hidden style="display: none">
-
+        <upload ref="upload" @upLoadSuccess="(res) => {url = res}"></upload>
 
         <div class="btn-group">
             <button class="btn" @click="save()">保存</button>
@@ -146,14 +145,6 @@
                 this.openUserInfo.ext.logo.url = this.url;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
                 this.$toast('保存成功');
-            },
-            selectLogo() {
-                document.querySelector('#selectLogo').click();
-            },
-            upLoadFile() {
-                this.Utils.upLoadFile('selectLogo', url => {
-                    this.url = url;
-                })
             },
         }
     }
