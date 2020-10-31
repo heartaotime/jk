@@ -4,12 +4,12 @@
         <div class="search-fix" v-show="searchFocus"></div>
 
         <div class="logo animated fadeInDown">
-            <img v-show="logoShowType == 'url' && url !== ''" :src="url"/>
-            <span v-show="logoShowType == 'time'">{{time}}</span>
+            <img v-show="logoShowType == 'url' && url !== ''" :src="url" @click="Utils.refresh()"/>
+            <span v-show="logoShowType == 'time'" @click="Utils.refresh()">{{time}}</span>
             <Weather class="weather" v-show="logoShowType == 'weather'"></Weather>
         </div>
 
-        <div class="card form animated fadeInDown" id="search-form">
+        <div class="card form animated fadeInDown" id="search-form" ref="searchForm">
             <div class="form-left">
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
@@ -32,23 +32,17 @@
             </div>
             <div class="form-center">
                 <div>
-                    <!--                    @blur="inputBlur"-->
                     <input type="text" spellcheck="false" id="searchInput" ref="searchInput" @keyup.enter="search()"
                            @focus="inputFocus" @blur="inputBlur"
                            v-model="searchKey">
                 </div>
             </div>
-            <div class="form-right" @click="search()">
+            <div class="form-right" @click="search()" @mousedown="ulMousedown($event)">
                 <i class="fa fa-search" style="font-size: 15px;"></i>
             </div>
             <div style="clear: both"></div>
-            <!--            <transition enter-active-class="animated fadeIn faster"-->
-            <!--                        leave-active-class="animated fadeOut faster">-->
             <ul v-show="suggestionShow" class="suggestion" @mousedown="ulMousedown($event)">
                 <li v-for="(item, index) in suggestion" :key="item.uuid" :index="index">
-                    <!--                            <div @click="sugClick(item.orgSug, true)">-->
-                    <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
-                    <!--                            </div>-->
                     <div @click="sugClick(item.orgSug, true)" class="sug-item">
                         <span v-html="item.sug"></span>
                     </div>
@@ -64,7 +58,6 @@
                     </div>
                 </li>
             </ul>
-            <!--            </transition>-->
         </div>
     </div>
 
@@ -136,7 +129,22 @@
             },
             searchKey() {
                 this.isNeedShowSug && this.getSug();
+            },
+            searchFocus() {
+                let style = this.$refs.searchForm.style;
+                if (this.searchFocus) {
+                    style.position = 'fixed';
+                    style.top = '0';
+                    style.left = '0';
+                    style.right = '0';
+                    style.width = '90%';
+                } else {
+                    style.position = 'unset';
+                    style.width = '95%';
+                }
+
             }
+
         },
         created() {
         },
@@ -159,6 +167,7 @@
         },
         methods: {
             ulMousedown(event) {
+                // alert(1);
                 let target = event.target;
                 // console.log(target);
                 if (target && target.preventDefault) {
@@ -416,9 +425,14 @@
 
     .form {
 
+        /*position: fixed;*/
+        /*top: 0;*/
+        /*left: 0;*/
+        /*right: 0;*/
+
         z-index: 10;
 
-        margin: 20px 0 5px;
+        margin: 20px auto 5px;
 
         width: 95%;
         max-width: 500px;

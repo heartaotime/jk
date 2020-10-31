@@ -559,5 +559,8 @@ export default class Utils {
         return JSON.parse(JSON.stringify(json));
     }
 
+    static refresh() {
+        window.location.reload();
+    }
 
 }

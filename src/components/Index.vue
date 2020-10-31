@@ -302,7 +302,7 @@
 
         .row {
             display: grid;
-            grid-template-columns: 65px 1fr;
+            grid-template-columns: 80px 1fr;
             grid-column-gap: 10px;
             margin-top: 10px;
             align-content: center;
@@ -325,6 +325,7 @@
                 height: 40px;
                 border-right: 1px solid lightgrey;
                 padding-right: 10px;
+                text-align: center;
             }
 
             input {
@@ -334,24 +335,16 @@
                 width: 100%;
                 background: transparent;
             }
-
-
         }
 
         .row1 {
-            grid-template-columns: 65px 1fr auto;
+            grid-template-columns: 80px 1fr auto;
 
             padding-right: 0;
-
-            button {
-                letter-spacing: 1px;
-                padding: 0 5px;
-                border-radius: 3px;
-            }
         }
 
         .row3 {
-            grid-template-columns: 65px 60px 1fr;
+            grid-template-columns: 80px 60px 1fr;
 
             height: 60px;
 
