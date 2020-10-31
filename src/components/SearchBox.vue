@@ -437,7 +437,7 @@
 
 
     .form {
-        transition: all 1s;
+        transition: transform 1s;
 
         z-index: 10;
 
