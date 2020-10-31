@@ -23,7 +23,7 @@
 
 </template>
 
-<style scoped>
+<style scoped lang="scss">
     .tips-module {
         z-index: 999;
 
@@ -48,6 +48,10 @@
         color: #fff;
 
         display: inline;
+
+        span {
+            color: var(--white);
+        }
     }
 
     img {

@@ -119,6 +119,7 @@
     div {
         width: 100%;
         height: 100%;
+        overflow: hidden;
     }
 
     button {
@@ -126,34 +127,58 @@
         box-sizing: border-box;
         cursor: pointer;
         border-radius: 3px;
-        /*border: 2px solid white;*/
         border: none;
         text-transform: uppercase;
-        /*color: var(--white);*/
         padding: 5px 8px;
         outline: none;
         overflow: hidden;
         position: relative;
 
+
         &:after {
             content: '';
             display: block;
             position: absolute;
-            top: -36px;
-            left: -100px;
-            background: white;
-            width: 50px;
-            height: 125px;
-            opacity: 20%;
-            transform: rotate(-45deg);
+            top: 0;
+            left: 0;
+            background-color: var(--white);
+            opacity: .1;
+            width: 0;
+            height: 100%;
+            transition: width .5s, opacity 1s;
         }
-
 
         &:hover:after {
-            left: 120%;
-            transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
-            -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
+            width: 100%;
+            /*opacity: 0;*/
+            /*transition: all 1s;*/
+            /*transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);*/
+            /*-webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);*/
         }
+
+
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, #FFF 10%, transparent 10%);
+
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+
+
+        &:active:before {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+
 
         > span {
             color: var(--white);
