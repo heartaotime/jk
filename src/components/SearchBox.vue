@@ -769,6 +769,24 @@
             /*grid-template-columns: 1fr;*/
         }
 
+        .form {
+
+            .form-center {
+                input {
+                    font-size: 14px;
+                }
+            }
+
+            .form-right {
+                i {
+                    font-size: 17px;
+
+                    &:last-child {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
     }
 
 
