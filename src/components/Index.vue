@@ -4,7 +4,7 @@
         <div class="tips" v-show="editIndexShow">
             <div>
                 <span>点击编辑，拖动排序</span>
-                <btn @click.native="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"></i> 添加</btn>
+                <btn @click.native="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true" style="color: var(--white)"></i> 添加</btn>
                 <btn @click.native="$store.commit('uEditIndexShow', false)">退出编辑</btn>
             </div>
         </div>

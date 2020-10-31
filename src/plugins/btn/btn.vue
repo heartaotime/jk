@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button ref="btn">
+        <button ref="btn" @click="btnClick()">
             <span>
                 <slot></slot>
             </span>
@@ -106,6 +106,9 @@
                 }
                 btn.style.backgroundColor = color;
                 btn.style.height = this.height;
+            },
+            btnClick() {
+                // let btn = this.$refs.btn;
             }
         }
     }
@@ -122,10 +125,11 @@
         width: 100%;
         box-sizing: border-box;
         cursor: pointer;
-        border-radius: 5px;
-        border: 2px solid white;
+        border-radius: 3px;
+        /*border: 2px solid white;*/
+        border: none;
         text-transform: uppercase;
-        color: white;
+        /*color: var(--white);*/
         padding: 5px 8px;
         outline: none;
         overflow: hidden;
@@ -143,6 +147,7 @@
             opacity: 20%;
             transform: rotate(-45deg);
         }
+
 
         &:hover:after {
             left: 120%;

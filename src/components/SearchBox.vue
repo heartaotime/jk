@@ -476,38 +476,9 @@
             }
         }
 
-        .form-right {
-
-            padding-right: 15px;
-
-            display: grid;
-            grid-template-columns: repeat(2, auto);
-            grid-column-gap: 10px;
-
-            i {
-                height: $height;
-                line-height: $height;
-                cursor: pointer;
-                font-size: 20px;
-
-                &:first-child {
-                    float: left;
-                    visibility: hidden;
-                }
-
-                &:last-child {
-                    font-size: 23px;
-                    float: right;
-                    color: var(--primary);
-                }
-            }
-        }
-
-
         border-radius: $height;
         box-shadow: 0 0 18px rgba(70, 70, 40, .255);
         background-color: rgba(255, 255, 255, 0.4);
-        /*background-color: white;*/
         height: $height;
 
         .form-left {
@@ -576,6 +547,34 @@
                 }
             }
         }
+
+        .form-right {
+
+            padding-right: 15px;
+
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            grid-column-gap: 10px;
+
+            i {
+                height: $height;
+                line-height: $height;
+                cursor: pointer;
+
+                &:first-child {
+                    font-size: 17px;
+                    float: left;
+                    visibility: hidden;
+                }
+
+                &:last-child {
+                    font-size: 20px;
+                    float: right;
+                    color: var(--primary);
+                }
+            }
+        }
+
 
         .suggestion {
             width: 98%;
@@ -777,15 +776,15 @@
                 }
             }
 
-            .form-right {
-                i {
-                    font-size: 17px;
+            /*.form-right {*/
+            /*    i {*/
+            /*        font-size: 17px;*/
 
-                    &:last-child {
-                        font-size: 20px;
-                    }
-                }
-            }
+            /*        &:last-child {*/
+            /*            font-size: 20px;*/
+            /*        }*/
+            /*    }*/
+            /*}*/
         }
     }
 
