@@ -1,7 +1,8 @@
 <template>
     <div class="module-searchBox">
 
-        <div class="search-fix" v-show="searchFocus"></div>
+        <!--        <div class="search-fix" v-show="searchFocus"></div>-->
+        <div class="search-fix" ref="searchFix"></div>
 
         <div class="logo animated fadeInDown">
             <img v-show="logoShowType == 'url' && url !== ''" :src="url" @click="Utils.refresh()"/>
@@ -9,7 +10,8 @@
             <Weather class="weather" v-show="logoShowType == 'weather'"></Weather>
         </div>
 
-        <div class="card form animated fadeInDown" id="search-form" ref="searchForm">
+<!--        animated fadeInDown-->
+        <div class="card form " id="search-form" ref="searchForm">
             <div class="form-left" ref="formLeft">
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
@@ -142,17 +144,18 @@
                 if (this.Utils.isPhone()) {
                     let style = this.$refs.searchForm.style;
                     if (this.searchFocus) {
-                        style.position = 'fixed';
-                        style.top = '0';
-                        style.left = '0';
-                        style.right = '0';
-                        style.width = '90%';
-                        // this.$refs.formLeft.style.display = 'none';
+                        style.transform = 'translateY(-400%)';
                     } else {
-                        style.position = 'unset';
-                        style.width = '95%';
-                        // this.$refs.formLeft.style.display = 'block';
+                        style.transform = 'unset';
                     }
+                }
+                let searchFixStyle = this.$refs.searchFix.style;
+                if (this.searchFocus) {
+                    searchFixStyle.display = 'unset';
+                    searchFixStyle.opacity = '0.55';
+                } else {
+                    searchFixStyle.display = 'none';
+                    searchFixStyle.opacity = '0';
                 }
             }
 
@@ -415,15 +418,12 @@
     }
 
     .search-fix {
-
-        visibility: visible;
-        opacity: 0.55;
-
+        transition: all 1s;
+        /*visibility: visible;*/
+        opacity: 0;
         width: 100%;
         height: 100%;
-
-        /*background-color: rgb(255, 255, 255, 0.5);*/
-        background: #000;
+        background: var(--dark);
 
         z-index: 5;
         position: fixed;
@@ -431,15 +431,13 @@
         left: 0;
         right: 0;
         bottom: 0;
+        /*transform: translateY(100%);*/
+
     }
 
 
     .form {
-
-        /*position: fixed;*/
-        /*top: 0;*/
-        /*left: 0;*/
-        /*right: 0;*/
+        transition: all 1s;
 
         z-index: 10;
 
