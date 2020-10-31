@@ -149,10 +149,11 @@
             transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
             -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
         }
+
+        > span {
+            color: var(--white);
+        }
     }
 
-    span {
-        z-index: 20;
-    }
 
 </style>
