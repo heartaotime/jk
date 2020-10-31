@@ -10,7 +10,7 @@
         </div>
 
         <div class="card form animated fadeInDown" id="search-form" ref="searchForm">
-            <div class="form-left">
+            <div class="form-left" ref="formLeft">
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
                     <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
                          class="searchIcon"/>
@@ -37,8 +37,9 @@
                            v-model="searchKey">
                 </div>
             </div>
-            <div class="form-right" @click="search()" @mousedown="ulMousedown($event)">
-                <i class="fa fa-search" style="font-size: 15px;"></i>
+            <div class="form-right" @mousedown="ulMousedown($event)">
+                <i class="fas fa-times" ref="clear" @click="searchKey = ''"></i>
+                <i class="fa fa-search" @click="search()"></i>
             </div>
             <div style="clear: both"></div>
             <ul v-show="suggestionShow" class="suggestion" @mousedown="ulMousedown($event)">
@@ -129,20 +130,30 @@
             },
             searchKey() {
                 this.isNeedShowSug && this.getSug();
+
+                let style = this.$refs.clear.style;
+                if (this.searchKey !== '') {
+                    style.visibility = 'unset';
+                } else {
+                    style.visibility = 'hidden';
+                }
             },
             searchFocus() {
-                let style = this.$refs.searchForm.style;
-                if (this.searchFocus) {
-                    style.position = 'fixed';
-                    style.top = '0';
-                    style.left = '0';
-                    style.right = '0';
-                    style.width = '90%';
-                } else {
-                    style.position = 'unset';
-                    style.width = '95%';
+                if (this.Utils.isPhone()) {
+                    let style = this.$refs.searchForm.style;
+                    if (this.searchFocus) {
+                        style.position = 'fixed';
+                        style.top = '0';
+                        style.left = '0';
+                        style.right = '0';
+                        style.width = '90%';
+                        // this.$refs.formLeft.style.display = 'none';
+                    } else {
+                        style.position = 'unset';
+                        style.width = '95%';
+                        // this.$refs.formLeft.style.display = 'block';
+                    }
                 }
-
             }
 
         },
@@ -438,12 +449,14 @@
         max-width: 500px;
 
         $height: 45px;
-        $div1-width: 15%;
-        $div3-width: 8%;
+        $div1-width: 65px;
+        $div3-width: 65px;
         $div2-width: calc(100% - #{$div1-width} - #{$div3-width});
 
+        box-sizing: border-box;
 
         > div {
+            box-sizing: inherit;
             float: left;
 
             &:nth-child(1) {
@@ -459,8 +472,34 @@
                 width: $div3-width;
                 float: right;
                 line-height: $height;
-                cursor: pointer;
                 text-align: center;
+            }
+        }
+
+        .form-right {
+
+            padding-right: 15px;
+
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            grid-column-gap: 10px;
+
+            i {
+                height: $height;
+                line-height: $height;
+                cursor: pointer;
+                font-size: 20px;
+
+                &:first-child {
+                    float: left;
+                    visibility: hidden;
+                }
+
+                &:last-child {
+                    font-size: 23px;
+                    float: right;
+                    color: var(--primary);
+                }
             }
         }
 
@@ -521,6 +560,9 @@
         }
 
         .form-center {
+            box-sizing: inherit;
+            padding: 0 10px 0 5px;
+
             input {
                 width: 100%;
                 font-size: 18px;
@@ -591,8 +633,10 @@
                     }
                 }
 
-                &:hover > div {
-                    color: red;
+                &:hover {
+                    i, span {
+                        color: red;
+                    }
                 }
             }
         }
@@ -725,32 +769,6 @@
             /*grid-template-columns: 1fr;*/
         }
 
-        .form {
-            $div1-width: 20%;
-            $div3-width: 12%;
-            $div2-width: calc(100% - #{$div1-width} - #{$div3-width});
-
-            > div {
-                &:nth-child(1) {
-                    width: $div1-width;
-                }
-
-                &:nth-child(2) {
-                    width: $div2-width;
-                }
-
-                &:nth-child(3) {
-                    width: $div3-width;
-                }
-            }
-
-            .form-center {
-                input {
-                    font-size: 15px;
-                }
-            }
-
-        }
     }
 
 
