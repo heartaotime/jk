@@ -10,7 +10,7 @@
             <Weather class="weather" v-show="logoShowType == 'weather'"></Weather>
         </div>
 
-<!--        animated fadeInDown-->
+        <!--        animated fadeInDown-->
         <div class="card form " id="search-form" ref="searchForm">
             <div class="form-left" ref="formLeft">
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
@@ -151,11 +151,11 @@
                 }
                 let searchFixStyle = this.$refs.searchFix.style;
                 if (this.searchFocus) {
-                    searchFixStyle.display = 'unset';
-                    searchFixStyle.opacity = '0.55';
+                    // searchFixStyle.display = 'block';
+                    searchFixStyle.height = '100%';
                 } else {
-                    searchFixStyle.display = 'none';
-                    searchFixStyle.opacity = '0';
+                    // searchFixStyle.display = 'none';
+                    searchFixStyle.height = '0';
                 }
             }
 
@@ -418,21 +418,17 @@
     }
 
     .search-fix {
-        transition: all 1s;
-        /*visibility: visible;*/
-        opacity: 0;
+        /*transition 确认设置的元素为块级元素 或是 inline-block*/
+        transition: all .5s;
+        opacity: 0.3;
         width: 100%;
-        height: 100%;
+        height: 0;
         background: var(--dark);
 
         z-index: 5;
         position: fixed;
-        top: 0;
         left: 0;
-        right: 0;
         bottom: 0;
-        /*transform: translateY(100%);*/
-
     }
 
 
