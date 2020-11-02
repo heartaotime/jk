@@ -490,7 +490,7 @@ export default class Utils {
         return new Promise((resolve, reject) => {
             this.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
                 if (!response || response.code !== '0') {
-                    this.Vue.$toast(response.message);
+                    this.Vue.$toast.error(response.message);
                     return;
                 }
                 resolve(response.data);
