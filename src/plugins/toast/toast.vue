@@ -74,10 +74,6 @@
         border-radius: 5px;
         color: #fff;
 
-        .toasts {
-            margin-top: 10px;
-        }
-
         .status {
             i {
                 padding: 3px;
