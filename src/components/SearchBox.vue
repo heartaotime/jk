@@ -14,9 +14,9 @@
         <div class="card form " id="search-form" ref="searchForm">
             <div class="form-left" ref="formLeft">
                 <div class="show-engine" @click="searchEngineShow = !searchEngineShow,isNeedShowSug = false">
-                    <img :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
-                         class="searchIcon"/>
-                    <i :class="!searchEngineShow ? 'fa fa-angle-down' : 'fa fa-angle-up'" style="font-size: 15px;"></i>
+                    <img v-show="searchEngineList.length > 0" :src="searchEngineList.length > 0 ? searchEngineList[searchEngineIndex].icon : ''"
+                         class="searchIcon animated fadeInLeft"/>
+                    <i :class="!searchEngineShow ? 'fa fa-angle-down' : 'fa fa-angle-up'" style="font-size: 15px;" class="animated fadeInLeft"></i>
                 </div>
 
                 <!--                <transition enter-active-class="animated fadeInUp faster"-->
