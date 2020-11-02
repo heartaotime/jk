@@ -268,7 +268,7 @@
         /*animation: fadeInS 0.8s;*/
         /*margin-top: -5px;*/
 
-        transition: all .15s ease;
+        transition: all .25s ease;
         transform: translateY(-5px);
     }
 

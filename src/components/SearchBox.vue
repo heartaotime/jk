@@ -390,23 +390,29 @@
         display: grid;
         place-content: center;
         place-items: center;
+
+        > img {
+            height: 108px;
+            max-width: 250px;
+
+            &:hover {
+                transition: transform .25s ease;
+                transform: translateY(-5px);
+            }
+        }
+
+        > span {
+            font-size: 50px;
+            /*line-height: 108px;*/
+            letter-spacing: 10px;
+        }
+
+        > .weather {
+            /*background-color: rgba(255, 255, 255, 0.2);*/
+            pointer-events: none;
+        }
     }
 
-    .logo > img {
-        height: 108px;
-        max-width: 250px;
-    }
-
-    .logo > span {
-        font-size: 50px;
-        /*line-height: 108px;*/
-        letter-spacing: 10px;
-    }
-
-    .logo > .weather {
-        /*background-color: rgba(255, 255, 255, 0.2);*/
-        pointer-events: none;
-    }
 
     .row {
         width: 98vw;
@@ -422,7 +428,7 @@
 
     .search-fix {
         /*transition 确认设置的元素为块级元素 或是 inline-block*/
-        transition: all 500ms;
+        transition: all 500ms ease;
         opacity: 0.3;
         width: 100%;
         height: 0;
@@ -436,7 +442,7 @@
 
 
     .form {
-        transition: transform 800ms;
+        transition: transform 800ms ease;
 
         z-index: 10;
 
@@ -479,6 +485,7 @@
         height: $height;
 
         .form-left {
+            box-sizing: inherit;
             .show-engine {
                 height: $height;
                 width: 100%;
@@ -546,7 +553,7 @@
         }
 
         .form-right {
-
+            box-sizing: inherit;
             padding-right: 15px;
 
             display: grid;
@@ -568,6 +575,11 @@
                     font-size: 20px;
                     float: right;
                     color: var(--primary);
+
+                    &:hover {
+                        transition: font-size .25s linear;
+                        font-size: 22px;
+                    }
                 }
             }
         }
