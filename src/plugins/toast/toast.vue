@@ -46,12 +46,17 @@
         // transform: translateY(-400%);
 
         box-sizing: border-box;
-        transition: transform 1s;
+
+        line-height: 40px;
     }
 
 
     .toast {
         margin-top: 10px;
+
+        &:nth-child(1) {
+            margin-top: 0;
+        }
     }
 
 
