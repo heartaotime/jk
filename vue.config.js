@@ -1,3 +1,4 @@
+require('events').EventEmitter.defaultMaxListeners = 0
 module.exports = {
     "publicPath": "/jk",
     "productionSourceMap": false,

@@ -431,7 +431,7 @@ export default class Utils {
 
     static isPhone() {
         let clientWidth = document.body.clientWidth; // 网页可见区域宽
-        if (clientWidth > 700) {
+        if (clientWidth > 600) {
             return false;
         }
         return true;

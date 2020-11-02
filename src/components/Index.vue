@@ -15,13 +15,13 @@
         <!--                          leave-active-class="animated fadeOut" class="module-items">-->
 
         <!--        </transition-group>-->
-        <div class="animated fadeInUp">
+        <div>
             <draggable v-model="indexList" v-bind="options" class="module-items" @end="merge">
                 <div :class="editIndexShow ? 'item item-edit':'item'" v-for="(item, index) in indexList"
                      :key="item.uuid"
                      :index="index"
                      @click="indexClick(index)">
-                    <div><img :src="item.icon"></div>
+                    <div><img :src="item.icon" class="animated fadeIn"></div>
                     <div class="card name"><span>{{item.name}}</span></div>
                 </div>
             </draggable>

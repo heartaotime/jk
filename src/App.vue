@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="font-sans">
+    <div id="app">
         <router-view></router-view>
     </div>
 </template>
@@ -25,7 +25,7 @@
         bottom: 0;
         width: 100%;
         background-size: cover;
-        /*overflow-y: hidden;*/
+        overflow-y: auto;
         overflow-x: hidden;
     }
 
