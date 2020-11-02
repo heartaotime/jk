@@ -112,25 +112,25 @@
                 for (let i = 0; i < this.searchEngineList.length; i++) {
                     let item = this.searchEngineList[i];
                     if (!item.icon || item.icon === '') {
-                        this.$toast('请上传icon');
+                        this.$toast.warning('请上传icon');
                         return;
                     }
                     if (!item.name || item.name === '') {
-                        this.$toast('请填写名称');
+                        this.$toast.warning('请填写名称');
                         return;
                     }
                     if (!item.url || item.url === '') {
-                        this.$toast('请填写地址');
+                        this.$toast.warning('请填写地址');
                         return;
                     }
                     if (item.url.indexOf('%s') < 0) {
-                        this.$toast('搜索地址中必须含有%s');
+                        this.$toast.warning('搜索地址中必须含有%s');
                         return;
                     }
                 }
                 this.openUserInfo.ext.searchEngineList = this.searchEngineList;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.$toast('保存成功，即将刷新页面~~~');
+                this.$toast.success('保存成功，即将刷新页面~~~');
 
                 setTimeout(() => {
                     window.location.reload();
@@ -160,7 +160,7 @@
             },
             delSearchEngine(index) {
                 if (this.searchEngineList.length == 1) {
-                    this.$toast('请至少保留一个');
+                    this.$toast.warning('请至少保留一个');
                     return;
                 }
                 this.searchEngineList.splice(index, 1)

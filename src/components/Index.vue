@@ -4,7 +4,9 @@
         <div class="tips" v-show="editIndexShow">
             <div>
                 <span>点击编辑，拖动排序</span>
-                <btn @click.native="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true" style="color: var(--white)"></i> 添加</btn>
+                <btn @click.native="indexClick(-1)"><i class="fas fa-plus" aria-hidden="true"
+                                                       style="color: var(--white)"></i> 添加
+                </btn>
                 <btn @click.native="$store.commit('uEditIndexShow', false)">退出编辑</btn>
             </div>
         </div>
@@ -121,7 +123,7 @@
             },
             saveIndex() {
                 if (this.editUrl && this.editUrl !== '' && this.editUrl.indexOf('http') < 0) {
-                    this.$toast('导航链接需要包含http');
+                    this.$toast.warning('导航链接需要包含http');
                     return;
                 }
                 if (this.activeIndex === -1) {
@@ -139,19 +141,19 @@
                 }
                 this.merge();
                 this.popShow = false;
-                this.$toast('保存成功');
+                this.$toast.success('保存成功');
             },
             delIndex() {
                 if (confirm("确认删除吗")) {
                     this.indexList.splice(this.activeIndex, 1);
                     this.merge();
                     this.popShow = false;
-                    this.$toast('删除成功');
+                    this.$toast.success('删除成功');
                 }
             },
             getInfo() {
                 if (!this.editUrl || this.editUrl === '' || this.editUrl.indexOf('http') < 0) {
-                    this.$toast('导航链接需要包含http');
+                    this.$toast.warning('导航链接需要包含http');
                     return;
                 }
 
@@ -167,12 +169,12 @@
                 let url = this.Utils.basicUrl() + '/common/v1/getWebTitle';
                 this.Utils.postJson(url, this.Utils.getCommonReq(this.editUrl)).then(response => {
                     if (!response || response.code !== '0') {
-                        this.$toast(response.message);
+                        this.$toast.error(response.message);
                         return;
                     }
                     let data = response.data;
                     if (!data || data.success !== true) {
-                        this.$toast("获取失败");
+                        this.$toast.error("获取失败");
                         return;
                     }
                     this.editName = data.title;
@@ -192,7 +194,7 @@
                     let iconUrl = splitUrlTmp[0] + "//" + splitUrlTmp[2].split(':')[0] + '/' + 'favicon.ico';
                     this.editIcon = iconUrl;
                 } else {
-                    this.$toast('获取失败');
+                    this.$toast.error('获取失败');
                 }
 
             },

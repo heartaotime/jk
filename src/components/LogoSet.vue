@@ -138,13 +138,13 @@
             save() {
                 this.openUserInfo.ext.logo.logoShowType = this.logoShowType;
                 if (this.logoShowType == 'url' && this.url == '') {
-                    this.$toast('请选择一个图片上传');
+                    this.$toast.warning('请选择一个图片上传');
                     return;
                 }
 
                 this.openUserInfo.ext.logo.url = this.url;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.$toast('保存成功');
+                this.$toast.success('保存成功');
             },
         }
     }

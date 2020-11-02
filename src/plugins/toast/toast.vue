@@ -1,27 +1,30 @@
 <template>
-
-    <!--    <div id="toast" class="wrap">-->
-
-    <!--        <transition enter-active-class="animated fadeInUp"-->
-    <!--                    leave-active-class="animated fadeOut">-->
-    <!--            <span v-show="show">{{text}}</span>-->
-    <!--        </transition>-->
-
-    <!--    </div>-->
-
-
     <div class="tips-module">
 
-        <transition leave-active-class="animated fadeOut faster"
-                    enter-active-class="animated fadeIn faster">
-            <div class="tips-content" v-show="show">
-                <span>{{text}}</span>
+        <transition-group enter-active-class="animated fadeInDown faster"
+                          leave-active-class="animated fadeOutUp faster">
+            <div v-for="(item, index) in toasts" :key="item.uuid" :index="index" class="toast"
+                 :isSetAutoDel="item.isSetAutoDel">
+                <div class="tips-content" :style="item.tipsContentStyle">
+                <span class="status">
+                    <i :class="item.iClass" :style="item.iStyle"></i>
+                </span>
+                    <span class="txt">{{item.text}}</span>
+                    <span class="close" @click="del(item.uuid)"><i class="fas fa-times"></i></span>
+                </div>
             </div>
-        </transition>
+        </transition-group>
 
     </div>
-
 </template>
+
+<!--<script>-->
+<!--    export default {-->
+<!--        data() {-->
+
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 
 <style scoped lang="scss">
     .tips-module {
@@ -30,27 +33,75 @@
         position: fixed;
         margin: 0 auto;
 
-        margin-top: calc(50vh);
+        /*margin-top: calc(50vh);*/
 
-        left: 0;
-        right: 0;
+        /*left: 0;*/
+        /*right: 0;*/
 
-        text-align: center;
+        top: 10px;
+        right: 10px;
 
+        /*text-align: center;*/
+
+        // transform: translateY(-400%);
+
+        box-sizing: border-box;
+        transition: transform 1s;
     }
 
+
+    .toast {
+        margin-top: 10px;
+    }
+
+
     .tips-content {
+        height: 30px;
+        width: 230px;
+
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-column-gap: 10px;
+        align-content: center;
+        align-items: center;
+
         padding: 10px;
-        box-shadow: 0 0 18px rgba(70, 70, 40, .255);
         border-radius: 5px;
-        /*background-color: rgba(255, 255, 255, 0.9);*/
-        background-color: rgba(0, 0, 0, .55);
         color: #fff;
 
-        display: inline;
+        .toasts {
+            margin-top: 10px;
+        }
 
-        span {
+        .status {
+            i {
+                padding: 3px;
+                border-radius: 50%;
+                background-color: var(--white);
+                width: 13px;
+                height: 13px;
+                text-align: center;
+            }
+        }
+
+        .txt {
             color: var(--white);
+        }
+
+        .close {
+            i {
+                font-size: 13px;
+                padding: 3px;
+                border-radius: 50%;
+                color: #f8f9fad9;
+                text-align: center;
+            }
+
+            &:hover {
+                i {
+                    color: var(--white)
+                }
+            }
         }
     }
 

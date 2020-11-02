@@ -297,7 +297,7 @@
                 param.orderBy = 'SORT DESC';
                 this.Utils.postJson(url, param).then(response => {
                     if (!response || response.code !== '0') {
-                        this.$toast(response.message);
+                        this.$toast.error(response.message);
                         return;
                     }
                     if (nextPage == 1) {
@@ -331,7 +331,7 @@
             more() {
                 let hasNextPage = this.pageInfo.hasNextPage;
                 if (!hasNextPage) {
-                    this.$toast('没有更多了')
+                    this.$toast.warning('没有更多了')
                     return;
                 }
                 let nextPage = this.pageInfo.nextPage;
@@ -346,7 +346,7 @@
                 param.pageFlag = false;
                 this.Utils.postJson(url, param).then(response => {
                     if (!response || response.code !== '0') {
-                        this.$toast(response.message);
+                        this.$toast.error(response.message);
                         return;
                     }
                     this.pureColorList = response.data.list;
@@ -408,7 +408,7 @@
                 for (let i = 0; i < this.bgImgList.length; i++) {
                     let item = this.bgImgList[i];
                     if (item.name == '' || item.url == '') {
-                        this.$toast('名称和链接不能为空');
+                        this.$toast.warning('名称和链接不能为空');
                         return;
                     }
                     // if (item.name === '必应壁纸') {
@@ -423,7 +423,7 @@
 
                 this.openUserInfo.ext.bg.bgImg = [].concat(this.bgImgList);
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.$toast('保存成功');
+                this.$toast.success('保存成功');
             },
             bgImgClick(item, index) {
                 item.checked = !item.checked;
@@ -437,7 +437,7 @@
                 this.bgImgList = [].concat(this.bgImgUrlDefault);
                 this.openUserInfo.ext.bg.bgImg = [].concat(this.bgImgList);
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.$toast('保存成功');
+                this.$toast.success('保存成功');
             },
             upLoadSuccess(url) {
                 this.openUserInfo.ext.bg.bgImgShowType = 'url'; // 选择其一
@@ -457,7 +457,7 @@
                 })
                 this.openUserInfo.ext.bg.bgImg = list;
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
-                this.$toast('保存成功');
+                this.$toast.success('保存成功');
             },
         }
     }
