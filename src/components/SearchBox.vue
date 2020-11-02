@@ -422,7 +422,7 @@
 
     .search-fix {
         /*transition 确认设置的元素为块级元素 或是 inline-block*/
-        transition: all 0.5s;
+        transition: all 500ms;
         opacity: 0.3;
         width: 100%;
         height: 0;
@@ -436,7 +436,7 @@
 
 
     .form {
-        transition: transform 0.5s;
+        transition: transform 800ms;
 
         z-index: 10;
 
