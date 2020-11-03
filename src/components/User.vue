@@ -65,7 +65,7 @@
 
             <div class="row animated fadeInUp">
                 <div><span>邮箱</span></div>
-                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" readonly/>
+                <div><input spellcheck="false" v-model="user.email" placeholder="请输入邮箱" :readonly="emailReadonly"/>
                 </div>
             </div>
 
@@ -105,13 +105,13 @@
 
         <div class="tips animated fadeInUp">
             <span>提示：</span>
+            <span v-show="loginShow">忘记密码？<a style="color: #0f88eb;" @click="showMdPwd">点此重置</a></span>
             <span>1.如遇部分问题可以点击 <a style="color: #0f88eb;" href="javascript:void(0);"
                                   @click="clearLocalStorage()">强制清理缓存</a></span>
             <span>2.没有账号可以先点击注册</span>
             <span>3.登陆账号后，可以同步你的自定义数据哦</span>
             <span>4.邮箱也可以用来登陆</span>
             <span>5.<a style="color: #0f88eb;" href="https://support.qq.com/products/170200">关于&反馈</a></span>
-
         </div>
 
     </div>
@@ -137,7 +137,8 @@
                 showRegist: false,
                 modifyUserPwd: false,
                 updateUser: false,
-                deleteUser: false
+                deleteUser: false,
+                emailReadonly: true
             }
         },
         computed: {
@@ -256,6 +257,7 @@
                 let url = this.Utils.basicUrl() + '/user/v1/modifyUserPwd';
                 let param = {
                     "userCode": this.openUserInfo.user.userCode,
+                    "email": this.user.email,
                     "passWord": this.user.passWord,
                     "verifyCode": this.user.verifyCode
                 };
@@ -279,6 +281,9 @@
                 this.loginShow = false;
                 this.showRegist = false;
                 this.user.email = this.openUserInfo.user.email;
+                if(!this.user.email || this.user.email === '') {
+                    this.emailReadonly = false;
+                }
                 this.user.passWord = '';
                 this.user.passWord2 = '';
             },

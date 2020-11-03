@@ -447,7 +447,7 @@ export default class Utils {
 
         this.postJson(url, param).then(response => {
             if (!response || response.code !== '0') {
-                this.errorTips(response.message);
+                this.Vue.$toast.error(response.message);
                 return;
             }
 
