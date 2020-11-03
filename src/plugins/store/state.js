@@ -18,7 +18,6 @@ let openUserInfo = {
             url: ''
         }
     }
-
 };
 
 

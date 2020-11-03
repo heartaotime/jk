@@ -48,8 +48,8 @@
         },
         watch: {
             openUserInfo: {
-                handler(newVal) {
-                    newVal = JSON.parse(JSON.stringify(newVal));
+                handler(newVal, oldVal) {
+                    // newVal = this.Utils.convert(newVal);
                     // oldVal = JSON.parse(JSON.stringify(oldVal));
                     //
                     // if (newVal.change == oldVal.change) {
@@ -58,7 +58,7 @@
                     // }
                     // console.log('oldVal, ', oldVal);
                     // console.log('newVal, ', newVal);
-                    let openUserInfo = newVal;
+                    let openUserInfo = this.Utils.convert(newVal);
                     let user = openUserInfo.user;
                     let ext = openUserInfo.ext;
                     // console.log('openUserInfo changed-1-o, ', this.openUserInfo);
@@ -79,6 +79,17 @@
                     })
 
                     if (user.userCode && user.userCode !== '-1') {
+                        // 校验数据是否发生改变
+                        let newValTmp = this.Utils.convert(newVal);
+                        let oldValTmp = this.Utils.convert(oldVal);
+                        delete newValTmp.change;
+                        delete oldValTmp.change;
+                        let isEquals = this.Utils.compreObj(newValTmp, oldValTmp);
+                        if (isEquals) {
+                            // console.log('实际未发生改变');
+                            return;
+                        }
+
                         console.log('同步用户设置数据, ', user.userCode);
                         // 同步数据
                         // console.log('openUserInfo ext changed-2, ', openUserInfo);
