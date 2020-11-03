@@ -55,7 +55,7 @@
                 <div class="operation">
                     <btn @click.native="logout">登出</btn>
                     <btn @click.native="showMdPwd" warning>修改密码</btn>
-                    <btn @click.native="showMdUserInfo" success>修改用户信息</btn>
+                    <btn @click.native="showMdUserInfo" info>修改用户信息</btn>
                     <btn @click.native="showDeleteUser" danger>注销用户</btn>
                 </div>
             </div>
@@ -96,7 +96,7 @@
             </div>
 
             <div class="btn-group">
-                <btn @click.native="submitAction" :warning="modifyUserPwd" :success="updateUser" :danger="deleteUser">
+                <btn @click.native="submitAction" :warning="modifyUserPwd" :info="updateUser" :danger="deleteUser">
                     {{modifyUserPwd ? '修改密码' : updateUser ? '修改用户信息' : deleteUser ? '注销' : ''}}
                 </btn>
             </div>

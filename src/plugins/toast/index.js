@@ -27,23 +27,46 @@ function init() {
                         let item = this.list[i];
                         item.tipsContentStyle = {};
                         item.iStyle = {};
-                        if (item.status === 1) { // 成功
+
+                        if (item.status === 1) { // 主要的
+                            item.iClass = 'fas fa-exclamation';
+                            item.tipsContentStyle.backgroundColor = 'var(--success)';
+                        } else if (item.status === 2) { // 次要的
+                            item.iClass = 'fas fa-exclamation';
+                            item.tipsContentStyle.backgroundColor = 'var(--secondary)';
+                        } else if (item.status === 3) { // 成功
                             item.iClass = 'fas fa-check';
                             item.tipsContentStyle.backgroundColor = 'var(--success)';
-                            item.iStyle.color = 'var(--success)';
-                        } else if (item.status === 2) { // 信息
+                        } else if (item.status === 4) { // 信息
                             item.iClass = 'fas fa-exclamation';
-                            item.tipsContentStyle.backgroundColor = 'var(--primary)';
-                            item.iStyle.color = 'var(--primary)';
-                        } else if (item.status === 3) { // 失败
-                            item.iClass = 'fas fa-exclamation';
-                            item.tipsContentStyle.backgroundColor = 'var(--danger)';
-                            item.iStyle.color = 'var(--danger)';
-                        } else if (item.status === 4) { // 警告
+                            item.tipsContentStyle.backgroundColor = 'var(--info)';
+                        } else if (item.status === 5) { // 警告
                             item.iClass = 'fas fa-exclamation';
                             item.tipsContentStyle.backgroundColor = 'var(--warning)';
-                            item.iStyle.color = 'var(--warning)';
+                        } else if (item.status === 6) { // 错误
+                            item.iClass = 'fas fa-exclamation';
+                            item.tipsContentStyle.backgroundColor = 'var(--danger)';
                         }
+                        item.iStyle.color = item.tipsContentStyle.backgroundColor;
+
+
+                        // if (item.status === 1) { // 成功
+                        //     item.iClass = 'fas fa-check';
+                        //     item.tipsContentStyle.backgroundColor = 'var(--success)';
+                        //     item.iStyle.color = 'var(--success)';
+                        // } else if (item.status === 2) { // 信息
+                        //     item.iClass = 'fas fa-exclamation';
+                        //     item.tipsContentStyle.backgroundColor = 'var(--primary)';
+                        //     item.iStyle.color = 'var(--primary)';
+                        // } else if (item.status === 3) { // 失败
+                        //     item.iClass = 'fas fa-exclamation';
+                        //     item.tipsContentStyle.backgroundColor = 'var(--danger)';
+                        //     item.iStyle.color = 'var(--danger)';
+                        // } else if (item.status === 4) { // 警告
+                        //     item.iClass = 'fas fa-exclamation';
+                        //     item.tipsContentStyle.backgroundColor = 'var(--warning)';
+                        //     item.iStyle.color = 'var(--warning)';
+                        // }
 
                         // 增加定时器，到时间后自动删除
                         if (!item.isSetAutoDel) {
@@ -130,7 +153,7 @@ function init() {
 // }
 
 
-function success(text, duration = 2000) {
+function defaultToast(text, duration = 2000) {
     app.add({
         uuid: Utils.generateUUID(),
         text: text,
@@ -139,16 +162,7 @@ function success(text, duration = 2000) {
     });
 }
 
-function info(text, duration = 2000) {
-    app.add({
-        uuid: Utils.generateUUID(),
-        text: text,
-        status: 2,
-        duration
-    });
-}
-
-function error(text, duration = 2000) {
+function success(text, duration = 2000) {
     app.add({
         uuid: Utils.generateUUID(),
         text: text,
@@ -157,11 +171,29 @@ function error(text, duration = 2000) {
     });
 }
 
-function warning(text, duration = 2000) {
+function info(text, duration = 2000) {
     app.add({
         uuid: Utils.generateUUID(),
         text: text,
         status: 4,
+        duration
+    });
+}
+
+function error(text, duration = 2000) {
+    app.add({
+        uuid: Utils.generateUUID(),
+        text: text,
+        status: 6,
+        duration
+    });
+}
+
+function warning(text, duration = 2000) {
+    app.add({
+        uuid: Utils.generateUUID(),
+        text: text,
+        status: 5,
         duration
     });
 }
@@ -176,7 +208,7 @@ function registryToast() {
     // this.$toast.warning("Warning toast"); 5
     // 将组件注册到 vue 的 原型链里去,
     // 这样就可以在所有 vue 的实例里面使用 this.$toast()
-    Vue.prototype.$toast = info
+    Vue.prototype.$toast = defaultToast
     Vue.prototype.$toast.info = info
     Vue.prototype.$toast.success = success;
     Vue.prototype.$toast.error = error
