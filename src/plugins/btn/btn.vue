@@ -54,36 +54,21 @@
         },
         computed: {
             watchData() {
-                // this.watchData.height = this.height;
-                // this.watchData.primary = this.primary;
-                // this.watchData.secondary = this.secondary;
-                // this.watchData.success = this.success;
-                // this.watchData.info = this.info;
-                // this.watchData.warning = this.warning;
-                // this.watchData.danger = this.danger;
-                return {
-                    height: this.height,
-                    primary: this.primary,
-                    secondary: this.secondary,
-                    success: this.success,
-                    info: this.info,
-                    warning: this.warning,
-                    danger: this.danger,
-                };
+                return {...this.$props};
             }
         },
         watch: {
             watchData() {
-                this.setBgColor();
+                this.init();
             }
         },
         created() {
         },
         mounted() {
-            this.setBgColor();
+            this.init();
         },
         methods: {
-            setBgColor() {
+            init() {
                 let btn = this.$refs.btn;
                 let color = '';
                 if (this.primary) {
@@ -136,24 +121,23 @@
 
 
         &:after {
-            content: '';
-            display: block;
+            border-radius: inherit;
+            content: "";
             position: absolute;
             top: 0;
+            bottom: 0;
             left: 0;
-            background-color: var(--white);
-            opacity: .1;
-            width: 0;
-            height: 100%;
-            transition: width .5s, opacity 1s;
+            right: 0;
+
+            opacity: 0;
+            pointer-events: none;
+            color: inherit;
+            transition: opacity .2s cubic-bezier(.4, 0, .6, 1);
+            background-color: currentColor; // currentColor是css3中扩展的关键字，具体意思就是使用该关键字的元素的（或其最近父元素）color属性的颜色值
         }
 
         &:hover:after {
-            width: 100%;
-            /*opacity: 0;*/
-            /*transition: all 1s;*/
-            /*transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);*/
-            /*-webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);*/
+            opacity: .08;
         }
 
 
