@@ -37,7 +37,7 @@
 
             <div class="btn-group">
                 <btn @click.native="login" v-show="!showRegist">登 陆</btn>
-                <btn @click.native="registUser" warning>注 册</btn>
+                <btn @click.native="registUser" id="registUser" warning>注 册</btn>
             </div>
 
 
