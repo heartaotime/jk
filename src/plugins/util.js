@@ -534,6 +534,46 @@ export default class Utils {
         return false;
     }
 
+    static isString(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object String]') {
+            return true;
+        }
+        return false;
+    }
+
+    static isNumber(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Number]') {
+            return true;
+        }
+        return false;
+    }
+
+    static isBoolean(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Boolean]') {
+            return true;
+        }
+        return false;
+    }
+
+    static isUndefined(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Undefined]') {
+            return true;
+        }
+        return false;
+    }
+
+    static isDate(obj) {
+        var type = Object.prototype.toString.call(obj);
+        if (type == '[object Date]') {
+            return true;
+        }
+        return false;
+    }
+
     static go2Link(url, target) {
         let a = document.createElement('a');
         a.href = url;
@@ -564,38 +604,65 @@ export default class Utils {
     }
 
     static compreObj(obj1, obj2) {
-        // console.log(JSON.stringify(obj1));
-        // console.log(JSON.stringify(obj2));
-        var flag = true;
-
-        function compre(obj1, obj2) {
-            // debugger;
-            if (Object.keys(obj1).length != Object.keys(obj2).length) {
-                flag = false;
-            } else {
-                for (var x in obj1) {
-                    // if (obj2.hasOwnProperty(x)) {
-                    if (Object.prototype.hasOwnProperty.call(obj2, x)) {
-                        if (obj1[x] != obj2[x]) {
-                            if (typeof (obj1[x]) == "number" || typeof (obj1[x]) == "string" || typeof (obj2[x]) == "number" || typeof (obj2[x]) == "string") {
-                                flag = false;
-                            } else {
-                                compre(obj1[x], obj2[x]);
-                            }
-                        }
-                    } else {
-                        flag = false;
-                    }
-                }
-            }
-            if (flag === false) {
-                return false;
-            } else {
-                return true;
-            }
+        // 判断类型是否一致
+        if (
+            (this.isUndefined(obj1) && !this.isUndefined(obj2))
+            || (this.isObject(obj1) && !this.isObject(obj2))
+            || (this.isArray(obj1) && !this.isArray(obj2))
+            || (this.isString(obj1) && !this.isString(obj2))
+            || (this.isNumber(obj1) && !this.isNumber(obj2))
+            || (this.isBoolean(obj1) && !this.isBoolean(obj2))
+            || (this.isDate(obj1) && !this.isDate(obj2))
+        ) {
+            console.log('compreObj:类型不一致');
+            return false;
         }
 
-        return compre(obj1, obj2)
+        if (this.isUndefined(obj1)) {
+            return true;
+        }
+
+        let result = true;
+
+        if (this.isObject(obj1)) {
+            // 先判断 对象 key 的个数是否一致
+            if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+                console.log('compreObj:对象key的个数不一致');
+                return false;
+            }
+            for (let key in obj1) {
+                if (Object.prototype.hasOwnProperty.call(obj2, key)) {
+                    // 获取 对应 key 的 value 判断
+                    result = this.compreObj(obj1[key], obj2[key]);
+                    if (!result) {
+                        // 如果 失败 直接 返回即可
+                        return result;
+                    }
+                } else {
+                    console.log('compreObj:对应的 key 没有');
+                    return false;
+                }
+            }
+        } else if (this.isArray(obj1)) {
+            // 先判断 数组长度是否一致
+            if (obj1.length !== obj2.length) {
+                console.log('compreObj:数组长度不一致');
+                return false;
+            }
+            for (let i in obj1) {
+                result = this.compreObj(obj1[i], obj2[i]);
+                if (!result) {
+                    // 如果 失败 直接 返回即可
+                    return result;
+                }
+            }
+        } else {
+            if (obj1 !== obj2) {
+                console.log('compreObj:值不相等');
+                return false;
+            }
+        }
+        return result;
     }
 
 

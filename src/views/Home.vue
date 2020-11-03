@@ -48,7 +48,7 @@
         },
         watch: {
             openUserInfo: {
-                handler(newVal) {
+                handler(newVal, oldVal) {
                     // newVal = this.Utils.convert(newVal);
                     // oldVal = JSON.parse(JSON.stringify(oldVal));
                     //
@@ -80,15 +80,15 @@
 
                     if (user.userCode && user.userCode !== '-1') {
                         // 校验数据是否发生改变
-                        // let newValTmp = this.Utils.convert(newVal);
-                        // let oldValTmp = this.Utils.convert(oldVal);
-                        // delete newValTmp.change;
-                        // delete oldValTmp.change;
-                        // let isEquals = this.Utils.compreObj(newValTmp, oldValTmp);
-                        // if (isEquals) {
-                        //     console.log('实际未发生改变');
-                        //     return;
-                        // }
+                        let newValTmp = this.Utils.convert(newVal);
+                        let oldValTmp = this.Utils.convert(oldVal);
+                        delete newValTmp.change;
+                        delete oldValTmp.change;
+                        let isEquals = this.Utils.compreObj(newValTmp, oldValTmp);
+                        if (isEquals) {
+                            console.log('用户信息实际未发生改变，不执行同步到服务器');
+                            return;
+                        }
 
                         console.log('同步用户设置数据, ', user.userCode);
                         // 同步数据
