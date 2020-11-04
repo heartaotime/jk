@@ -29,10 +29,10 @@
 
 
         <pop :show="popShow" :style-set="{top:'20%',maxWidth:'800px'}" @close="popShow = false">
-            <template v-slot:header>
+            <template #header>
                 <div>编辑导航</div>
             </template>
-            <template v-slot:main>
+            <template #main>
                 <div class="rows">
                     <div class="row1">
                         <label>导航链接</label>

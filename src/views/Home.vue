@@ -378,13 +378,15 @@
                     backgroundColor: bgColor,
                 }
 
-                document.querySelector('#app').style.backgroundImage = 'url(' + bgImgUrl + ')';
-                document.querySelector('#app').style.backgroundColor = bgColor;
+                let appStyle = document.querySelector('#app').style;
+
+                appStyle.backgroundImage = 'url(' + bgImgUrl + ')';
+                appStyle.backgroundColor = bgColor;
 
                 // 如果是手机
                 if (this.Utils.isPhone()) {
-                    document.querySelector('#app').style.backgroundSize =
-                        (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
+                    // appStyle.backgroundSize = (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
+                    // appStyle.backgroundSize = (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
                 }
 
 

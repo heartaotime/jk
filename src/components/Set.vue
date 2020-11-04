@@ -8,10 +8,10 @@
 
 
         <pop :show="popConfig.show" :style-set="{top:'10%',maxWidth:'800px'}" @close="Utils.closePop()">
-            <template v-slot:header>
+            <template #header>
                 <div>{{popConfig.title}}</div>
             </template>
-            <template v-slot:main>
+            <template #main>
                 <StyleSet v-if="popConfig.componentName === 'StyleSet'"></StyleSet>
                 <User v-if="popConfig.componentName === 'User'"></User>
                 <SearchEngineSet v-if="popConfig.componentName === 'SearchEngineSet'"></SearchEngineSet>

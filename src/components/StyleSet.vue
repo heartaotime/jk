@@ -12,7 +12,8 @@
                 <a class="nav-item" v-for="(item,index) in navList" :key="index"
                    :class="{'active-bottom':index === activeTabIndex}"
                    @click="changeTab(index)">
-                    <i :class="'fas fa-' + item.guideIcon" aria-hidden="true"></i>
+<!--                    <i :class="'fas fa-' + item.guideIcon" aria-hidden="true"></i>-->
+                    <i :class="['fas', 'fa-' + item.guideIcon]" aria-hidden="true"></i>
                     <span>{{item.guideName}}</span>
                 </a>
             </nav>
