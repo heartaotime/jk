@@ -2,7 +2,7 @@
     <div class="tips-module">
 
         <transition-group enter-active-class="animated fadeInDown faster"
-                          leave-active-class="animated fadeOutUp faster">
+                          leave-active-class="animated fadeOut faster" tag="div">
             <div v-for="(item, index) in toasts" :key="item.uuid" :index="index" class="toast"
                  :isSetAutoDel="item.isSetAutoDel">
                 <div class="tips-content" :style="item.tipsContentStyle">
@@ -53,6 +53,8 @@
 
     .toast {
         margin-top: 10px;
+
+        /*transition: all 1s ease 1s;*/
 
         &:nth-child(1) {
             margin-top: 0;
