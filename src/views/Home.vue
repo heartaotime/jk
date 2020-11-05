@@ -75,7 +75,7 @@
                         this.Utils.uCardStyle(ext.cardTransparency || '2');
                         // 2.查看背景图的 展示 模式
                         let bgImgShowType = ext.bg.bgImgShowType || 'lasted';
-                        this.getByImg(bgImgShowType);
+                        this.getBgImg(bgImgShowType);
                     })
 
                     if (user.userCode && user.userCode !== '-1') {
@@ -316,7 +316,7 @@
                 return;
             },
 
-            getByImg(bgImgShowType) {
+            getBgImg(bgImgShowType) {
 
                 let bgImg = this.openUserInfo.ext.bg.bgImg;
                 let bgColor = this.openUserInfo.ext.bg.bgColor;
@@ -387,6 +387,29 @@
                 if (this.Utils.isPhone()) {
                     // appStyle.backgroundSize = (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
                     // appStyle.backgroundSize = (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
+                }
+                if (bgImgUrl && bgImgUrl !== '') {
+                    let img = new Image();
+                    img.src = bgImgUrl;
+                    img.onload = () => {
+                        let clientWidth = document.documentElement.clientWidth;
+                        let clientHeight = document.documentElement.clientHeight;
+                        let screenScale = clientWidth / clientHeight;
+
+                        let imgWidth = img.width;
+                        let imgHeight = img.height;
+                        let scale = imgWidth / imgHeight;
+                        // console.log(imgWidth + '-' + imgHeight);
+
+                        let backgroundSize;
+                        if (screenScale > scale) {
+                            //以宽为标准
+                            backgroundSize = clientWidth + 'px ' + clientWidth / scale + 'px';
+                        } else {
+                            backgroundSize = clientHeight * scale + 'px ' + clientHeight + 'px';
+                        }
+                        appStyle.backgroundSize = backgroundSize;
+                    }
                 }
 
 
