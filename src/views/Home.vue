@@ -124,6 +124,10 @@
             this.Utils.setVue(this);
             //document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
 
+            window.document.addEventListener('resize', () => {
+                this.Utils.setBgImgSize();
+            });
+
             // 设置按键监听
             window.document.addEventListener('keyup', (e) => {
                 //此处填写你的业务逻辑即可
@@ -382,35 +386,7 @@
 
                 appStyle.backgroundImage = 'url(' + bgImgUrl + ')';
                 appStyle.backgroundColor = bgColor;
-
-                // 如果是手机
-                if (this.Utils.isPhone()) {
-                    // appStyle.backgroundSize = (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
-                    // appStyle.backgroundSize = (Math.abs(document.documentElement.clientWidth / document.documentElement.clientHeight - 1080 / 1920) + 1.05) * 100 + '%';
-                }
-                if (bgImgUrl && bgImgUrl !== '') {
-                    let img = new Image();
-                    img.src = bgImgUrl;
-                    img.onload = () => {
-                        let clientWidth = document.documentElement.clientWidth;
-                        let clientHeight = document.documentElement.clientHeight;
-                        let screenScale = clientWidth / clientHeight;
-
-                        let imgWidth = img.width;
-                        let imgHeight = img.height;
-                        let scale = imgWidth / imgHeight;
-                        // console.log(imgWidth + '-' + imgHeight);
-
-                        let backgroundSize;
-                        if (screenScale > scale) {
-                            //以宽为标准
-                            backgroundSize = clientWidth + 'px ' + clientWidth / scale + 'px';
-                        } else {
-                            backgroundSize = clientHeight * scale + 'px ' + clientHeight + 'px';
-                        }
-                        appStyle.backgroundSize = backgroundSize;
-                    }
-                }
+                this.Utils.setBgImgSize();
 
 
                 // let that = this;

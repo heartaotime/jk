@@ -665,5 +665,34 @@ export default class Utils {
         return result;
     }
 
+    static setBgImgSize() {
+        let appStyle = document.querySelector('#app').style;
+        let backgroundImage = appStyle.backgroundImage;
+        if (!backgroundImage || backgroundImage === '') {
+            return;
+        }
+        let img = new Image();
+        img.src = backgroundImage;
+        img.onload = () => {
+            let clientWidth = document.documentElement.clientWidth;
+            let clientHeight = document.documentElement.clientHeight;
+            let screenScale = clientWidth / clientHeight;
+
+            let imgWidth = img.width;
+            let imgHeight = img.height;
+            let scale = imgWidth / imgHeight;
+            // console.log(imgWidth + '-' + imgHeight);
+
+            let backgroundSize;
+            if (screenScale > scale) {
+                //以宽为标准
+                backgroundSize = clientWidth + 'px ' + clientWidth / scale + 'px';
+            } else {
+                backgroundSize = clientHeight * scale + 'px ' + clientHeight + 'px';
+            }
+            appStyle.backgroundSize = backgroundSize;
+        }
+    }
+
 
 }
