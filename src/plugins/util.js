@@ -672,7 +672,7 @@ export default class Utils {
             return;
         }
         let img = new Image();
-        img.src = backgroundImage;
+        img.src = backgroundImage.replace('url("', '').replace('")', '');
         img.onload = () => {
             let clientWidth = document.documentElement.clientWidth;
             let clientHeight = document.documentElement.clientHeight;
