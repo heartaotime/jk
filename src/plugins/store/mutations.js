@@ -84,7 +84,8 @@ export default {
         // 更新所有链接中的 myindex.top 为 ystel.cn
 
         let temp = openUserInfo;
-        let tempStr = JSON.stringify(temp).replaceAll('myindex.top', 'ystel.cn');
+        // let tempStr = JSON.stringify(temp).replace('myindex.top', 'ystel.cn');
+        let tempStr = JSON.stringify(temp).replace(new RegExp("myindex.top", "gm"), "ystel.cn");
         openUserInfo = JSON.parse(tempStr);
 
         state.openUserInfo = openUserInfo;
