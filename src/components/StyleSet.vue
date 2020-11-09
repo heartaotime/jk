@@ -12,7 +12,7 @@
                 <a class="nav-item" v-for="(item,index) in navList" :key="index"
                    :class="{'active-bottom':index === activeTabIndex}"
                    @click="changeTab(index)">
-<!--                    <i :class="'fas fa-' + item.guideIcon" aria-hidden="true"></i>-->
+                    <!--                    <i :class="'fas fa-' + item.guideIcon" aria-hidden="true"></i>-->
                     <i :class="['fas', 'fa-' + item.guideIcon]" aria-hidden="true"></i>
                     <span>{{item.guideName}}</span>
                 </a>
@@ -41,7 +41,6 @@
                            @click="setBgImg(index)"
                            :target="item.codeValue || '_blank'"
                         >
-                            <div class="hide set-bg"><span>设置皮肤</span></div>
                         </a>
                     </transition-group>
                 </div>
@@ -579,22 +578,22 @@
         font-size: 13px;
 
         overflow: hidden;
-    }
 
-    .biyings-item:hover .set-bg {
-        display: block;
-    }
 
-    .biyings-item .set-bg {
-        padding: 5px;
-        box-shadow: 0 0 18px rgba(70, 70, 40, .255);
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 5px;
+        &::before {
+            content: '设置皮肤';
+            /*display: block;*/
+            opacity: 0;
+            position: relative;
+            background-color: rgb(255, 255, 255, .8);
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 1s ease;
+        }
 
-        /*display: grid;*/
-        /*grid-template-columns: 1fr;*/
-        /*place-content: center;*/
-        /*place-items: center;*/
+        &:hover::before {
+            opacity: 1;
+        }
     }
 
 
