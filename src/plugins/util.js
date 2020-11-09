@@ -420,11 +420,11 @@ export default class Utils {
     }
 
     static host() {
-        return 'https://www.myindex.top/';
+        return 'https://www.ystel.cn/';
     }
 
     static basicUrl() {
-        return 'https://www.myindex.top/api';
+        return 'https://www.ystel.cn/api';
         // return 'http://127.0.0.1:5555/api';
         // return 'http://139.186.66.121/api';
     }
@@ -488,7 +488,7 @@ export default class Utils {
         };
 
         return new Promise((resolve, reject) => {
-            this.postJson('https://www.myindex.top/api/common/v1/upload', param, config).then(response => {
+            this.postJson('https://www.ystel.cn/api/common/v1/upload', param, config).then(response => {
                 if (!response || response.code !== '0') {
                     this.Vue.$toast.error(response.message);
                     return;

@@ -356,7 +356,7 @@
                 } else if (bgImgShowType === 'color') {
                     bgImgUrl = '';
                 } else if (bgImgShowType === 'lasted') {
-                    bgImgUrl = 'https://www.myindex.top/api/common/v1/getPicture/lastest/';
+                    bgImgUrl = 'https://www.ystel.cn/api/common/v1/getPicture/lastest/';
                     if (this.Utils.isPhone()) {
                         bgImgUrl += 'phone';
                     } else {
@@ -364,7 +364,7 @@
                     }
                     bgColor = '';
                 } else if (bgImgShowType === 'random') {
-                    bgImgUrl = 'https://www.myindex.top/api/common/v1/getPicture/random/';
+                    bgImgUrl = 'https://www.ystel.cn/api/common/v1/getPicture/random/';
                     if (this.Utils.isPhone()) {
                         bgImgUrl += 'phone';
                     } else {
