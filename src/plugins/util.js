@@ -467,6 +467,9 @@ export default class Utils {
     }
 
     static upLoadFile(ele) {
+        if (ele.value === '') {
+            return;
+        }
         let appCode = this.getCommonReq({}).appCode;
 
         let param = new FormData();
@@ -494,6 +497,9 @@ export default class Utils {
                     return;
                 }
                 resolve(response.data);
+
+                // 把 上传文件的 file 框 置空
+                ele.value = '';
             }).catch(error => {
                 reject(error);
             });

@@ -351,6 +351,7 @@
             height: 60px;
 
             .img {
+                cursor: pointer;
                 border-right: 1px solid lightgrey;
                 height: 60px;
                 padding-right: 10px;
