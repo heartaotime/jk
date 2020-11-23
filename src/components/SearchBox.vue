@@ -428,7 +428,7 @@
 
     .search-fix {
         /*transition 确认设置的元素为块级元素 或是 inline-block*/
-        transition: all 500ms ease;
+        /*transition: all 500ms ease;*/
         opacity: 0.3;
         width: 100%;
         height: 0;
