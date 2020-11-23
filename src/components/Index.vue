@@ -257,6 +257,7 @@
         align-items: center;
         grid-row-gap: 5px;
 
+        transition: transform .25s ease;
     }
 
     .item-edit {
@@ -266,9 +267,8 @@
     .item:hover {
         /*-webkit-animation: fadeInS 0.8s;*/
         /*animation: fadeInS 0.8s;*/
-        /*margin-top: -5px;*/
+        //margin-top: -5px;
 
-        transition: all .25s ease;
         transform: translateY(-5px);
     }
 
