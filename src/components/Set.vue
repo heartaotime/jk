@@ -172,8 +172,12 @@
 
             &:hover {
                 border-radius: 5px;
-                background-color: #ecf5ff;
-                color: #409EFF;
+                background-color: var(--primary);
+                color: var(--white);
+
+                &:span {
+                    color: var(--white);
+                }
             }
 
             > span {
