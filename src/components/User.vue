@@ -479,7 +479,7 @@
                 if (user.userCode !== '-1') {
                     this.loginShow = false;
                 }
-                let tmp = JSON.parse(JSON.stringify(this.openUserInfo));
+                let tmp = this.Utils.convert(this.openUserInfo);
                 delete tmp.user;
                 this.showUserInfo = JSON.stringify(tmp, null, 4);
             },

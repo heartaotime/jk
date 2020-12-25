@@ -120,8 +120,6 @@
         beforeCreate() {
         },
         created() {
-            // 把 this 传入 工具类
-            this.Utils.setVue(this);
             //document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
 
             window.document.addEventListener('resize', () => {
