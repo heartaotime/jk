@@ -122,10 +122,10 @@
                 this.$store.commit('uOpenUserInfo', this.openUserInfo);
             },
             saveIndex() {
-                if (this.editUrl && this.editUrl !== '' && this.editUrl.indexOf('http') < 0) {
-                    this.$toast.warning('导航链接需要包含http');
-                    return;
-                }
+                // if (this.editUrl && this.editUrl !== '' && this.editUrl.indexOf('http') < 0) {
+                //     this.$toast.warning('导航链接需要包含http');
+                //     return;
+                // }
                 if (this.activeIndex === -1) {
                     this.indexList.push({
                         url: this.editUrl,
@@ -152,10 +152,10 @@
                 }
             },
             getInfo() {
-                if (!this.editUrl || this.editUrl === '' || this.editUrl.indexOf('http') < 0) {
-                    this.$toast.warning('导航链接需要包含http');
-                    return;
-                }
+                // if (!this.editUrl || this.editUrl === '' || this.editUrl.indexOf('http') < 0) {
+                //     this.$toast.warning('导航链接需要包含http');
+                //     return;
+                // }
 
                 // let getTitleUrl = './qqsuu/api/title?url=' + encodeURIComponent(this.editUrl);
                 // this.Utils.getJson(getTitleUrl, {}).then((response) => {

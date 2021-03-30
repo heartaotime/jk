@@ -13,13 +13,13 @@ const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
-
-const publicPath = "/jk";
+console.log(process.env)
+// const publicPath = "/jk/";
+// const publicPath = process.env.VUE_APP_PUBLIC_PATH;
 
 const routes = [
-
     {
-        path: publicPath,
+        path: '/',
         name: 'home',
         component: Home
     },
@@ -35,7 +35,7 @@ const routes = [
 
 const router = new VueRouter({
     routes,
-    mode: 'history',
+    // mode: 'history',
 })
 
 export default router

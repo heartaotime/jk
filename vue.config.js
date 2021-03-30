@@ -1,6 +1,7 @@
-require('events').EventEmitter.defaultMaxListeners = 0
+// require('events').EventEmitter.defaultMaxListeners = 0
 module.exports = {
-    "publicPath": "/jk",
+    publicPath: process.env.VUE_APP_PUBLIC_PATH,
+    // publicPath: process.env.NODE_ENV === 'production' ? '/jk/' : '/',
     "productionSourceMap": false,
     "devServer": {
         "port": 9000,
