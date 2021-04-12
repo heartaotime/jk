@@ -341,7 +341,7 @@
             },
             getYiyan() {
                 let url = 'https://v1.hitokoto.cn';
-                this.Utils.getJson(url, {}).then(response => {
+                this.Utils.getJson(url, {}, false).then(response => {
                     if (!response || response.hitokoto === '') {
                         return;
                     }
